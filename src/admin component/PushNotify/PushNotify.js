@@ -21,7 +21,7 @@ function PushNotify(props) {
     const [lop, setlop] = useState(true)
 
     useEffect(() => {
-        axios.get('http://localhost:5000/pushnotify/all').then(res => {
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/pushnotify/all').then(res => {
             if(Message.length !== 0) {
                 if(Message[0].Notify_id !== res.data[0].Notify_id) {
                     allmessage(res.data)
@@ -88,8 +88,8 @@ function PushNotify(props) {
                         Subject: subchange,
                         Date: date_format
                     }
-                    await axios.post('http://localhost:5000/pushnotify/new', ins)
-                    await axios.get('http://localhost:5000/pushnotify/all').then(res => allmessage(res.data))
+                    await axios.post('https://dtodo-indumentaria-server.herokuapp.com/pushnotify/new', ins)
+                    await axios.get('https://dtodo-indumentaria-server.herokuapp.com/pushnotify/all').then(res => allmessage(res.data))
                 }
                 document.getElementById('send_btn').innerHTML = `Send`
                 document.getElementById('send_btn').disabled = false
@@ -112,8 +112,8 @@ function PushNotify(props) {
                     Subject: subchange,
                     Date: date_format
                 }
-                await axios.post('http://localhost:5000/pushnotify/new', ins1)
-                await axios.get('http://localhost:5000/pushnotify/all').then(res => allmessage(res.data))
+                await axios.post('https://dtodo-indumentaria-server.herokuapp.com/pushnotify/new', ins1)
+                await axios.get('https://dtodo-indumentaria-server.herokuapp.com/pushnotify/all').then(res => allmessage(res.data))
                 document.getElementById('send_btn').innerHTML = `Send`
                 document.getElementById('send_btn').disabled = false
                 document.getElementById('send_btn').style.padding = '10px 20px'

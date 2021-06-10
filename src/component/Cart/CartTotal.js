@@ -19,7 +19,7 @@ function CartTotal(props) {
     }
     useEffect(() => {
         if(Offer.length === 0) {
-            axios.get('http://localhost:5000/offer/all').then(res => alloffer(res.data))
+            axios.get('https://dtodo-indumentaria-server.herokuapp.com/offer/all').then(res => alloffer(res.data))
         }
     }, [Offer, alloffer])
     

@@ -12,7 +12,7 @@ function Hero(props) {
     const { Hero_img, heroimg } = props
 
     useEffect(() => {
-        axios.get('http://localhost:5000/heroimages/all').then(res => heroimg(res.data))
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/heroimages/all').then(res => heroimg(res.data))
     }, [heroimg])
 
     return (
@@ -25,7 +25,7 @@ function Hero(props) {
                             <Carousel.Item style={{height: "100%"}} animation="false" key={hero.HeroImages_id}>
                                 <img
                                     className="hero-img"
-                                    src={'http://localhost:5000/'+hero.Image}
+                                    src={'https://dtodo-indumentaria-server.herokuapp.com/'+hero.Image}
                                     alt={hero.HeroImages_id+"slide"}
                                 />
                             </Carousel.Item>

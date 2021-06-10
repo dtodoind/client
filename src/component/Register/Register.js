@@ -10,7 +10,7 @@ import profile from "../../assets/profile_pic.svg";
 import io from "socket.io-client";
 import { connect } from "react-redux";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://dtodo-indumentaria-server.herokuapp.com");
 
 function Register({ show, ...props }) {
 	const [emailerror, setEmailerror] = useState("");
@@ -110,7 +110,7 @@ function Register({ show, ...props }) {
 							Notify_cate: "Subscriber",
 						};
 						await axios
-							.post("http://localhost:5000/notification/new", notify)
+							.post("https://dtodo-indumentaria-server.herokuapp.com/notification/new", notify)
 							.then((res) =>
 								props.insertNotification({
 									...notify,
@@ -119,7 +119,7 @@ function Register({ show, ...props }) {
 							);
 
 						await axios
-							.post("http://localhost:5000/users/new", formdata, {
+							.post("https://dtodo-indumentaria-server.herokuapp.com/users/new", formdata, {
 								header: { "Content-Type": "multipart/form-data" },
 							})
 							.then((res) => {

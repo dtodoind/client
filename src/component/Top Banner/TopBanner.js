@@ -9,12 +9,12 @@ function TopBanner({ img, name, ...props}) {
     const { topimg } = props
     
     useEffect(() => {
-        axios.get('http://localhost:5000/topimages/all').then(res => topimg(res.data))
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/topimages/all').then(res => topimg(res.data))
     }, [topimg])
 
     return (
         <div className="top_banner">
-            <img src={props.Single !== null && props.Single.length !== 0 ? 'http://localhost:5000/'+props.Single[0].Image: null} alt="category" className="banner_img" />
+            <img src={props.Single !== null && props.Single.length !== 0 ? 'https://dtodo-indumentaria-server.herokuapp.com/'+props.Single[0].Image: null} alt="category" className="banner_img" />
             <div className="banner_text">
                 <h2>{name}</h2>
             </div>

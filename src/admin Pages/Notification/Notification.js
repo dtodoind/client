@@ -144,7 +144,7 @@ function Notifications(props) {
     }, [Notification, reviewsload])
 
     useEffect(() => {
-        axios.get('http://localhost:5000/notification/all').then(res => {
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/notification/all').then(res => {
             if(Notification.length !== 0) {
                 if(Notification[Notification.length - 1].Notification_id !== res.data[res.data.length - 1].Notification_id) {
                     allnotification(res.data)

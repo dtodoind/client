@@ -22,7 +22,7 @@ import Sidebar from '../../admin component/Sidebar/Sidebar'
 import './Navi.scss'
 import Notify from '../../admin component/Notify/Notify'
 
-const socket = io('http://localhost:5000')
+const socket = io('https://dtodo-indumentaria-server.herokuapp.com')
 function Navi(props) {
     
     const { Notification, insertReviewAll, allorders, allUser, allnotification } = props
@@ -63,15 +63,15 @@ function Navi(props) {
                 document.getElementsByClassName('reddot')[0].style.display = 'block'
                 if(data.cat === 'Status') {
                     setTimeout(() => {
-                        axios.get('http://localhost:5000/users/all').then(res => allUser(res.data))
+                        axios.get('https://dtodo-indumentaria-server.herokuapp.com/users/all').then(res => allUser(res.data))
                     }, 3000)
                 } else {
                     setTimeout(() => {
-                        if(data.cat === "Sales") axios.get(`http://localhost:5000/order/all`).then(res => allorders(res.data))
-                        if(data.cat === "Reviews") axios.get('http://localhost:5000/review/all').then(res => insertReviewAll(res.data))
-                        if(data.cat === "Return") axios.get(`http://localhost:5000/order/all`).then(res => allorders(res.data))
-                        if(data.cat === "Subscriber") axios.get('http://localhost:5000/users/all').then(res => allUser(res.data))
-                        axios.get('http://localhost:5000/notification/all').then(res => allnotification(res.data))
+                        if(data.cat === "Sales") axios.get(`https://dtodo-indumentaria-server.herokuapp.com/order/all`).then(res => allorders(res.data))
+                        if(data.cat === "Reviews") axios.get('https://dtodo-indumentaria-server.herokuapp.com/review/all').then(res => insertReviewAll(res.data))
+                        if(data.cat === "Return") axios.get(`https://dtodo-indumentaria-server.herokuapp.com/order/all`).then(res => allorders(res.data))
+                        if(data.cat === "Subscriber") axios.get('https://dtodo-indumentaria-server.herokuapp.com/users/all').then(res => allUser(res.data))
+                        axios.get('https://dtodo-indumentaria-server.herokuapp.com/notification/all').then(res => allnotification(res.data))
                         
                         if(document.getElementById(data.id) !== null) {
                             document.getElementById(data.id).classList.remove('show')

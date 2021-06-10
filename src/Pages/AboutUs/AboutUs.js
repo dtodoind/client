@@ -22,7 +22,7 @@ function AboutUs(props) {
 	const { About, aboutus } = props;
 
 	useEffect(() => {
-		axios.get("http://localhost:5000/aboutus/all").then(res => {
+		axios.get("https://dtodo-indumentaria-server.herokuapp.com/aboutus/all").then(res => {
 			if(res.data.length !== 0) {
 				aboutus(res.data[0].Content)
 			}

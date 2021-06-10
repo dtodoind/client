@@ -15,7 +15,7 @@ function OffersAdd(props) {
     const [error,] = useState("File size should be less than 1 MB")
 
     useEffect(() => {
-        axios.get('http://localhost:5000/offer/all').then(res => offer(res.data))
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/offer/all').then(res => offer(res.data))
     }, [offer])
 
     const changeoffer = async (e) => {
@@ -81,9 +81,9 @@ function OffersAdd(props) {
         formdata.append('Price', pri !== '' ? pri : Offer[0].Price)
         formdata.append('Description', des !== '' ? des : Offer[0].Description)
         if(Offer.length === 0) {
-            axios.post('http://localhost:5000/offer/new', formdata)
+            axios.post('https://dtodo-indumentaria-server.herokuapp.com/offer/new', formdata)
         } else {
-            await axios.put('http://localhost:5000/offer/edit/1', formdata)
+            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/offer/edit/1', formdata)
         }
     }
 
@@ -108,7 +108,7 @@ function OffersAdd(props) {
                             {
                                 Img === ''
                                 ? Offer.length !== 0
-                                    ? <img src={'http://localhost:5000/'+Offer[0].Offer_Image} alt="" className="vl w-100" />
+                                    ? <img src={'https://dtodo-indumentaria-server.herokuapp.com/'+Offer[0].Offer_Image} alt="" className="vl w-100" />
                                     : null
                                 : <img src={displayimg(Img)} alt="" className="vl w-100" />
                             }

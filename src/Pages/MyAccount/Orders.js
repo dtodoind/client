@@ -7,7 +7,7 @@ import io from 'socket.io-client'
 
 import './Orders.scss'
 
-const socket = io('http://localhost:5000')
+const socket = io('https://dtodo-indumentaria-server.herokuapp.com')
 function AccountOrders(props) {
 
 	const { Orders, allorders } = props    
@@ -40,7 +40,7 @@ function AccountOrders(props) {
     }, [Orders, orderload])
 
 	useEffect(() => {
-        axios.get('http://localhost:5000/order/all/'+JSON.parse(localStorage.getItem('SingleUser'))[0].Users_id, 
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all/'+JSON.parse(localStorage.getItem('SingleUser'))[0].Users_id, 
         {
             headers: {
                 'x-auth-token': localStorage.getItem('token')
@@ -83,7 +83,7 @@ function AccountOrders(props) {
             OrderItem_id: parseInt(e.target.name),
             Status: 'Return'
         }
-        await axios.put('http://localhost:5000/orderitem/status', order_val).then(res => {
+        await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val).then(res => {
             document.getElementById('change_text'+parseInt(e.target.name)).innerHTML = `<p>You have Return this Product</p>`
             document.getElementById('btn_change'+parseInt(e.target.name)).innerHTML = `
                 <div style="background-color: #E63946; font-weight: 500; color: white" class="p-2 rounded">
@@ -107,7 +107,7 @@ function AccountOrders(props) {
                 new Date(),
             Notify_cate: "Return",
         }
-        await axios.post('http://localhost:5000/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
+        await axios.post('https://dtodo-indumentaria-server.herokuapp.com/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
     }
 
 	return (
@@ -165,7 +165,7 @@ function AccountOrders(props) {
                                                         <div className='row'>
                                                             <div className='col-md-6'>
                                                                 <div className="order_img">
-                                                                    <img src={'http://localhost:5000/'+p.Image} alt='' className="order_img_inner" />
+                                                                    <img src={'https://dtodo-indumentaria-server.herokuapp.com/'+p.Image} alt='' className="order_img_inner" />
                                                                 </div>
                                                             </div>
                                                             <div className='col-md-6 d-flex align-items-center'>

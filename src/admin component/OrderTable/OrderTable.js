@@ -67,7 +67,7 @@ function OrderTable(props) {
                         Orders_id: order.Orders_id,
                         Status: 'Return'
                     }
-                    await axios.put('http://localhost:5000/order/status', order_val)
+                    await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val)
                 }
             }
             // document.getElementsByName(order.Orders_id)[0].defaultValue = order.Status
@@ -82,9 +82,9 @@ function OrderTable(props) {
             Orders_id: parseInt(e.target.name),
             Status: e.target.value
         }
-        await axios.put('http://localhost:5000/order/status', order_val).then(async (res) => {
+        await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val).then(async (res) => {
             if(res.data === 'successfully Updated') {
-                await axios.get('http://localhost:5000/order/all').then(res => allorders(res.data))
+                await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res => allorders(res.data))
             }
         })
         Orders.map((order, i) => {
@@ -95,7 +95,7 @@ function OrderTable(props) {
                             OrderItem_id: item.OrderItem_id,
                             Status: e.target.value
                         }
-                        axios.put('http://localhost:5000/orderitem/status', order_val1)
+                        axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val1)
                     }
                     return 0
                 })
@@ -175,7 +175,7 @@ function OrderTable(props) {
                                                         <div className='row'>
                                                             <div className='col-md-6'>
                                                                 <div className="order_img">
-                                                                    <img src={'http://localhost:5000/'+p.Image} alt='' className="order_img_inner" />
+                                                                    <img src={'https://dtodo-indumentaria-server.herokuapp.com/'+p.Image} alt='' className="order_img_inner" />
                                                                 </div>
                                                             </div>
                                                             <div className='col-md-6 d-flex align-items-center'>

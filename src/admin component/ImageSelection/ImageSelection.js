@@ -72,12 +72,12 @@ function ImageSelection({imgid, colap, mainedit, ...props}) {
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="numbertext">${i + 1} / ${len}</div>
-						<img src='http://localhost:5000/${m}' style="width: auto; max-height: 200px;" alt=''/>
+						<img src='https://dtodo-indumentaria-server.herokuapp.com/${m}' style="width: auto; max-height: 200px;" alt=''/>
 					</div>
 				`;
 				document.getElementById("all_img_bottom"+ String(colap) + String(imgid)).innerHTML += `
 					<div class="column">
-					<img class="demo any${String(colap) + String(imgid)} cursor" src='http://localhost:5000/${m}' style="width: auto;  height: 100%;" alt="">
+					<img class="demo any${String(colap) + String(imgid)} cursor" src='https://dtodo-indumentaria-server.herokuapp.com/${m}' style="width: auto;  height: 100%;" alt="">
 					</div>
 				`;
 			} else {
@@ -87,12 +87,12 @@ function ImageSelection({imgid, colap, mainedit, ...props}) {
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="numbertext">${i + 1} / ${len}</div>
-						<img src='http://localhost:5000/${m}' style="width: auto; max-height: 200px;" alt=''/>
+						<img src='https://dtodo-indumentaria-server.herokuapp.com/${m}' style="width: auto; max-height: 200px;" alt=''/>
 					</div>
 				`;
 				document.getElementById("all_img_bottom"+ String(colap) + String(imgid)).innerHTML = `
 					<div class="column" id='col${String(colap) + String(imgid)}'>
-						<img class="demo any${String(colap) + String(imgid)} cursor active" src='http://localhost:5000/${m}' style="width: auto; height: 100%;" alt="">
+						<img class="demo any${String(colap) + String(imgid)} cursor active" src='https://dtodo-indumentaria-server.herokuapp.com/${m}' style="width: auto; height: 100%;" alt="">
 					</div>
 				`;
 			}
@@ -139,13 +139,13 @@ function ImageSelection({imgid, colap, mainedit, ...props}) {
 			
 			const formdata = new FormData();
 			formdata.append('productImage', document.getElementsByName("image_name"+ String(colap) + String(imgid))[0].files[t])
-			await axios.put('http://localhost:5000/product/edit', formdata, {
+			await axios.put('https://dtodo-indumentaria-server.herokuapp.com/product/edit', formdata, {
 				headers: {
 					'content-type': 'multipart/form-data'
 				}
 			}).then(res => {
 				if(res.data === 'success') {
-					axios.get('http://localhost:5000/product/all').then(res => props.insertproduct(res.data))
+					axios.get('https://dtodo-indumentaria-server.herokuapp.com/product/all').then(res => props.insertproduct(res.data))
 				}
 			})
 			mainedit('update')

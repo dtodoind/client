@@ -21,7 +21,7 @@ function Content(props) {
     const [lop2, setlop2] = useState(true)
  
     useEffect(() => {
-        axios.get('http://localhost:5000/aboutus/all').then(async res => {
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/aboutus/all').then(async res => {
             if(Aboutus !== null) {
                 if(Aboutus.length !== res.data[0].Content.length) {
                     aboutus(res.data[0].Content)
@@ -30,7 +30,7 @@ function Content(props) {
             } else {
                 if(lop) {
                     if(res.data.length === 0) {
-                        axios.post('http://localhost:5000/aboutus/new', {Content: ''}).then(res => aboutus(res.data))
+                        axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: ''}).then(res => aboutus(res.data))
                     } else {
                         aboutus(res.data[0].Content)
                     }
@@ -38,7 +38,7 @@ function Content(props) {
                 }
             }
         })
-        axios.get('http://localhost:5000/heroimages/all').then(res => {
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/heroimages/all').then(res => {
             if(Hero_img.length === 0) {
                 if(lop2) {
                     heroimg(res.data)
@@ -66,8 +66,8 @@ function Content(props) {
         var formdata = new FormData()
         formdata.append('heroImage', val)
         // formdata.append('Image', val.name)
-        await axios.post('http://localhost:5000/heroimages/new',formdata)
-        await axios.get('http://localhost:5000/heroimages/all').then(res => heroimg(res.data))
+        await axios.post('https://dtodo-indumentaria-server.herokuapp.com/heroimages/new',formdata)
+        await axios.get('https://dtodo-indumentaria-server.herokuapp.com/heroimages/all').then(res => heroimg(res.data))
         // var h = Hero_img
         // if(h === '') {
         //     h = []
@@ -104,8 +104,8 @@ function Content(props) {
     }
 
     const remove_hero = async (i) => {
-        await axios.delete(`http://localhost:5000/heroimages/delete/${Hero_img[i].HeroImages_id}`)
-        await axios.get('http://localhost:5000/heroimages/all').then(res => heroimg(res.data))
+        await axios.delete(`https://dtodo-indumentaria-server.herokuapp.com/heroimages/delete/${Hero_img[i].HeroImages_id}`)
+        await axios.get('https://dtodo-indumentaria-server.herokuapp.com/heroimages/all').then(res => heroimg(res.data))
     }
 
     const change_about = (e) => {
@@ -114,9 +114,9 @@ function Content(props) {
     
     const save_about = async () => {
         if(len === 0) {
-            await axios.post('http://localhost:5000/aboutus/new', {Content: about}).then(res => setlen(1))
+            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: about}).then(res => setlen(1))
         } else {
-            await axios.put('http://localhost:5000/aboutus/edit/1', {Content: about})
+            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/aboutus/edit/1', {Content: about})
         }
         aboutus(about)
     }
@@ -160,7 +160,7 @@ function Content(props) {
                                                     <div className="col-md-4 border-right" key={i}>
                                                         <IoCloseCircle className="close_btn" onClick={() => remove_hero(i)} />
                                                         <div className="hero_img_outter">
-                                                            <img src={h.Image !== null ? 'http://localhost:5000/'+h.Image : null} alt="" id={'img'+i} className="hero_img" />
+                                                            <img src={h.Image !== null ? 'https://dtodo-indumentaria-server.herokuapp.com/'+h.Image : null} alt="" id={'img'+i} className="hero_img" />
                                                         </div>
                                                     </div>
                                                 )

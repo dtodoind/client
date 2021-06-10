@@ -14,7 +14,7 @@ import categoryimg from '../../assets/banner-girls.png'
 import { connect } from 'react-redux'
 import io from 'socket.io-client'
 
-const socket = io('http://localhost:5000')
+const socket = io('https://dtodo-indumentaria-server.herokuapp.com')
 
 
 const stripePromise = loadStripe("pk_test_51HQ2BMGy8mg5bsSgU9YA0dPJKyBXpeYIer8swKXQOzPi085cqPGl1BuLQMznSQvSUO75mEVH4gVqahKr5MaPkOn600OgIK8DJJ");
@@ -36,7 +36,7 @@ function Checkout(props) {
     }
     useEffect(() => {
         if(Offer.length === 0) {
-            axios.get('http://localhost:5000/offer/all').then(res => alloffer(res.data))
+            axios.get('https://dtodo-indumentaria-server.herokuapp.com/offer/all').then(res => alloffer(res.data))
         }
     }, [Offer, alloffer])
     
@@ -170,8 +170,8 @@ function Checkout(props) {
                 Message: 'Purchase on '+ new Date() +' from '+JSON.parse(order_val.Address).join(', '),
                 Notify_cate: 'Sales'
             }
-            await axios.post('http://localhost:5000/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
-            await axios.post('http://localhost:5000/order/new', order_val).then(res => 
+            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
+            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/new', order_val).then(res => 
                 basket?.map(async (item) => {
                     var order_item = {
                         Quantity: item.qty,
@@ -185,8 +185,8 @@ function Checkout(props) {
                         Image: item.img,
                         Status: res.data.Status === 'Pickup' ? "Pickup" : "Pending"
                     }
-                    await axios.post('http://localhost:5000/orderitem/new', order_item)
-                    await axios.put('http://localhost:5000/product/quantity', 
+                    await axios.post('https://dtodo-indumentaria-server.herokuapp.com/orderitem/new', order_item)
+                    await axios.put('https://dtodo-indumentaria-server.herokuapp.com/product/quantity', 
                     {
                         Stock: item.allStock,
                         Product_id: item.Product_id
