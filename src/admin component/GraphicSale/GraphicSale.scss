@@ -1,0 +1,62 @@
+@import '../../responsive/mixin';
+
+.graphic-container-donut{
+	padding: 15px;
+	border: 1px solid grey;
+	border-radius: 8px;
+
+	.div-header{
+		display: flex;
+		place-content: space-between;
+
+		p {
+			font-size: 20px;
+			font-weight: 500; 
+		}
+	}
+
+	.div-body{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		
+		.number_pos {
+			width: 100%;
+			height: fit-content;
+			position: absolute;
+			left: 0;
+			top: calc(50% - 70px);
+			text-align: center;
+
+			.donut-icon{
+				width: 30%;
+				height: 4vw;
+			}
+			.donut-number{
+				margin: 0;
+				font-size: 2vw;
+				font-weight: 500;
+			}
+			@include respond(tab-port-sm) {
+				top: calc(50% - 80px);
+
+				.donut-icon{
+					width: 30%;
+					height: 15vw;
+				}
+				.donut-number {
+					font-size: 7vw;
+				}
+			}
+		}
+
+		.graph_donut {
+			width: 100%;
+
+			#Donut {
+				width: 100%;
+			}
+		}
+	}
+}

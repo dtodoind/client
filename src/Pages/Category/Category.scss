@@ -1,0 +1,22 @@
+@import '../../responsive/mixin';
+@import '../../responsive/variables';
+
+.category {
+
+    .product-display {
+        padding: 50px;
+
+        .nav {
+            justify-content: center;
+
+            .nav-link {
+                font-weight: 400;
+                color: $color1;
+            }
+            .active {
+                background-color: $color1;
+                color: white;
+            }
+        }
+    }
+}

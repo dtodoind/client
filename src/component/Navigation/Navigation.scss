@@ -1,0 +1,449 @@
+@import '../../responsive/mixin.scss';
+@import '../../responsive/variables.scss';
+
+
+.navigation {
+	position: fixed;
+	min-height: 60px;
+	z-index: 10;
+	// font-family: "MV Boli";
+	background-image: linear-gradient(180deg, $color1, transparent);
+	// background-color: $color1;
+	color: $fontcolor;
+
+	.img_display {
+		width: 40px;
+		height: 40px;
+		overflow: hidden;
+		border-radius: 20px;
+		background-color: rgba(0,0,0,0.1);
+		text-align: center;
+
+		.account_img {
+			width: auto;
+			height: 40px;
+		}
+	}
+	
+	li {
+		list-style-type: none;
+		float: left;
+		@include respond(tab-port) {
+			float: inherit;
+		}
+	}
+	
+	a {
+		text-decoration: none;
+		color: $fontcolor;
+	}
+	
+	.nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		@include respond(tab-port) {
+			display: block;
+		}
+
+		.navbar-in {
+			height: 100%;
+			padding: 0;
+			align-items: center;
+			background-color: transparent;
+			position: relative;
+			display: flex;
+			pointer-events: inherit;
+			
+			@include respond(tab-port) {
+				transition: 0.5s;
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100vh;
+				pointer-events: none;
+			}
+			
+			.nav-items {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				@include respond(tab-port) {
+					display: block;
+					transition: 0.5s;
+					width: 50%;
+					background-color: $color1;
+					position: absolute;
+					left: -450px;
+				}
+
+				.nav-links {
+					border-radius: 10px;
+					height: 80%;
+					width: 6rem;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					position: relative;
+					align-items: center;
+					
+					@include respond(tab-land) {
+						width: 4.9rem;
+					}
+					@include respond(tab-port) {
+						border-radius: 0px;
+						width: 100%;
+						height: 70px;
+						justify-content: flex-start;
+					}
+					
+					a {
+						color: $fontcolor;
+						font-size: 17px;
+						font-weight:normal;
+						display: flex;
+						@include respond(tab-land) {
+							font-size: 0.9rem;
+						}
+						@include respond(tab-port) {
+							font-size: 17px;
+						}
+					}
+					.links {
+						border-radius: 10px;
+						text-decoration: none;
+						height: 100%;
+						width: 6rem;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						align-items: center;
+						@include respond(tab-port) {
+							justify-content: flex-start;
+							height: 70px;
+							width: 100%;
+							display: flex;
+							align-items: center;
+							padding: 0px 20px;
+						}
+					}
+					
+				}
+
+				.hover:hover {
+					cursor: pointer;
+					background-color: $color4;
+					a {
+						text-decoration: none;
+					}
+				}
+				
+				.active {
+					background-color: $color5;
+				}
+			}
+
+			.shoping_cart {
+
+				.shop_cart {
+					position: relative;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					height: 100%;
+
+					a:hover {
+						color: $fontcolor;
+					}
+	
+					.nav-cart{
+						margin-left: 15px;
+						margin-right: 25px;
+						font-size: 20px;
+						cursor: pointer;
+						@include respond(tab-land) {
+							font-size: 0.9rem;
+						}
+						@include respond(tab-port) {
+							font-size: 17px;
+						}
+					}
+					
+					.qty {
+						position: absolute;
+						top: 0px;
+						left: 20px;
+						margin-left: 10px;
+						border-radius: 15px;
+						background-color: $color5;
+						padding: 0px 5px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						font-size: 15px;
+						width: 20px;
+						height: fit-content;
+	
+						@include respond(tab-land) {
+							font-size: 0.9rem;
+						}
+						@include respond(tab-port) {
+							font-size: 17px;
+							display: none;
+						}
+					}
+				}
+				
+				.display_cart {
+					font-family: 'Roboto', sans-serif;
+					position: absolute;
+					box-shadow: 5px 5px 10px #888888;
+					top: 35px;
+					right: 20px;
+					display: none;
+					align-items: flex-end;
+					flex-direction: column;
+					color: $color1;
+	
+					.point {
+						background-color: $color6;
+						width: 15px;
+						height: 10px;
+						margin-right: 5px;
+						clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+					}
+	
+					.cart {
+						border-radius: 5px;
+						padding: 10px;
+						width: 500px;
+						height: auto;
+						background-color: $color6;
+	
+						.cart_text {
+							font-size: 20px;
+							margin: 0;
+						}
+	
+						hr {
+							background-color: rgba(0,0,0,0.1);
+							padding: 0.5px;
+							margin: 5px 0px;
+						}
+	
+						.items {
+	
+							.somecolor {
+								background-color: rgb(224, 224, 224);
+							}
+	
+							.img-cart {
+								width: 100%;
+								height: 100px;
+
+								.cart_prod {
+									width: auto;
+									height: 100%;
+								}
+							}
+							.names {
+								font-weight: 500;
+							}
+							.min-plus{
+								padding: 4px;
+								font-size: 20px;
+								border-radius:20px;
+								cursor: pointer;
+							}
+							.delete {
+								cursor: pointer;
+								font-size: 20px;
+								color: red;
+							}
+						}
+	
+						.view_button {
+							width: 100%;
+							margin: 8px 0px;
+							padding: 8px 0px;
+							background-color: $color1;
+							color: $fontcolor;
+							border: 1px solid $color1;
+							transition: 0.1s;
+	
+							&:hover {
+								background-color: $color6;
+								color: black;
+								border: 1px solid black;
+							}
+						}
+	
+						.checkout_button {
+							width: 100%;
+							margin: 8px 0px;
+							padding: 8px 0px;
+							background-color: $color1;
+							color: $color6;
+							border: 1px solid $color1;
+							transition: 0.1s;
+	
+							&:hover {
+								background-color: $color6;
+								color: black;
+								border: 1px solid black;
+							}
+						}
+					}
+				}
+
+				&:hover {
+					.display_cart {
+						display: flex;
+					}
+				}
+			}
+
+			.accountdetails {
+				display: none;
+				position: absolute;
+				top: 50px;
+				right: 100px;
+				background-color: white;
+				width: 200px;
+				border-radius: 5px;
+
+				.point {
+					background-color: $color6;
+					position: absolute;
+					top: -10px;
+					right: 0;
+					width: 15px;
+					height: 10px;
+					margin-right: 5px;
+					clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+				}
+
+				.logout_btn {
+					background-color: transparent;
+					width: 100%;
+					padding: 8px 5px;
+					text-align: left;
+					border: 0;
+					border-top: 1px solid rgba(0,0,0,0.1);
+
+					&:hover {
+						background-color: rgba(0,0,0,0.1);
+					}
+				}
+
+				.btn_all {
+					color: black;
+					width: 100%;
+					padding: 8px 5px;
+
+					.btn_pro {
+						color: black;
+						padding: 8px 5px;
+						padding-right: 73%;
+
+						&:hover {
+							text-decoration: none;
+							background-color: rgba(0,0,0,0.1);
+						}
+					}
+				}
+			}
+		}
+
+		.adj_cart {
+			position: relative;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+
+			a:hover {
+				color: white;
+			}
+
+			.nav-cart{
+				margin-left: 15px;
+				margin-right: 25px;
+				font-size: 20px;
+				cursor: pointer;
+				@include respond(tab-land) {
+					font-size: 0.9rem;
+				}
+				@include respond(tab-port) {
+					font-size: 17px;
+				}
+			}
+			
+			.qty {
+				border-radius: 15px;
+				background-color: $color5;
+				padding: 4px;
+				display: none;
+				align-items: center;
+				justify-content: center;
+				font-size: 5px;
+				width: 23px;
+				height: fit-content;
+				
+				@include respond(tab-land) {
+					font-size: 0.9rem;
+				}
+				@include respond(tab-port) {
+					display: flex;
+					font-size: 12px;
+				}
+			}
+		}
+	}
+}
+
+.nav-logo{
+	font-size:18px;
+	font-weight: 600;
+	@include respond(tab-land) {
+        font-size: 1em;
+	}
+	
+	.manjares{
+		color: $color5;
+		font-size:19px;
+		font-weight: 600;
+		@include respond(tab-land) {
+			font-size: 1em;
+		}
+	}
+}
+
+
+.nav-burger{
+	font-size:180%;
+	cursor: pointer;
+}
+
+.side-display {
+	display: none;
+
+	@include respond(tab-port) {
+		display: block;
+	}
+}
+
+.nav-side-display {
+	@include respond(tab-port) {
+		width: 100%;
+	}
+}
+
+.side-display-none {
+	display: inline;
+	@include respond(tab-port) {
+		display: none;
+	}
+}

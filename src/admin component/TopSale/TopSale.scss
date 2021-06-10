@@ -1,0 +1,71 @@
+@import '../../responsive/mixin';
+
+.topsale-container {
+	padding: 15px;
+	border: 1px solid grey;
+	border-radius: 8px;
+	height: 100%;
+
+	.topsale-header {
+		p {
+			font-size: 20px;
+			font-weight: 500;
+		}
+	}
+	.topsale-item {
+		border-bottom: 1px solid lightgrey;
+
+		.img_resize {
+			padding: 5px;
+			display: flex;
+			justify-content: center;
+
+			img {
+				width: 35px;
+				height: auto;
+			}
+		}
+
+		.sale-col-one {
+			display: flex;
+			flex-direction: column;
+			align-items: top;
+			justify-content: left;
+			.sale-name {
+				font-size: 15px;
+				font-weight: 400; 
+			}
+			.sale-num {
+				font-size: 15px;
+				font-weight: 400; 
+
+			}
+		}
+		.sale-col-two {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			.sale-stock {
+				color: lightslategray;
+				padding: 6px;
+				font-size: 10px;
+				text-align: center;
+				border-radius: 20px;
+				background-color: lightgreen;
+
+				@include respond(tab-port-sm) {
+					p {
+						font-size: 10px;
+					}
+				}
+			}
+		}
+		.sale-price {
+			display: flex;
+			align-items: center;
+			font-size: 15px;
+			font-weight: 400;
+		}
+	}
+}

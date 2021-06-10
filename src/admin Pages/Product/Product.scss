@@ -1,0 +1,28 @@
+@import '../../responsive/variables';
+
+.product {
+    margin: 10px 0px;
+
+    .product_det {
+        margin: 20px 15px;
+
+        .pro_cont {
+            overflow: hidden;
+        }
+
+        .add_product {
+
+            .butt {
+                margin-bottom: 20px;
+                padding: 5px 20px;
+                border-radius: 5px;
+                background-image: linear-gradient(180deg, $color4, $color2);
+                color: white;
+
+                &:hover {
+                    color: white;
+                }
+            }
+        }
+    }
+}

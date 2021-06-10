@@ -1,0 +1,43 @@
+@import "../../responsive/_mixin.scss";
+@import "../../responsive/variables";
+.cardgraphic-container{
+    .card-body{
+ padding: 40px;
+        border: 1px solid grey;
+        border-radius: 10px;
+        .card-title{
+font-size: 18px;
+color: grey;
+font-weight: 600;
+        }
+        .card-body-two{
+
+.values{
+    .icon-row{
+        color: red;
+    }
+    .card-amount{
+        font-size: 25px;
+        color: black;
+        font-weight: 700;
+    }
+    
+  .number-porcent{
+      font-weight: 600;
+      color: red;;
+  }  
+}
+
+
+        }
+    }
+}
+
+@include respond(phone) {
+    .cardgraphic-container{
+        .card-body{
+     padding: 20px 30px 20px 20px;
+     
+        }
+    }
+}

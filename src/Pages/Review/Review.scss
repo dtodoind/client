@@ -1,0 +1,25 @@
+@import '../../responsive/mixin';
+@import '../../responsive/variables';
+
+.review {
+    background-color: rgb(225, 225, 225);
+    padding: 0;
+
+    .adj {
+        margin-top: 20px;
+    }
+
+    .container {
+        @include respond(phone) {
+            padding: 0;
+        }
+    }
+
+    .inner_contain {
+        background-color: white;
+        padding: 20px 10px;
+        @include respond(phone) {
+            padding: 0;
+        }
+    }
+}

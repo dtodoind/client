@@ -1,0 +1,13 @@
+@import '../../responsive/mixin';
+
+.search_page {
+
+    .search_display {
+        display: flex;
+
+        .one {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

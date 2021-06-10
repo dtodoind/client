@@ -1,0 +1,75 @@
+@import "../../responsive/_mixin.scss";
+@import "../../responsive/variables";
+.admin {
+  min-height: 100vh;
+  background-color: #3a506b;
+  .title-admin {
+    p {
+      letter-spacing: 2px;
+      font-size: 50px;
+      font-weight: 560;
+      color: white;
+    }
+    margin-top: 15%;
+    text-align: center;
+    .inputs-admin {
+      display: inline-grid;
+      input {
+        color: white;
+        margin-bottom: 10%;
+        width: 400px;
+        height: 50px;
+        background-color: rgba(25, 25, 27, 0.623);
+        border: rgb(5, 2, 36);
+      }
+    }
+
+    .button-admin {
+      button {
+        border-radius: 10px;
+        border: 1px solid black;
+        font-size: 30px;
+        font-weight: 490;
+        color: white;
+        background-color: rgb(11, 97, 196);
+
+        width: 400px;
+        height: 50px;
+      }
+      button:hover {
+        background-color: rgb(8, 67, 134);
+        color: rgb(8, 39, 75);
+      }
+    }
+  }
+}
+
+@include respond(phone) {
+  .admin {
+    .title-admin {
+      p {
+        letter-spacing: 2px;
+        font-size: 47px;
+        font-weight: 560;
+      }
+      margin-top: 30%;
+
+      .inputs-admin {
+        input {
+          width: 300px;
+          height: 50px;
+        }
+      }
+
+      .button-admin {
+        button {
+          font-size: 30px;
+          font-weight: 490;
+
+          width: 300px;
+          height: 50px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+@import '../../responsive/variables';
+
+.offersadd {
+
+    .btn-offers {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        border: 1px solid $color3;
+        background-color: $color3;
+        color: $color6;
+        padding: 5px 20px;
+        transition: 0.2s;
+
+        &:hover {
+            background-color: transparent;
+            color: $color3;
+        }
+    }
+}

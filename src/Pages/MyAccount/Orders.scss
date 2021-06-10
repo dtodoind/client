@@ -1,0 +1,67 @@
+@import '../../responsive/variables';
+
+.order-client {
+
+    .title1_out {
+		background-color: $color4;
+		clip-path: polygon(85% 0%, 100% 50%, 85% 100%, 0 100%, 0 0);
+		margin: 0px -15px;
+		color: white;
+		width: fit-content;
+
+		.title1_ins {
+			font-weight: 500;
+			font-size: 20px;
+			width: fit-content;
+			padding: 8px 35px 8px 10px;
+		}
+	}
+
+    .head {
+        text-align: center;
+        color: $color6;
+        background-color: $color3;
+    }
+
+    tr.hide-table-padding td {
+        padding: 0;
+    }
+    .expand-button {
+        position: relative;
+    }
+    
+    .accordion-toggle .expand-button:after
+    {
+        position: absolute;
+        left:.75rem;
+        top: 50%;
+        transform: translate(0, -50%);
+        content: '-';
+        font-size: 20px;
+    }
+    .accordion-toggle.collapsed .expand-button:after{
+        content: '+';
+        font-size: 20px;
+    }
+
+    .table_inner .show {
+        width: 100%;
+        background-color: white;
+    }
+
+    .icon_ind {
+        font-size: 20px;
+        position: absolute;
+        left: 50%;
+    }
+
+    .order_img {
+        width: 100%;
+        height: 350px;
+
+        .order_img_inner {
+            width: auto;
+            height: 100%;
+        }
+    }
+}

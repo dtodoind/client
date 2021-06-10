@@ -1,0 +1,36 @@
+.toast.unshow {
+    display: block;
+    overflow: hidden;
+    animation: fad 1s linear;
+    transition: 1s ease-out;
+}
+
+@keyframes fad {
+    from {
+        opacity: 1;
+        max-height: 300px;
+        transform: translateX(0px);
+    }
+    to {
+        opacity: 0;
+        max-height: 0;
+        transform: translateX(200px);
+    }
+}
+
+.toast {
+    margin-right: 20px;
+
+    .progress {
+        height: 3px;
+
+        .progress-bar {
+            animation: progress 5s linear;
+        }
+    
+        @keyframes progress {
+            from {width: 0%;}
+            to {width: 100%;}
+        }
+    }
+}

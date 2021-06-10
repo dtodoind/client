@@ -1,0 +1,72 @@
+@import '../../responsive/variables';
+@import '../../responsive/mixin';
+
+.content {
+    margin: 10px 0px;
+
+    .content_content {
+        margin: 20px;
+
+        .button {
+            width: 100px;
+            border: 2px solid $color3;
+            background-color: $color3;
+            color: $color6;
+            transition: 0.2s;
+
+            &:hover {
+                background-color: $color6;
+                color: $color3;
+            }
+        }
+
+        .show {
+            width: 100%;
+            background-color: $color6;
+        }
+
+        .btn {
+            width: 100%;
+            font-size: 20px;
+        }
+        .btn-link {
+            text-decoration: none;
+        }
+
+        .hero_images {
+            position: relative;
+
+            .hero_img_outter {
+                height: 200px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+                .hero_img {
+                    width: auto;
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+            }
+
+            .close_btn {
+                position: absolute;
+                top: 5px;
+                right: 10px;
+                font-size: 20px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .btn-about {
+        border: 1px solid $color3;
+        padding: 5px 20px;
+        color: $color6;
+        background-color: $color3;
+
+        @include respond(tab-port) {
+            width: 100%;
+        }
+    }
+}

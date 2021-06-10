@@ -1,0 +1,39 @@
+@import '../../responsive/variables';
+@import '../../responsive/mixin';
+
+.notify {
+
+    .img_size {
+        height: 50px;
+    }
+
+    .chcat {
+        padding: 0;
+        margin-right: 50px;
+    }
+
+    .text_ch {
+        font-size: 18px;
+        font-weight: 300;
+    }
+
+    @include respond(tab-port-sm) {
+        .img_size {
+            height: 30px;
+        }
+        .chname {
+            font-size: 15px;
+        }
+        .chcat {
+            margin-right: 10px;
+            font-size: 13px;
+        }
+        .cl_sty {
+            font-size: 15px;
+        }
+        .text_ch {
+            font-size: 13px;
+            text-align: start;
+        }
+    }
+}

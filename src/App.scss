@@ -1,0 +1,34 @@
+@import './responsive/variables';
+
+.App {
+    min-height: 100vh;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+	background-color: rgb(247, 247, 247);
+    
+    .load {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // background-color: grey;
+    }
+}
+
+.tag {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-image: linear-gradient(180deg, $color4, $color2);
+    width: 150px;
+    padding: 8px 15px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: white;
+
+    .dash_icon {
+        font-size: 20px;
+    }
+}

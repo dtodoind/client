@@ -1,0 +1,55 @@
+.table-container{
+    .table-users{
+        background-color: rgb(221, 221, 221);
+
+        .header-table{
+            background-color: #1C2541;
+            color: white;
+        
+        }
+.body-table{
+    td{
+        .img{
+            width: auto;
+            height: 80px;
+        }
+    }
+
+}
+        .last-td-a{
+            text-align: -webkit-center;
+
+            .color-active{
+                border-radius: 5px;
+                width: 100%;
+
+                p{
+                    font-size: 15px;
+                    font-weight: 500;
+                    color: white;
+                    text-align-last: center;
+                }
+        
+            }
+        }
+        .last-td-i{
+            text-align: -webkit-center;
+
+            .color-inactive{
+                background-color: rgb(187, 21, 21);
+                border-radius: 5px;
+                width: 100%;
+
+                p{
+                    font-size: 15px;
+                    font-weight: 500;
+                    color: white;
+                    text-align: center;
+                }
+        
+            }
+        }
+    }
+    
+
+}

@@ -1,0 +1,186 @@
+@import "../../responsive/_mixin.scss";
+@import "../../responsive/variables";
+
+.rev {
+	height: 100%;
+	
+	.card-review {
+		height: 100%;
+		margin-bottom: 6%;
+		border-radius: 12px;
+		width: 100%;
+		border: 1px solid rgb(145, 102, 102);
+		position: relative;
+	
+		.card-container {
+			display: flex;
+			margin-bottom: 10px;
+
+			.img_style {
+				flex: 100px 0;
+
+				@include respond(phone) {
+					flex: 50px 0;
+				}
+			}
+	
+			.img_review {
+				padding: 2%;
+				width: 100px;
+				height: 100px;
+				display: flex;
+				justify-content: center;
+				border-radius: 80px;
+				overflow: hidden;
+				background-color: rgb(179, 178, 178);
+				
+				img {
+					width: auto;
+					height: auto;
+				}
+	
+				@include respond(phone) {
+					// padding: 2%;
+					width: 50px;
+					height: 50px;
+					border-radius: 80px;
+				}
+			}
+			.card-header-review {
+				.card-title{
+					font-size:20px;
+					font-weight:500;
+				}
+			}
+			.card-body {
+				padding: 2%;
+				display: flex;
+				justify-content: space-between;
+				
+				.card-header-review {
+					display: flex;
+					justify-content: space-between;
+					flex-direction: column;
+				}
+				.icons-header {
+					// justify-content: flex-end;
+					display: flex;
+					align-items: flex-start;
+					// margin-top: 2%;
+					.icon-edit {
+						color: rgb(121, 120, 120);
+						// width: 7%;
+						height: 25px;
+						margin-right: 2%;
+					}
+					.icon-delete {
+						color: rgb(121, 120, 120);
+						width: 20px;
+						height: 25px;
+						transition: 0.2s;
+						cursor: pointer;
+	
+						&:hover {
+							color: red;
+						}
+					}
+				}
+			}
+		}
+		.social-links {
+			display: flex;
+			justify-content: space-between;
+			border-top: 1px solid rgb(179, 178, 178);
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			// margin-left: 2%;
+			
+			.icon-email {
+				width: 10%;
+				height: 40px;
+				font-size: 13px;
+				color: rgb(121, 120, 120);
+			}
+			.social-email {
+				margin: 0;
+				width: 200px;
+				white-space: nowrap;
+  				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			.rev_date {
+				width: fit-content;
+				font-size: 13px;
+			}
+		}
+	}
+}
+
+@include respond(phone) {
+	.rev {
+		.card-review {
+			width: 100%;
+			.card-container {
+				display: flex;
+				border-bottom: 1px solid rgb(179, 178, 178);
+
+				.card-body {
+					padding: 2px;
+
+					.card-text-body {
+						p {
+							font-size: 12px;
+							text-align: start;
+						}
+					}
+					.card-header-review {
+						.card-title {
+							font-size: 15px;
+						}
+					}
+					.icons-header {
+						margin-top: 5%;
+						.icon-edit {
+							color: rgb(121, 120, 120);
+							width: 20px;
+							height: 20px;
+							margin-right: 3%;
+						}
+						.icon-delete {
+							color: rgb(121, 120, 120);
+							width: 20px;
+							height: 20px;
+						}
+					}
+				}
+			}
+			.social-links {
+				display: flex;
+				justify-content: space-between;
+				margin-left: 2%;
+				font-size: 13px;
+	
+				.icon-email {
+					width: 10%;
+					height: 40px;
+					color: rgb(121, 120, 120);
+				}
+				.social-email {
+					margin: 0;
+					font-size: 13px;
+					width: 100px;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+
+				.rev_date {
+					width: 100px;
+					text-align: right;
+					font-size: 12px;
+				}
+			}
+		}
+	}
+}

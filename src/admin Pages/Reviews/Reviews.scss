@@ -1,0 +1,71 @@
+@import "../../responsive/_mixin.scss";
+@import "../../responsive/variables";
+.reviews {
+  margin: 10px 0px;
+  .review-container {
+    padding: 2%;
+    .review-square {
+      padding: 2%;
+      border: 1px solid rgb(141, 140, 140);
+      border-radius: 15px;
+      .header-review {
+        justify-content: space-between;
+        display: flex;
+        height: 60px;
+
+        .searchbar-review {
+          width: 30%;
+          display: flex;
+          .searchbar-input {
+            width: 100%;
+            margin-left: 4%;
+          }
+          .icon-search {
+            width: 8%;
+            height: 30px;
+          }
+        }
+
+        .pagination-review {
+          font-size: 10px;
+          float: right;
+          width: 130%;
+          height: 120px;
+          justify-content: flex-end;
+        }
+        .pagination .page-item.active .page-link {
+          color: #fff;
+          background-color: #425c88;
+        }
+      }
+    }
+  }
+}
+@include respond(phone) {
+  .reviews {
+    .review-container {
+      .review-square {
+        .header-review {
+          flex-flow: column;
+
+          height: 80px;
+          .searchbar-review {
+            width: 90%;
+
+            .searchbar-input {
+              width: 100%;
+            }
+            .icon-search {
+              width: 12%;
+              height: 30px;
+            }
+          }
+
+          .pagination-review {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

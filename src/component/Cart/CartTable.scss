@@ -1,0 +1,68 @@
+@import '../../responsive/mixin';
+@import '../../responsive/variables';
+
+.carttable {
+    width: 100%;
+    overflow: auto;
+
+    .table {
+
+        @include respond(tab-port) {
+            width: 900px;
+        }
+    }
+
+    .head {
+        background-color: $color2;
+        th {
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 400;
+        }
+    }
+
+    .ali {
+        text-align: center;
+        vertical-align: middle;
+        width: 110px;
+    }
+
+    .delete {
+        cursor: pointer;
+        font-size: 20px;
+        color: red;
+    }
+
+    .min-plus{
+        padding: 4px;
+        font-size: 20px;
+        border-radius:20px;
+        cursor: pointer;
+    }
+
+    .names {
+        font-weight: 500;
+    }
+
+    .cart_prod {
+        width: 80px;
+
+        .cart_prod_img {
+            width: auto;
+            height: 100%;
+        }
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+
+        .title {
+            font-weight: 400;
+            font-size: 20px;
+        }
+    }
+}

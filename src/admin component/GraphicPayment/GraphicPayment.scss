@@ -1,0 +1,19 @@
+.graphic-container-payment{
+    padding: 15px;
+    border: 1px solid grey;
+    border-radius: 8px;
+    
+    .payment-header{
+        display: flex;
+        place-content: space-between;
+
+        p{
+            font-size: 20px;
+            font-weight: 500; 
+        }
+    }
+
+    .pay_pos {
+        height: 100%;
+    }
+}

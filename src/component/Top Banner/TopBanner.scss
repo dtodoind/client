@@ -1,0 +1,42 @@
+@import '../../responsive/mixin';
+@import '../../responsive/variables';
+
+.top_banner {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+
+    .banner_img {
+        width: 100%;
+        // transform: scaleX(-1);
+
+        @include respond(tab-land) {
+            transform: translateX(-300px) scaleX(-1);
+        }
+        @include respond(tab-port) {
+            transform: translateX(-500px) scaleX(-1);
+        }
+    }
+
+    .banner_text {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 50px;
+        color: $color1;
+
+        @include respond(tab-land) {
+            justify-content: center;
+            color: $color1;
+        }
+
+        h2 {
+            font-weight: 500;
+        }
+    }
+}

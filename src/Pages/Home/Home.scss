@@ -1,0 +1,23 @@
+@import '../../responsive/_mixin.scss';
+@import '../../responsive/_variables.scss';
+
+.home {
+    
+    .featured_product {
+        margin: 50px 0px;
+        
+        .content {
+            text-align: center;
+
+            h6 {
+                font-family: 'MV Boli';
+            }
+            h1 {
+                font-weight: 500;
+            }
+            p {
+                line-height: 20px;
+            }
+        }
+    }
+}

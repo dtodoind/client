@@ -1,0 +1,23 @@
+@import '../../responsive/variables';
+
+.notify_table {
+    overflow-x: auto;
+
+    .table {
+        min-width: 1000px;
+    }
+
+    .heading {
+        text-align: center;
+        background-color: $color3;
+        color: $color6;
+    }
+
+    .status {
+        width: fit-content;
+        padding: 5px 10px;
+        font-weight: 400;
+        color: white;
+        border-radius: 5px;
+    }
+}

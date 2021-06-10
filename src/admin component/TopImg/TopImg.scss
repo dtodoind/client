@@ -1,0 +1,18 @@
+@import '../../responsive/variables';
+
+.top_img {
+
+    .btn-topimg {
+        border: 1px solid $color3;
+        margin: 10px 0px;
+        padding: 5px 20px;
+        color: $color6;
+        background-color: $color3;
+        transition: 0.2s;
+
+        &:hover {
+            background-color: transparent;
+            color: $color3;
+        }
+    }
+}

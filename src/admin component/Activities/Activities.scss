@@ -1,0 +1,101 @@
+@import "../../responsive/_mixin.scss";
+
+.activities-container {
+	border: 1px solid grey;
+	border-radius: 8px;
+	height: 100%;
+
+	.vertical-timeline {
+		padding: 0;
+	}
+
+	.a-header {
+		font-size: 20px;
+		font-weight: 500;
+		margin: 12px;
+	}
+
+	.p-text {
+		font-size: 15px;
+		font-weight: 100;
+	}
+
+	.vertical-timeline-element-content {
+		position: static;
+		margin-left: 25px;
+		background: #fff0;
+		border-radius: 0px;
+		padding: 0px 1em;
+		box-shadow: 0 0px;
+		// box-shadow: 0 3px 0 rgba(255, 255, 255, 0.514);
+	}
+
+	.vertical-timeline::before {
+		width: 2px;
+		background: rgba(0,0,0,0.1);
+	}
+
+	.vertical-timeline-element-icon {
+		box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+	}
+
+	.title {
+		padding: 10px 20px 20px 20px;
+	}
+	.meeting {
+		.item-meet {
+			display: flex;
+			.icon-tick {
+				color: rgb(161, 161, 161);
+				width: 20px;
+				height: 20px;
+			}
+			.p-text {
+				margin-top: 20px;
+			}
+		}
+	}
+}
+
+@include respond(phone) {
+	.activities-container {
+		.a-header {
+			font-size: 27px;
+		}
+
+		.vertical-timeline-element-content {
+			margin-left: 10px;
+		}
+		.meeting {
+			.title {
+				font-size: 20px;
+				margin-left: 1px;
+				margin-bottom: 1px;
+			}
+			.item-meet {
+				display: -webkit-inline-box;
+				.icon-tick {
+					color: rgb(161, 161, 161);
+					width: 15px;
+					height: 20px;
+				}
+				.p-text {
+					margin-top: 10px;
+					text-align: -webkit-auto;
+					font-size: 15px;
+				}
+			}
+		}
+
+		.notification {
+			.item-notification {
+				margin-left: 27px;
+			}
+			.title {
+				font-size: 20px;
+				margin-left: 1px;
+				margin-bottom: 1px;
+			}
+		}
+	}
+}

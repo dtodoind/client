@@ -1,0 +1,39 @@
+@import '../../responsive/variables';
+
+.categoryadd {
+
+    .btn-cate {
+        border: 1px solid $color3;
+        height: 100%;
+        background-color: $color3;
+        color: $color6;
+        transition: 0.2s;
+
+        &:hover {
+            background-color: $color6;
+            color: $color3;
+        }
+    }
+
+    .btn-catesave {
+        border: 1px solid $color3;
+        height: 100%;
+        background-color: $color3;
+        color: $color6;
+        padding: 5px 20px;
+        transition: 0.2s;
+
+        &:hover {
+            background-color: $color6;
+            color: $color3;
+        }
+    }
+
+    .close-pos {
+        cursor: pointer;
+        height: 100%;
+        width: 25px;
+        position: absolute;
+        right: 0;
+    }
+}

@@ -1,0 +1,22 @@
+.notification {
+    margin: 10px 0px;
+
+    .nav-tabs .nav-item .nav-link {
+        color: black;
+    }
+
+    .nav-item .show {
+        width: 100%;
+    }
+
+    .nav-item .active {
+        background-color: transparent;
+    }
+
+    .tab-content {
+        .show {
+            width: 100%;
+            background-color: transparent;
+        }
+    }
+}

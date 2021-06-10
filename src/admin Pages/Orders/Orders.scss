@@ -1,0 +1,41 @@
+@import "../../responsive/_mixin.scss";
+@import '../../responsive/variables';
+.orders {
+	margin: 10px 0px;
+
+	.orders-containers{
+		padding: 3%;
+
+		.graphic-bar{
+			text-align-last: center;
+			
+			p{
+				font-size:50px;
+			}
+		}
+
+	  	.row-graphic-two{
+			margin-top:40%;
+		}
+		  
+	 	.col-graphic-two{
+			text-align: -webkit-center;
+		}
+	}
+}
+
+@include respond(phone) {
+	.orders {
+		.orders-containers {
+			.row-graphic-two{
+				margin-top:1%;
+			}
+
+			.graphic-bar{
+				p{
+					font-size:25px;
+				}
+			}
+		}
+	}
+}

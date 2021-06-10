@@ -1,0 +1,74 @@
+@import '../../responsive/mixin';
+@import '../../responsive/variables';
+
+.order_main_box {
+    text-align: left;
+    border-radius: 5px;
+
+    p {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 400;
+        color: gray;
+    }
+
+    h1 {
+        margin: 0;
+    }
+
+    .bottom {
+        padding: 0;
+        font-size: 14px;
+    }
+
+    .order_title {
+        color: rgb(200, 200, 200);
+        font-size: 25px;
+        font-weight: 300;
+    }
+
+    .order_des {
+        color: rgb(200, 200, 200);
+        font-size: 13px;
+    }
+
+    .order_amount {
+        margin: 0;
+        color: white;
+        width: 100%;
+    }
+    .order_growth {
+        color: rgb(200, 200, 200);
+        margin-bottom: 5px;
+        font-size: 13px;
+        width: 110px;
+    }
+    
+    .nav-item {
+        // box-shadow: 0px 2px 2px 0px black;
+        width: calc(100% / 3);
+        font-size: 15px;
+        text-align: center;
+        
+        .nav-link.active {
+            background-color: transparent;
+            border-radius: 0;
+            border-bottom: 3px solid $color5;
+        }
+
+        a {
+            color: rgb(190, 190, 190);
+        }
+    }
+
+    .tab-content {
+
+        .active {
+            background-color: white;
+            border: 0;
+        }
+        .show {
+            width: 100%;
+        }
+    }
+}

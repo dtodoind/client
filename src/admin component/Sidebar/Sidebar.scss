@@ -1,0 +1,289 @@
+@import '../../responsive/variables';
+
+.navi {
+
+    .sha {
+        // background-color: rgba($color: $color4, $alpha: 0.2);
+        height: 100vh;
+        // box-shadow: 0 0 10px rgb(0, 0, 0);
+    }
+
+    .showu {
+        width: 10px;
+        height: 100%;
+        background-color: $color4;
+    }
+
+    .profile {
+        position: relative;
+        z-index: 2;
+            
+        .top {
+            
+            .menu {
+                cursor: pointer;
+                position: absolute;
+                top: 0;
+                display: flex;
+                align-items: center;
+                height: 60px;
+                right: 20px;
+                font-size: 25px;
+            }
+            .menu_adj {
+                background-image: linear-gradient(180deg, $color2, $color4);
+                height: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                text-align: center;
+                font-size: 25px;
+            }
+
+            
+            .side_display {
+                display: inherit;
+        
+                .profile_info {
+                    position: absolute;
+                    top: 20px;
+                    left: 15px;
+                    text-align: center;
+        
+                    .profile_img {
+                        overflow: hidden;
+                        border-radius: 50px;
+                        color: white;
+                        width: 100px;
+                        height: 100px;
+                    }
+            
+                    .name {
+                        margin-top: 5px;
+                        color: white;
+                    }
+                }
+            }
+    
+        }
+    }
+    
+    .middle {
+        background-color: white;
+        position: relative;
+        z-index: 2;
+        margin-top: 80px;
+        cursor: pointer;
+
+        .back-color {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba($color: $color4, $alpha: 0.2);
+        }
+    
+        .hov {
+            transition: 0.2s;
+        }
+        .hov:hover {
+            background-color: rgba($color: $color4, $alpha: 0.4);
+        }
+        
+        .icon_area2 {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            font-size: 25px;
+            // margin-left: 10px;
+            height: 60px;
+            color: $color4;
+        }
+    
+        .icon_area {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 25px;
+            margin-left: 10px;
+            height: 60px;
+            color: $color4;
+        }
+    
+        .icon_adj {
+            justify-content: center;
+    
+            .show_adj {
+                display: none;
+            }
+        }
+    
+        .names {
+            display: flex;
+            align-items: center;
+    
+            .navi_name {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                p{
+                    margin: 0;
+                    margin-left: 10px;
+                    font-weight: 400;
+                }
+            }
+        }
+    
+        .names_adj {
+            display: none;
+        }
+    
+        .active {
+            background-color: rgba($color: $color4, $alpha: 0.4);
+        }
+    
+        .active_show {
+            display: none;
+        }
+    }
+
+    .small_sidebar {
+        box-shadow: 2px 0px 10px rgb(200, 200, 200);
+        position: absolute;
+        top: 0;
+        background-color: white;
+        height: 100%;
+        width: 250px;
+        z-index: 1;
+        transition: 0.3s;
+        transform: translateX(-251px);
+        
+        .back-color {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba($color: $color4, $alpha: 0.2);
+        }
+
+        .small_top {
+            height: 60px;
+            background-image: linear-gradient(180deg, $color2, $color4);
+        }
+
+        .small_middle {
+            margin-top: 80px;
+
+            .hov1 {
+                transition: 0.2s;
+            }
+            .hov1:hover {
+                background-color: rgba($color: $color4, $alpha: 0.4);
+            }
+            
+            .icon_area2 {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                font-size: 25px;
+                // margin-left: 10px;
+                height: 60px;
+                color: $color4;
+            }
+        
+            .icon_area {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 25px;
+                margin-left: 10px;
+                height: 60px;
+                color: $color4;
+            }
+        
+            .icon_adj {
+                justify-content: center;
+        
+                .show_adj {
+                    display: none;
+                }
+            }
+        
+            .names {
+                display: flex;
+                align-items: center;
+                height: 60px;
+                cursor: pointer;
+                
+                .navi_name {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    p{
+                        margin: 0;
+                        margin-left: 10px;
+                        font-weight: 400;
+                    }
+                }
+            }
+        
+            .names_adj {
+                display: none;
+            }
+        
+            .active {
+                background-color: rgba($color: $color4, $alpha: 0.4);
+            }
+        
+            .active_show {
+                display: none;
+            }
+        }
+    }
+
+    .toasts {
+        position: absolute;
+        top: 100px;
+        right: 0px;
+        height: max-content;
+        overflow-x: hidden;
+        pointer-events: none;
+        z-index: 3;
+        .toast.unshow {
+            display: block;
+            overflow: hidden;
+            animation: fad 1s linear;
+            transition: 1s ease-out;
+        }
+        
+        @keyframes fad {
+            from {
+                opacity: 1;
+                max-height: 300px;
+                transform: translateX(0px);
+            }
+            to {
+                opacity: 0;
+                max-height: 0;
+                transform: translateX(200px);
+            }
+        }
+        
+        .toast {
+            margin-right: 20px;
+            min-width: 200px;
+        
+            .progress {
+                height: 3px;
+        
+                .progress-bar {
+                    animation: progress 5s linear;
+                }
+            
+                @keyframes progress {
+                    from {width: 0%;}
+                    to {width: 100%;}
+                }
+            }
+        }
+    }
+}

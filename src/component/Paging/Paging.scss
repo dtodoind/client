@@ -1,0 +1,91 @@
+@import '../../responsive/_variables.scss';
+
+.latestnews__content {
+    color: white;
+    
+    h2 {
+        color: white;
+        font-style: italic;
+    }
+
+    .number__box {
+        display: flex;
+        justify-content: center;
+        
+        .number {
+            display: flex;
+            width: fit-content;
+            border-radius: 5px;
+            background-color: $color1;
+            overflow: hidden;
+            
+            .onlynumber {
+                padding: 5px 10px;
+                cursor: pointer;
+        
+                &:hover {
+                    background-color: $color2;
+                }
+            }
+        
+            .active{
+                background-color: $color3;
+            }
+        
+            .number__next {
+                display: flex;
+                align-items: center;
+                padding: 0px 10px;
+                cursor: pointer;
+                background-color: transparent;
+                color: white;
+                border: 0;
+        
+                &:hover {
+                    background-color: $color2;
+                }
+                &:focus {
+                    outline: none;
+                }
+            }
+            .number__prev {
+                display: flex;
+                align-items: center;
+                padding: 0px 5px 0px 13px;
+                cursor: pointer;
+                background-color: transparent;
+                color: white;
+                border: 0;
+                
+                &:hover {
+                    background-color: $color2;
+                }
+                &:focus {
+                    outline: none;
+                }
+            }
+        
+            .more__numbers {
+                padding: 0px 5px;
+            }
+        }
+    }
+
+    .render_items {
+
+        .one_items {
+            width: fit-content;
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
+
+.trending {
+    h3 {
+        color: white;
+        font-style: italic;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+}

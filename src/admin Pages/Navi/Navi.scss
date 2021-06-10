@@ -1,0 +1,87 @@
+@import '../../responsive/variables';
+@import '../../responsive/mixin';
+
+.navi {
+    
+    .grid-container {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        // background-color: #2196F3;
+        transition: 1s;
+    }
+    .grid-container_adj {
+        display: grid;
+        grid-template-columns: 60px 1fr;
+        // background-color: #2196F3;
+        transition: 1s;
+    }
+    .grid-item {
+        // position: relative;
+        // background-color: rgba(25, 25, 25, 0.8);
+        border: 0px;
+        transition: 0.3s;
+    }
+
+    .naviga {
+        background-color: $color4;
+        color: white;
+        padding: 12px;
+        display: flex;
+        justify-content: flex-end;
+        
+        .icon_bell {
+            position: relative;
+            display: flex;
+            align-items: center;
+            font-size: 25px;
+
+            .notify_dropdown {
+                position: absolute;
+                padding: 15px 5px;
+                top: 50px;
+                right: 0;
+                width: 300px;
+                max-height: 300px;
+                overflow-y: scroll;
+                background-color: white;
+                box-shadow: 0px 0px 10px rgb(100, 100, 100);
+            }
+            .notify_dropdown::-webkit-scrollbar {
+                display: none;
+            }
+
+            .reddot {
+                position: absolute;
+                right: 0;
+                top: 15px;
+                width: 10px;
+                height: 10px;
+                border-radius: 10px;
+                background-color: red;
+            }
+        }
+
+        .btn_all{
+            color: white;
+
+            &:hover {
+                background-color: white;
+                color: black;
+            }
+            
+            @include respond(tab-port-sm) {
+                font-size: 10px;
+                padding: 10px 18px;
+            }
+        }
+
+    }
+    
+    .dis-none {
+        display: none;
+    }
+    .act {
+        display: inherit;
+    }
+
+}

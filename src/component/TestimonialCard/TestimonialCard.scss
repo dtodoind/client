@@ -1,0 +1,51 @@
+@import '../../responsive/variables';
+
+.r-card{
+    padding: 40px;
+}
+.r-box{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:320px;
+    height: 420px;
+    margin: 20px;
+ background-color:rgba(204, 245, 245, 0.185);
+    border-top:  1px solid $color1;
+    border-bottom:  1px solid  $color1;
+}
+.r-box .r-content{
+padding: 30px;
+text-align: center;
+}
+.r-box .r-content p .r-imgq{
+    color: $color5;
+    height: 65px;
+    width: 40%;
+    display: inline-block;
+}
+.r-box .r-content p{
+    width: 300px;
+color:black;
+padding: 10px 0;
+}
+.r-box .r-content .r-user{
+    display: inline;
+
+    max-width: 72px;
+    border-radius: 50%;
+}
+.r-box .r-content h3{
+    color: $color1;
+    text-transform: uppercase;
+font-size:16px;
+letter-spacing: 1px;
+font-weight:600;
+
+
+}
+.r-author{
+    display: inline-block;
+
+}

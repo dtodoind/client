@@ -1,0 +1,41 @@
+@import '../../responsive/_mixin.scss';
+@import '../../responsive/variables.scss';
+
+
+.footer-container{
+    position: absolute;
+    width: 100%;
+	background-image: linear-gradient(180deg, transparent, $color1 7%);
+    // background-color: $color1;
+    @include respond(tab-port) {
+        background-color: $color1;
+    }
+
+    .title {
+        margin-top: 8%;
+        font-weight: 500;
+        // font-family: 'MV Boli';
+        font-family: 'Open Sans', sans-serif;
+        margin-bottom: 20px;
+    }
+    
+    .footer-icon{
+        width: 50px;
+        font-size: 30px;
+    }
+    
+    ul {
+        display: contents;
+        line-height: 30px;
+    }
+    .title-manjares{
+        color: lightgreen;
+    }
+    .text-title{
+        text-align: -webkit-left;
+    }
+
+    .footer-copyright {
+        background-color: $color6;
+    }
+}

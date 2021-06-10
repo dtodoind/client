@@ -1,0 +1,38 @@
+@import '../../responsive/variables';
+
+.push_notify {
+
+    .send_notify {
+        border-top: 3px solid $color5;
+        border-bottom: 3px solid rgba(0,0,0,0.5);
+        border-left: 1px solid rgba(0,0,0,0.2);
+        border-right: 1px solid rgba(0,0,0,0.2);
+        border-radius: 5px;
+        padding: 15px;
+        background-color: white;
+
+        .load {
+            width: auto;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            // background-color: grey;
+        }
+
+        .btn_push {
+            border: 1px solid $color3;
+            color: $color6;
+            background-color: $color3;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: 0.2s;
+    
+            &:hover {
+                color: $color3;
+                background-color: $color6;
+            }
+        }
+    }
+
+}

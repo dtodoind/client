@@ -1,0 +1,116 @@
+@import '../../responsive/mixin';
+@import '../../responsive/variables';
+
+.service_add {
+    
+    .service_img_outter {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
+    .button_ser {
+        width: 100px;
+        border: 2px solid $color3;
+        background-color: $color3;
+        color: $color6;
+        transition: 0.2s;
+
+        &:hover {
+            background-color: $color6;
+            color: $color3;
+        }
+    }
+    
+    @include respond(phone) {
+        .button_ser {
+            margin: 10px 0px;
+            width: 100%;
+        }
+    }
+    
+    .btn_service {
+        padding: 10px 20px;
+        border: 0;
+        margin: 20px;
+    }
+    
+    .change-color {    
+        &:hover {
+            .outer_box {
+                background-color: $color3;
+            }
+        }
+    }
+    
+    .service-icon {
+        display: flex;
+        justify-content: center;
+    
+        .outer_box {
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.1s;
+            
+    
+            .inner_box {
+                border: 1px solid rgba(255,255,255,0.5);
+                padding: 15px;
+                border-radius: 50px;
+            }
+        }
+    
+        .delivery-color {
+            background-color: #e4b2d6
+        }
+    
+        .fresh-color {
+            background-color: #dcc698;
+        }
+    
+        .quality-color {
+            background-color: #a2d1e1;
+        }
+    }
+    .close_btn {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .inner_box_select {
+        border: 1px solid rgba(255,255,255,0.5);
+        padding: 15px;
+        border-radius: 50px;
+    }
+    
+    .service-content {
+        text-align: center;
+    
+        .tit-text {
+            font-weight: 500;
+            font-size: 15px;
+            margin: 10px 0px;
+        }
+    
+        .des-text {
+            font-size: 13px;
+        }
+    }
+
+    .dropdown {
+        .show {
+            height: auto;
+        }
+
+        .dropdown-item {
+            background-color: blue;
+        }
+
+    }
+}

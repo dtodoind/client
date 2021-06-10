@@ -1,0 +1,33 @@
+@import '../../responsive/mixin';
+@import '../../responsive/variables';
+.Myaccount {
+	// background-image: url("https://i.pinimg.com/originals/63/10/88/63108804a9b5e66331b284219a60b745.png");
+	// -webkit-background-size: cover;
+	// -moz-background-size: cover;
+	// -o-background-size: cover;
+	// background-size: cover;
+
+  	.tab-edit {
+		margin-top: 100px;
+		justify-content: center;
+
+		.nav-link {
+			font-weight: 400;
+			color: $color1;
+		}
+
+	}
+	.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+		color: #fff;
+		background-color: $color1;
+	}
+}
+
+@include respond(phone) {
+	.Myaccount {
+		background-image: url("https://inabima.gob.do/wp-content/uploads/2018/06/FONDO-BLANCO.jpg");
+	}
+	.tab-edit {
+		padding: 0px 0px 0px 0;
+	}
+}

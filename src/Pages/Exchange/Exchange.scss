@@ -1,0 +1,61 @@
+@import '../../responsive/variables.scss';
+@import "../../responsive/_mixin.scss";
+.exchange-container{
+    align-self: center;
+margin-top: 5%;
+width: 80%;
+.exchange-title{
+    border-bottom: 1px solid $color1;
+    font-family: "MV Boli";
+
+    color: $color1;
+    text-align-last: center;
+p{
+    font-size: 45px;
+}
+}
+.exchange-text{
+    margin-top: 4%;
+    h6{
+
+        font-weight: bold;
+    }
+    h5{
+
+       margin-top:2%;
+        font-weight: bold;  
+    }
+    p{
+        line-height: 36px;
+    }
+}
+}
+@include respond(phone) {
+    .exchange-container{
+        
+    margin-top: 30%;
+    width: 90%;
+    .exchange-title{
+        p{
+            font-size: 32px;
+        }
+    }
+    .exchange-text{
+
+        margin-top: 4%;
+        h6{
+            margin-top:2%;
+           
+        }
+        h5{
+    
+           margin-top:2%;
+         
+        }
+        p{   
+            font-size: 15px;
+            text-align: start;
+            line-height: 20px;
+        }
+    }
+}}
