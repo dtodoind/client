@@ -114,7 +114,7 @@ function Register({ show, ...props }) {
 							.post("https://dtodo-indumentaria-server.herokuapp.com/users/new", formdata, {
 								header: { "Content-Type": "multipart/form-data" },
 							})
-							.then((res) => {
+							.then(async (res) => {
 								if (res.data.Users_id !== undefined) {
 									localStorage.setItem('verify', 'true')
 									await axios
