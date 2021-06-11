@@ -109,24 +109,25 @@ function Register({ show, ...props }) {
 								new Date(),
 							Notify_cate: "Subscriber",
 						};
+						await axios
+							.post("https://dtodo-indumentaria-server.herokuapp.com/notification/new", notify)
+							.then((res) =>
+								props.insertNotification({
+									...notify,
+									Notification_id: res.data.Notification_id,
+								})
+							);
 
 						await axios
 							.post("https://dtodo-indumentaria-server.herokuapp.com/users/new", formdata, {
 								header: { "Content-Type": "multipart/form-data" },
 							})
-							.then(async (res) => {
+							.then((res) => {
 								if (res.data.Users_id !== undefined) {
 									localStorage.setItem('verify', 'true')
-									await axios
-										.post("https://dtodo-indumentaria-server.herokuapp.com/notification/new", notify)
-										.then((res) =>
-											props.insertNotification({
-												...notify,
-												Notification_id: res.data.Notification_id,
-											})
-										);
 									window.location.href = '/loginregister'
 								} else if (res.data === "Email is already registered") {
+								
 									setEmailerror(res.data);
 								} else if (res.data === "Username is already registered") {
 									setUsererror(res.data);
