@@ -94,7 +94,7 @@ function TopImg(props) {
             var formdata = new FormData()
             formdata.append('topImage', wholeimg)
             formdata.append('Image', imgtop)
-            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/topimages/edit/1', formdata)
+            await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/topimages/edit/${Single[0].TopImages_id}`, formdata)
             // await axios.get('https://dtodo-indumentaria-server.herokuapp.com/topimages/all').then(res => console.log(res.data))
         }
     }
