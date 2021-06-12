@@ -214,7 +214,7 @@ function Checkout(props) {
                             : <>
                                 <Billing address={address} />
                                     <Elements stripe={stripePromise}>
-                                    <Payment place_order={place_order} radioval={radioval} price={total.toFixed(0)} addresserr={addresserr} />
+                                    <Payment place_order={place_order} radioval={radioval} price={total.toFixed(2)} addresserr={addresserr} />
                                 </Elements>
                             </>
                         }

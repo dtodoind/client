@@ -7,6 +7,7 @@ import './Payment.scss'
 
 const CARD_OPTIONS = {
 	iconStyle: "solid",
+	hidePostalCode: true,
 	style: {
 		base: {
 			// iconColor: "#c4f0ff",
@@ -180,7 +181,11 @@ function Payment({place_order, price, radioval, addresserr }) {
 			place_order(billingDetails)
 			// setProcessingTo(false)
 		} catch (error) {
-			setCheckoutError(error.message)
+			if(price === '0.00') {
+				setCheckoutError('Please add some Product in the cart')
+			} else {
+				setCheckoutError(error.message)
+			}
 		}
 
 		// setProcessing(false);
@@ -330,6 +335,11 @@ function Payment({place_order, price, radioval, addresserr }) {
 				<SubmitButton disabled={isProcessing || !stripe}>
 					{isProcessing ? "Processing..." : `Pay $${price}`}
 				</SubmitButton>
+				<h3 style={{textAlign: 'center', marginTop: '40px', fontSize: '24px', color: 'red'}}>
+					*Please use the following test credit card for payments*
+					<br />
+					4242 4242 4242 4242 - Exp: 04/24 - CVV: 242
+				</h3>
 			</form>
 			{/* <Link className="btn">Place Order</Link> */}
 			{/* <button id="payment_btn" className="btn" onClick={place_order}>Place Order</button> */}
