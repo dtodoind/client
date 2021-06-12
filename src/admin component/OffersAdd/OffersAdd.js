@@ -83,7 +83,7 @@ function OffersAdd(props) {
         if(Offer.length === 0) {
             axios.post('https://dtodo-indumentaria-server.herokuapp.com/offer/new', formdata)
         } else {
-            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/offer/edit/1', formdata)
+            await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/offer/edit/${Offer[0].Offer_id}`, formdata)
         }
     }
 

@@ -16,6 +16,7 @@ function Content(props) {
     const { Aboutus, aboutus, heroimg, Hero_img } = props
     const [about, setabout] = useState(Aboutus)
     const [len, setlen] = useState()
+    const [aboutid, setAboutid] = useState()
     const [error,] = useState("File size should be less than 1 MB")
     const [lop, setlop] = useState(true)
     const [lop2, setlop2] = useState(true)
@@ -33,6 +34,7 @@ function Content(props) {
                         axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: ''}).then(res => aboutus(res.data))
                     } else {
                         aboutus(res.data[0].Content)
+                        setAboutid(res.data[0])
                     }
                     setlop(false)
                 }
@@ -116,7 +118,7 @@ function Content(props) {
         if(len === 0) {
             await axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: about}).then(res => setlen(1))
         } else {
-            await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/aboutus/edit/${Aboutus[0].Aboutus_id}`, {Content: about})
+            await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/aboutus/edit/${aboutid.Aboutus_id}`, {Content: about})
         }
         aboutus(about)
     }
