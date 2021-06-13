@@ -3,6 +3,7 @@ import "./App.scss";
 import { Switch, Route } from "react-router-dom";
 import loader from './assets/Infinity-1s-200px.gif'
 
+import ScrollToTop from './component/ScrollToTop/ScrollToTop';
 // import LoginRegister from "./Pages/Login_Register/Login_Register";
 import Navigation from "./component/Navigation/Navigation";
 // import Home from "./Pages/Home/Home";
@@ -53,7 +54,7 @@ function App() {
 		<div className="App">
 			<Switch>
 				{/* Admin Pages */}
-				<Route path="/admin">
+				<Route path="/dtodoadmin159753">
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<Navi />
 					</Suspense>
@@ -61,11 +62,13 @@ function App() {
 
 				{/* Client Pages */}
 				<Route path = "/confirm/:token">
+					<ScrollToTop />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<Welcome  />
 					</Suspense>
 				</Route>
 				<Route path="/exchange">
+					<ScrollToTop />
 					<Navigation />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<Exchange/>
@@ -73,6 +76,7 @@ function App() {
 					<Footer />
 				</Route>
 				<Route path="/detail/:id">
+					<ScrollToTop />
 					<Navigation />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<CardDetail/>
@@ -80,6 +84,7 @@ function App() {
 					<Footer />
 				</Route>
 				<Route path="/shipping">
+					<ScrollToTop />
 					<Navigation />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<ShippingInfo />
@@ -88,6 +93,7 @@ function App() {
 				</Route>
 
 				<Route path="/account/:tabs">
+					<ScrollToTop />
 					<Navigation />
 					{/* <Myaccount /> */}
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
@@ -97,6 +103,7 @@ function App() {
 				</Route>
 
 				<Route path="/checkout">
+					<ScrollToTop />
 					<Navigation />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<Checkout />
@@ -105,6 +112,7 @@ function App() {
 				</Route>
 
 				<Route path="/shopcart">
+					<ScrollToTop />
 					<Navigation />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<Shopcart />
@@ -113,6 +121,7 @@ function App() {
 				</Route>
 
 				<Route path="/search/:searchitem">
+					<ScrollToTop />
 					<Navigation />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<Search />
@@ -121,24 +130,28 @@ function App() {
 				</Route>
 
 				<Route path="/resetpassword">
+					<ScrollToTop />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<ResetPassword />
 					</Suspense>
 				</Route>
 
 				<Route path="/forgotpassword">
+					<ScrollToTop />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<ForgotPassword />
 					</Suspense>
 				</Route>
 
 				<Route path="/loginregister">
+					<ScrollToTop />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<LoginRegister />
 					</Suspense>
 				</Route>
 
 				<Route path="/aboutus">
+					<ScrollToTop />
 					<Navigation />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<AboutUs />
@@ -147,6 +160,7 @@ function App() {
 				</Route>
 
 				<Route path="/review">
+					<ScrollToTop />
 					<Navigation />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<Review />
@@ -155,6 +169,7 @@ function App() {
 				</Route>
 
 				<Route path="/category">
+					<ScrollToTop />
 					<Navigation />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<Category />
@@ -163,6 +178,7 @@ function App() {
 				</Route>
 
 				<Route exact path="/">
+					<ScrollToTop />
 					<Navigation />
 					<Suspense fallback={<div className="load"><div style={{width: '100px'}}><img src={loader} alt="loader" style={{width: '100%'}} /></div></div>}>
 						<Home />

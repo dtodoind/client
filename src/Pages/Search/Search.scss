@@ -1,9 +1,10 @@
 @import '../../responsive/mixin';
 
 .search_page {
-
+    
     .search_display {
         display: flex;
+        padding: 50px;
 
         .one {
             display: flex;

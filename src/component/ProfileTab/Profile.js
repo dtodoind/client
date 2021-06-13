@@ -172,6 +172,10 @@ function Profile(props) {
         }
     }
 
+	function showornot() {
+		setLgShow(false)
+	}
+
 	return (
 		<div className="profile mt-2">
 			<div className="title1_out">
@@ -243,6 +247,7 @@ function Profile(props) {
 					onChange={onChange}
 					show={lgShow}
 					onHide={() => setLgShow(false)}
+					showornot={showornot}
 				/>
 
 

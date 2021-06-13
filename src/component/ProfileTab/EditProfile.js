@@ -2,8 +2,9 @@ import React from "react";
 import { Modal, Container, Row, Col } from "react-bootstrap";
 import "./EditProfile.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ImCross } from "react-icons/im";
 
-function EditProfile({ User, EditUser, ...props }) {
+function EditProfile({ User, showornot, EditUser, ...props }) {
 
 	return (
 		<Modal
@@ -13,7 +14,12 @@ function EditProfile({ User, EditUser, ...props }) {
 			aria-labelledby="example-modal-sizes-title-lg"
 			centered
 		>
-			<Modal.Header closebutton="true"> </Modal.Header>   
+			<Modal.Header closebutton="true">
+				<div className="editp-text">
+					<p>Edit profile</p>
+				</div>
+				<ImCross fontSize="15px" onClick={showornot} />
+			</Modal.Header>   
 			{/* <p style={{fontWeight: '500', fontSize: '20px'}}>Edit profile</p>  */}
 			<Modal.Body closebutton="true">
 				<Container  className='cont-edit'>
@@ -38,9 +44,6 @@ function EditProfile({ User, EditUser, ...props }) {
 						</Col>
 						<Col sm={8}>
 							{" "}
-							<div className="editp-text">
-								<p>Edit profile</p>
-							</div>
 							<div className="row mt-2">
 								<div className="col-md-6">
 									<input

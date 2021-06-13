@@ -18,6 +18,14 @@
 		  	margin-right: 0px;
 		}
 	}
+
+	.eyefill {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		cursor: pointer;
+		z-index: 1;
+	}
 	
 	img{
 		height: 100px;
@@ -56,6 +64,8 @@
 	
 	.input-div > div{
 		position: relative;
+		display: flex;
+		justify-content: flex-end;
 		height: 45px;
 	}
 	

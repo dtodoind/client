@@ -4,12 +4,12 @@ import "./Navigation.scss";
 import Searchbar from './Searchbar'
 import { FaShoppingCart } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
-import { ImCross, ImHome } from "react-icons/im";
+import { ImCross, ImHome, ImProfile } from "react-icons/im";
 import { CgMenuGridO } from "react-icons/cg"
 import { BsFillPeopleFill } from 'react-icons/bs'
 // import { AiFillContacts } from 'react-icons/ai'
-import { BiLogIn } from 'react-icons/bi'
-import { FaMinus, FaPlus, FaDollarSign } from 'react-icons/fa';
+import { BiLogIn, BiLogOut } from 'react-icons/bi'
+import { FaMinus, FaPlus, FaDollarSign, FaShoppingBag } from 'react-icons/fa';
 import { AiFillDelete } from 'react-icons/ai'
 import { MdRateReview } from 'react-icons/md'
 import io from 'socket.io-client'
@@ -40,14 +40,16 @@ function Navigation(props) {
 	})
 
 	function sidebar(open) {
-		if(open) {
-			document.getElementsByClassName('navbar-in')[0].style.backgroundColor = 'rgba(0,0,0,0.2)'
-			document.getElementsByClassName('navbar-in')[0].style.pointerEvents = 'inherit'
-			document.getElementsByClassName('nav-items')[0].style.left = '0'
-		} else {
-			document.getElementsByClassName('navbar-in')[0].style.backgroundColor = 'transparent'
-			document.getElementsByClassName('navbar-in')[0].style.pointerEvents = 'none'
-			document.getElementsByClassName('nav-items')[0].style.left = '-450px'
+		if(window.innerWidth <= 900) {
+			if(open) {
+				document.getElementsByClassName('navbar-in')[0].style.backgroundColor = 'rgba(0,0,0,0.2)'
+				document.getElementsByClassName('navbar-in')[0].style.pointerEvents = 'inherit'
+				document.getElementsByClassName('nav-items')[0].style.left = '0'
+			} else {
+				document.getElementsByClassName('navbar-in')[0].style.backgroundColor = 'transparent'
+				document.getElementsByClassName('navbar-in')[0].style.pointerEvents = 'none'
+				document.getElementsByClassName('nav-items')[0].style.left = '-450px'
+			}
 		}
 	}
 
@@ -61,6 +63,13 @@ function Navigation(props) {
 		}
 		act[val].classList.remove('hover')
 		act[val].classList.add('active')
+		if(window.innerWidth <= 900) {
+			document.getElementsByClassName('nav-items')[0].style.left = '-450px'
+			document.getElementsByClassName('navbar-in')[0].style.backgroundColor = 'transparent'
+			document.getElementsByClassName('navbar-in')[0].style.pointerEvents = 'none'
+		} else {
+			document.getElementsByClassName('navbar-in')[0].style.pointerEvents = 'inherit'
+		}
 	}
 	
 	var nav = ['/', '/category', '/review', '/aboutus', '/loginregister', '/search']
@@ -122,7 +131,7 @@ function Navigation(props) {
 
 					<Searchbar/>
 
-					<div className="navbar-in">
+					<div className="navbar-in" onClick={() => sidebar(false)}>
 						<ul className='nav-items m-0 p-0 h-100'>
 							<li className="d-flex justify-content-end mx-2 my-2 side-display">
 								<button className="p-1 border-0 bg-transparent text-light side-display" onClick={() => sidebar(false)}>
@@ -152,27 +161,78 @@ function Navigation(props) {
 									About Us
 								</Link>
 							</li>
-							<li className="nav-links hover">
+							<hr className="linesidebar" />
 								{
 									Sing !== null
-									? <Link to="/account/profile" 
-										className="links" 
-										onMouseOver={() => document.getElementsByClassName('accountdetails')[0].style.display = 'inherit'} 
-										onMouseOut={() => document.getElementsByClassName('accountdetails')[0].style.display = 'none'}
-										id="account" 
-										onClick={() => searchchange(4)}>
-										<BiLogIn className="side-display" style={{fontSize: '20px', marginRight: '20px'}} 
-									/>
-										<div className="img_display">
-											<img src={Sing[0].Image} alt="" className="account_img" />
-										</div>
-									</Link>
-									: <Link to="/loginregister" className="links" onClick={() => searchchange(4)}>
-										<BiLogIn className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
-										Login
-									</Link>
+									? <>
+										<li className="nav-links hover hide">
+											<Link to="/account/profile" 
+												className="links" 
+												onMouseOver={() => {
+													if(window.innerWidth <= 600) {
+														document.getElementsByClassName('accountdetails')[0].style.display = 'none'
+													} else {
+														document.getElementsByClassName('accountdetails')[0].style.display = 'inherit'
+													}
+												}}
+												onMouseOut={() => document.getElementsByClassName('accountdetails')[0].style.display = 'none'}
+												id="account" 
+												onClick={() => searchchange(4)}>
+													<BiLogIn className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
+													<div className="img_display">
+														<img src={Sing[0].Image} alt="" className="account_img" />
+													</div>
+											</Link>
+										</li>
+										<li className="nav-links hover sideview">
+											<Link to="/account/profile" className="links" onClick={() => searchchange(5)}>
+												<ImProfile className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
+												Profile
+											</Link>
+										</li>
+										<li className="nav-links hover sideview">
+											<Link to="/account/Order" className="links" onClick={() => searchchange(6)}>
+												<FaShoppingBag className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
+												Order
+											</Link>
+										</li>
+										<hr className="linesidebar" />
+										<li className="nav-links hover sideview">
+											<button className="logout_btn links" onClick={async() => {
+													var result = JSON.parse(localStorage.getItem("SingleUser"))
+													var db_val = {
+														Users_id: result[0].Users_id,
+														Status: 'Inactive'
+													}
+													await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/users/status`, db_val, {
+														headers: {
+															'x-auth-token': localStorage.getItem('token')
+														}
+													}).then(res => {
+														if(res.data === 'success') {
+															socket.emit("toast", {
+																cat: "Status",
+															});
+															var url = window.location.href.split('/')
+															if(url[url.length - 1] === 'profile' || url[url.length - 1] === 'Order') {
+																window.location.href = '/'
+															}
+														}
+													})
+													props.loginchange('true')
+												}}>
+													<BiLogOut className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
+													Logout
+											</button>
+										</li>
+									</>
+									: <li className="nav-links hover">
+										<Link to="/loginregister" className="links" onClick={() => searchchange(4)}>
+											<BiLogIn className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
+											Login
+										</Link>
+									</li>
 								}
-							</li>
 						</ul>
 						<div className="accountdetails p-2"
 							onMouseOver={() => document.getElementsByClassName('accountdetails')[0].style.display = 'inherit'}

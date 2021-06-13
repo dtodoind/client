@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import profile from '../../assets/profile_pic.svg'
 import axios from 'axios';
 import { connect } from 'react-redux'
+import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 import io from 'socket.io-client'
 
 const socket = io('https://dtodo-indumentaria-server.herokuapp.com')
@@ -17,6 +18,7 @@ function Login(props) {
 
     const [error, seterror] = useState()
     const [verify, setverify] = useState()
+    const [hide, setHide] = useState(true)
     // const [message, setMessage] = useState('Inactive');
     useEffect(() => {
         const inputs = document.querySelectorAll(".input");
@@ -45,6 +47,17 @@ function Login(props) {
         }
         
     }, [])
+
+    const passhide = () => {
+        if(!hide) {
+            document.getElementsByClassName('see')[0].style.display = 'inherit'
+            document.getElementsByClassName('hide')[0].style.display = 'none'
+        } else {
+            document.getElementsByClassName('see')[0].style.display = 'none'
+            document.getElementsByClassName('hide')[0].style.display = 'inherit'
+        }
+        setHide(!hide)
+    }
 
     return (
         <div className="login-content">
@@ -135,7 +148,11 @@ function Login(props) {
                                 </div>
                                 <div className="div">
                                     <h5>Password</h5>
-                                    <input type="password" className="input" name="password" values={values.password} onChange={handleChange} onBlur={handleBlur} />
+                                    <input type={hide ? "password" : "text"} className="input" name="password" values={values.password} onChange={handleChange} onBlur={handleBlur} />
+                                    <div className="eyefill">
+                                        <BsFillEyeFill className="see" fontSize="23px" style={{display: 'inherit', color: 'gray'}} onClick={passhide} />
+                                        <BsFillEyeSlashFill className="hide" fontSize="23px" style={{display: 'none', color: 'gray'}} onClick={passhide} />
+                                    </div>
                                 </div>
                             </div>
                             {errors.password && touched.password && (<div className="input-feedback">{errors.password}</div>)}

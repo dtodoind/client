@@ -52,6 +52,10 @@
 		
 		form{
 			width: 360px;
+
+			@include respond(tab-port-sm) {
+				width: 100%;
+			}
 		}
 	}
 }

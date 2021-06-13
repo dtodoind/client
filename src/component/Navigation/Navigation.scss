@@ -128,8 +128,37 @@
 							align-items: center;
 							padding: 0px 20px;
 						}
+
 					}
+
 					
+				}
+				.sideview {
+					display: none;
+
+					@include respond(tab-port) {
+						display: inherit;
+					}
+				}
+				
+				.hide {
+					display: inherit;
+
+					@include respond(tab-port) {
+						display: none;
+					}
+				}
+
+				.linesidebar {
+					display: none;
+					// width: 100%;
+					height: 1px;
+					margin: 0 10px;
+					background-color: rgba($color: gray, $alpha: 0.2);
+
+					@include respond(tab-port) {
+						display: inherit;
+					}
 				}
 
 				.hover:hover {
@@ -325,34 +354,38 @@
 					clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 				}
 
-				.logout_btn {
-					background-color: transparent;
-					width: 100%;
-					padding: 8px 5px;
-					text-align: left;
-					border: 0;
-					border-top: 1px solid rgba(0,0,0,0.1);
-
-					&:hover {
-						background-color: rgba(0,0,0,0.1);
-					}
+				
+			}
+			.logout_btn {
+				background-color: transparent;
+				width: 100%;
+				padding: 8px 5px;
+				text-align: left;
+				border: 0;
+				border-top: 1px solid rgba(0,0,0,0.1);
+				
+				&:hover {
+					background-color: rgba(0,0,0,0.1);
 				}
+				
+				@include respond(tab-port) {
+					color: white;
+				}
+			}
+		}
+		.btn_all {
+			color: black;
+			width: 100%;
+			padding: 8px 5px;
 
-				.btn_all {
-					color: black;
-					width: 100%;
-					padding: 8px 5px;
+			.btn_pro {
+				color: black;
+				padding: 8px 5px;
+				padding-right: 73%;
 
-					.btn_pro {
-						color: black;
-						padding: 8px 5px;
-						padding-right: 73%;
-
-						&:hover {
-							text-decoration: none;
-							background-color: rgba(0,0,0,0.1);
-						}
-					}
+				&:hover {
+					text-decoration: none;
+					background-color: rgba(0,0,0,0.1);
 				}
 			}
 		}
