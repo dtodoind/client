@@ -49,8 +49,10 @@ function Navigation(props) {
 			setScrollPos(document.body.getBoundingClientRect().top)
 			if(document.body.getBoundingClientRect().top > prevScroll.current) {
 				document.getElementsByClassName("navigation")[0].style.top = '0px'
+				document.getElementsByClassName("navbar-in")[0].style.top = '0px'
 			} else {
 				document.getElementsByClassName("navigation")[0].style.top = '-90px'
+				document.getElementsByClassName("navbar-in")[0].style.top = '90px'
 			}
 		}
 	})
