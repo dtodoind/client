@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { Link, useLocation } from 'react-router-dom';
 import "./Navigation.scss";
 import Searchbar from './Searchbar'
@@ -21,11 +21,14 @@ const socket = io('https://dtodo-indumentaria-server.herokuapp.com')
 function Navigation(props) {
 
 	const { insertProductAll, category } = props
+	const [scrollPos, setScrollPos] = useState(0)
+	const prevScroll = useRef()
+
     useEffect(() => {
 		axios.get('https://dtodo-indumentaria-server.herokuapp.com/product/all').then(res => insertProductAll(res.data))
 		axios.get('https://dtodo-indumentaria-server.herokuapp.com/category/all').then(res => category(res.data))
 	}, [insertProductAll, category])
-
+	
 	window.addEventListener('resize', () => {
 		var loc = window.location.pathname
 		if(loc !== '/loginregister') {
@@ -35,6 +38,19 @@ function Navigation(props) {
 				document.getElementsByClassName('navbar-in')[0].style.pointerEvents = 'none'
 			} else {
 				document.getElementsByClassName('navbar-in')[0].style.pointerEvents = 'inherit'
+			}
+		}
+	})
+
+	window.addEventListener('scroll', () => {
+		if(window.innerWidth <= 900) {
+			// console.log(document.getElementById('root').scrollTop)
+			prevScroll.current = scrollPos
+			setScrollPos(document.body.getBoundingClientRect().top)
+			if(document.body.getBoundingClientRect().top > prevScroll.current) {
+				document.getElementsByClassName("navigation")[0].style.top = '0px'
+			} else {
+				document.getElementsByClassName("navigation")[0].style.top = '-90px'
 			}
 		}
 	})
@@ -113,7 +129,7 @@ function Navigation(props) {
 	basket.map(item => subtotal = subtotal + item.totalprice);
 
 	return (
-		<div>
+		<div className="navigationshow">
 			<div className="container-fluid navigation d-flex">
 				<div className="nav">
 					<div className="d-flex justify-content-between align-items-center nav-side-display side-display">
