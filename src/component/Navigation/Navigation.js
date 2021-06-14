@@ -42,31 +42,20 @@ function Navigation(props) {
 			}
 		}
 	})
-
-	window.onscroll = () => {
+	
+	window.ontouchmove = () => {
 		if(window.innerWidth <= 900) {
-			// console.log(document.getElementById('root').scrollTop)
 			prevScroll.current = scrollPos
 			setScrollPos(document.body.getBoundingClientRect().top)
 			if(document.body.getBoundingClientRect().top > prevScroll.current) {
 				if(!scrollev){
 					document.getElementsByClassName("navigation")[0].style.top = '0px'
 					document.getElementsByClassName("navbar-in")[0].style.top = '0px'
-				
-				// 	document.getElementsByClassName('navbar-in')[0].style.backgroundColor = 'rgba(0,0,0,0.2)'
-				// 	document.getElementsByClassName('navbar-in')[0].style.pointerEvents = 'inherit'
-				// 	document.getElementsByClassName('nav-items')[0].style.left = '0'
-				// 	document.getElementsByClassName('nav-items')[0].style.transition = '0.0s'
 				}
 			} else {
 				if(!scrollev) {
 					document.getElementsByClassName("navigation")[0].style.top = '-90px'
 					document.getElementsByClassName("navbar-in")[0].style.top = '90px'
-				
-				// 	document.getElementsByClassName('navbar-in')[0].style.backgroundColor = 'transparent'
-				// 	document.getElementsByClassName('navbar-in')[0].style.pointerEvents = 'none'
-				// 	document.getElementsByClassName('nav-items')[0].style.left = '-450px'
-				// 	document.getElementsByClassName('nav-items')[0].style.transition = '0.5s'
 				}
 			}
 		}
@@ -166,7 +155,7 @@ function Navigation(props) {
 
 					<Searchbar/>
 
-					<div className="navbar-in">
+					<div className="navbar-in" onClick={() => sidebar(false)}>
 						<ul className='nav-items m-0 p-0 h-100'>
 							<li className="d-flex justify-content-end mx-2 my-2 side-display">
 								<button className="p-1 border-0 bg-transparent text-light side-display" onClick={() => sidebar(false)}>
