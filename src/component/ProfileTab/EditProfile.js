@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, Container, Row, Col } from "react-bootstrap";
 import "./EditProfile.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { ImCross } from "react-icons/im";
+import { ImCross, ImCamera } from "react-icons/im";
 
 function EditProfile({ User, showornot, EditUser, ...props }) {
 
@@ -27,8 +27,13 @@ function EditProfile({ User, showornot, EditUser, ...props }) {
 						<Col sm={4} className="col1-edit">
 							<div>
 								<div className="d-flex flex-column align-items-center text-center p-3 py-5">
-									<div className="img_outside">
-										<img src={User.Image} alt="img" id="profileEdit" className="img_inside" />
+									<div className="whole_image">
+										<label for="image" className="edit_btn">
+											<ImCamera />
+										</label>
+										<div className="img_outside">
+											<img src={User.Image} alt="img" id="profileEdit" className="img_inside" />
+										</div>
 									</div>
 									{/* <img
 										src={User.Image}
