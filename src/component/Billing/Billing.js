@@ -52,7 +52,7 @@ function Billing(props) {
                                 <div className="col-sm-4 p-1" key={i}>
                                     <div className="form-check">
                                         <label className="form-check-label" style={{width: "100%"}}>
-                                            <input type="radio" style={{marginLeft: '-25px', marginTop: '15px'}} value={"2"+i} className="form-check-input" name="address" onChange={props.address} />
+                                            <input type="radio" style={{marginLeft: '-25px', marginTop: '15px'}} value={i+2} className="form-check-input" name="address" onChange={props.address} />
                                             {
                                                 alladd.map((a, j) => 
                                                     <p key={j} style={{margin: '0'}}>
@@ -60,6 +60,7 @@ function Billing(props) {
                                                     </p>
                                                 )
                                             }
+                                            ZIP: {JSON.parse(SingleUser[0].Zip)[i]}
                                         </label>
                                     </div>
                                 </div>
@@ -73,7 +74,7 @@ function Billing(props) {
             
             <div className="form-check">
                 <label className="form-check-label" style={{width: "100%"}}>
-                    <input type="radio" style={{marginLeft: '-25px'}} value="3" className="form-check-input" name="address" onChange={props.address} defaultChecked />
+                    <input type="radio" style={{marginLeft: '-25px'}} value="payment" className="form-check-input" name="address" onChange={props.address} defaultChecked />
                     New Address
                     {/* <Formik
                         initialValues={{ fname: "", lname: "", street: "", town: "", zip: "", phone: "", email: "" }}

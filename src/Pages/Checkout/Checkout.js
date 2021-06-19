@@ -21,40 +21,77 @@ const stripePromise = loadStripe("pk_test_51HQ2BMGy8mg5bsSgU9YA0dPJKyBXpeYIer8sw
 
 function Checkout(props) {
 
-    const [radioval, setRadioval] = useState('3')
+    const [radioval, setRadioval] = useState('payment')
     const [addresserr, setaddresserr] = useState('')
     const [count, setcount] = useState(0)
     const { basket, Offer, alloffer } = props
     const SingleUser = JSON.parse(localStorage.getItem('SingleUser'))
+    const [delivery_charges, setDeliverycharges] = useState(0)
+    const [lop, setlop] = useState(true)
+
+    const { Delivery, setdelivery } = props
+
+    const deliv = (val) => {
+        for(var i=0; i<Delivery.length; i++) {
+            if(Delivery[i].Region === parseInt(val)) {
+                setDeliverycharges(Delivery[i].Charges)
+                return
+            }
+        }
+    }
 
     var subtotal = 0
     basket.map(item => subtotal = subtotal + item.totalprice);
     
-    var delivery = 0
-    if(basket.length !== 0) {
-        delivery = 5
-    }
+    // var delivery = delivery_charges
+    // if(basket.length !== 0) {
+    //     if(Delivery[radioval-2] !== undefined) {
+    //         delivery = Delivery[radioval-2].Charges
+    //     } else {
+    //         delivery = 0
+    //     }
+    // }
     useEffect(() => {
         if(Offer.length === 0) {
             axios.get('https://dtodo-indumentaria-server.herokuapp.com/offer/all').then(res => alloffer(res.data))
         }
-    }, [Offer, alloffer])
+        if(Delivery.length === 0) {
+            axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
+                if(Delivery.length !== 0) {
+                    if(Delivery[Delivery.length - 1].Delivery_id !== res.data[res.data.length - 1].Delivery_id) {
+                        setdelivery(res.data)
+                    }
+                    setlop(true)
+                } else {
+                    if(lop) {
+                        setdelivery(res.data)
+                        setlop(false)
+                    }
+                }
+            })
+        }
+    }, [Offer, alloffer, Delivery, lop, setdelivery, radioval])
     
     var discount = 0
     var final_subtotal = 0
     if(Offer.length !== 0) {
         if(Offer[0].Price <= subtotal) {
             discount = Offer[0].Discount
-            final_subtotal = subtotal - (discount*100/subtotal)
+            final_subtotal = subtotal - (discount*subtotal/100)
         } else {
             final_subtotal = subtotal
         }
     }
 
-    var total = final_subtotal + delivery
+    var total = final_subtotal
+
+    var after_total = final_subtotal + delivery_charges
 
     const address = (e) => {
         setRadioval(e.target.value)
+        if(Delivery[e.target.value-2] !== undefined) {
+            setDeliverycharges(Delivery[e.target.value-2].Charges)
+        }
         setaddresserr('')
     }
 
@@ -63,7 +100,7 @@ function Checkout(props) {
     const place_order = async (billing_details) => {
         var rad = radioval
         if(billing_details.email !== '') {
-            rad = '3'
+            rad = 'payment'
         }
         var subtotal = 0
         var discount = 0
@@ -111,19 +148,7 @@ function Checkout(props) {
                 Users_id: SingleUser[0].Users_id
             }
             setaddresserr('')
-        } else if(rad === "2") {
-            order_val = {
-                Status: 'Pending',
-                Discount: discount,
-                Address: SingleUser[0].Address,
-                Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
-                ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
-                Email: SingleUser[0].Email,
-                Phone: SingleUser[0].Phoneno,
-                Users_id: SingleUser[0].Users_id
-            }
-            setaddresserr('')
-        } else if(rad === "3") {
+        } else if(rad === "payment") {
             var ad = billing_details.address.line1 + ', ' + billing_details.address.city + ', ' + billing_details.address.state
             var address = []
             address = ad.split(/, /g)
@@ -144,8 +169,8 @@ function Checkout(props) {
             //     setaddresserr("Please enter details for Billing")
             // }
         } else {
-            var last = rad.split('')[1]
-            var addr = JSON.parse(SingleUser[0].Address)[parseInt(last)]
+            // var last = rad.split('')[1]
+            var addr = JSON.parse(SingleUser[0].Address)[parseInt(rad-2)]
             order_val = {
                 Status: 'Pending',
                 Discount: discount,
@@ -158,6 +183,7 @@ function Checkout(props) {
             }
         }
         if(order_val !== undefined) {
+            console.log('its here')
             setcount(count+1)
             socket.emit('toast', {
                 id: 'S'+count,
@@ -214,7 +240,7 @@ function Checkout(props) {
                             : <>
                                 <Billing address={address} />
                                     <Elements stripe={stripePromise}>
-                                    <Payment place_order={place_order} radioval={radioval} price={total.toFixed(2)} addresserr={addresserr} />
+                                    <Payment place_order={place_order} radioval={radioval} price={after_total.toFixed(2)} deliv={deliv} addresserr={addresserr} />
                                 </Elements>
                             </>
                         }
@@ -222,7 +248,7 @@ function Checkout(props) {
                     <div className="col-lg-4">
                         <div className="row">
                             <div className="col">
-                                <CartTotal cart='checkout' radioval={radioval} place_order={place_order} />
+                                <CartTotal radioval={radioval} delivery_charges={delivery_charges} subtotal={subtotal} total={total} after_total={after_total} place_order={place_order} />
                             </div>
                         </div>
                         <div className="row">
@@ -240,7 +266,8 @@ const mapStateToProps = (state) => {
     return {
         basket: state.basket,
         SingleUser: state.SingleUser,
-        Offer: state.Offer
+        Offer: state.Offer,
+        Delivery: state.Delivery
     }
 }
 
@@ -255,6 +282,12 @@ const mapDispatchToProps = (dispatch) => {
         alloffer: (val) => { 
             dispatch({
                 type: 'OFFERS',
+                item: val
+            })
+        },
+        setdelivery: (val) => { 
+            dispatch({
+                type: 'DELIVERY',
                 item: val
             })
         }

@@ -151,7 +151,7 @@ function AccountOrders(props) {
                                     <td>{o.Delivery_date.substr(0,10)}</td>
                                     <td>{o.OrderItems.length}</td>
                                     <td>{o.ClientName}</td>
-                                    <td>{JSON.parse(o.Address).join(', ')}</td>
+                                    <td>{typeof JSON.parse(o.Address)[0] === "object" ? JSON.parse(o.Address)[0].join(', ') : JSON.parse(o.Address).join(', ')}</td>
                                     <td><div style={{backgroundColor: o.Status === 'Delivered' ? 'green' : o.Status === 'Pending' ? '#F77F00' : o.Status === 'Shipping' ? '#5BC0BE' : o.Status === 'Pickup' ? '#281a91' : '#E63946', fontWeight: '500', color: 'white'}} className="p-2 rounded">{o.Status}</div></td>
                                 </tr>,
                                 <tr key={'inner'+i} className="hide-table-padding">

@@ -28,7 +28,7 @@ function EditProfile({ User, showornot, EditUser, ...props }) {
 							<div>
 								<div className="d-flex flex-column align-items-center text-center p-3 py-5">
 									<div className="whole_image">
-										<label for="image" className="edit_btn">
+										<label htmlFor="image" className="edit_btn">
 											<ImCamera />
 										</label>
 										<div className="img_outside">

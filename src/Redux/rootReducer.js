@@ -23,7 +23,8 @@ const initialState = {
     TotalViews: [[2, 2, 2, 3,4, 4, 5, 5, 5, 5,5, 2, 3,]],
     ProductsSold: [[6, 9, 2, 10, 8, 1, 4, 5, 5, 5,5, 2, 3,]],
     TotalEarnings:[ [6, 9, 2, 10, 8, 1, 4, 5, 5, 5,5, 2, 3,]],
-    Message: []
+    Message: [],
+    Delivery: []
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -270,6 +271,20 @@ const rootReducer = (state = initialState, action) => {
                 PickupD: action.item.PickupD
             };
 
+        case 'DELIVERY':
+            if(Array.isArray(action.item)) {
+                return {
+                    ...state,
+                    Delivery: action.item
+                }
+            }
+            return {
+                ...state,
+                Delivery: [
+                    ...state.Delivery,
+                    action.item
+                ]
+            };
         default:
             return state
     }

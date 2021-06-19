@@ -9,14 +9,19 @@ import { connect } from 'react-redux'
 import axios from 'axios';
 
 function CartTotal(props) {
-    const { basket, Offer, alloffer } = props
-    var subtotal = 0
-    basket.map(item => subtotal = subtotal + item.totalprice);
+    const { Offer, alloffer, delivery_charges, total, subtotal, after_total } = props
+    // var subtotal = 0
+    // basket.map(item => subtotal = subtotal + item.totalprice);
     
-    var delivery = 0
-    if(basket.length !== 0) {
-        delivery = 5
-    }
+    // var delivery = delivery_charges
+    // if(basket.length !== 0) {
+    //     if(Delivery[radioval-2] !== undefined) {
+    //         delivery = Delivery[radioval-2].Charges
+    //     } else {
+    //     }
+    // } else {
+    //     console.log('its here')
+    // }
     useEffect(() => {
         if(Offer.length === 0) {
             axios.get('https://dtodo-indumentaria-server.herokuapp.com/offer/all').then(res => alloffer(res.data))
@@ -24,17 +29,17 @@ function CartTotal(props) {
     }, [Offer, alloffer])
     
     var discount = 0
-    var final_subtotal = 0
+    // var final_subtotal = 0
     if(Offer.length !== 0) {
         if(Offer[0].Price <= subtotal) {
             discount = Offer[0].Discount
-            final_subtotal = subtotal - (discount*100/subtotal)
+            // final_subtotal = subtotal - (discount*100/subtotal)
         } else {
-            final_subtotal = subtotal
+            // final_subtotal = subtotal
         }
     }
 
-    var total = final_subtotal + delivery
+    // var total = final_subtotal + delivery_charges
     return (
         <div className="container-fluid px-0 carttotal">
             <div className="cart_inner">
@@ -55,15 +60,6 @@ function CartTotal(props) {
                     </div>
                     <div className="row py-2 px-3">
                         <div className="col">
-                            <p>Delivery</p>
-                        </div>
-                        <div className="col">
-                            <FaDollarSign/>
-                            {delivery}
-                        </div>
-                    </div>
-                    <div className="row py-2 px-3">
-                        <div className="col">
                             <p>Discount</p>
                         </div>
                         <div className="col">
@@ -73,7 +69,7 @@ function CartTotal(props) {
                     </div>
                     <div className="row py-2 px-3" style={{borderTop: '1px solid rgba(0,0,0,.2)'}}>
                         <div className="col">
-                            <p>TOTAL</p>
+                            <p></p>
                         </div>
                         <div className="col">
                             <div style={{fontWeight: '500'}}>
@@ -82,10 +78,36 @@ function CartTotal(props) {
                             </div>
                         </div>
                     </div>
+                    {
+                        after_total !== undefined
+                        ? <>
+                            <div className="row py-2 px-3">
+                                <div className="col">
+                                    <p>Delivery</p>
+                                </div>
+                                <div className="col">
+                                    <FaDollarSign/>
+                                    {delivery_charges}
+                                </div>
+                            </div>
+                            <div className="row py-2 px-3" style={{borderTop: '1px solid rgba(0,0,0,.2)'}}>
+                                <div className="col">
+                                    <p>TOTAL</p>
+                                </div>
+                                <div className="col">
+                                    <div style={{fontWeight: '500'}}>
+                                        <FaDollarSign/>
+                                        {after_total.toFixed(2)}
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                        : null
+                    }
                     <div className="row py-2 px-3">
                         <div className="col">
                             {
-                                props.cart === 'checkout'
+                                props.cart !== 'checkout'
                                 ? null
                                 // ? <StripeCheckoutButton price={total.toFixed(0)} radioval={radioval} place_order={place_order} />
                                 : <Link to="/checkout" className="checkout_btn">Checkout</Link>
@@ -101,7 +123,8 @@ function CartTotal(props) {
 const mapStateToProps = (state) => {
     return {
         basket: state.basket,
-        Offer: state.Offer
+        Offer: state.Offer,
+        Delivery: state.Delivery
     }
 }
 

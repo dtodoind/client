@@ -1,34 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Formik } from 'formik'
 import * as Yup from "yup";
 
 import './AddAddress.scss'
+import { connect } from 'react-redux';
 
-function AddAddress({ EditUser, addaddress }) {
+function AddAddress({ EditUser, addaddress, ...props }) {
+
+	const [ziperror, setZiperror] = useState("");
+    
+    const { Delivery } = props
+    
     return (
         <div className="addAddress">
             <button className="address" onClick={addaddress}>Add Address</button>
             <div className="drop_contain">
                 <Formik
-                    initialValues={{ Address: "" }}
+                    initialValues={{ Address: "", zip: "" }}
                     onSubmit={(values, { setSubmitting, resetForm }) => {
                     setTimeout(async () => {
-                        EditUser(values)
-                        // var db_val = {
-                        //     Name: values.ProductName,
-                        //     Description: values.des,
-                        //     Category_id: parseInt(values.cate),
-                        //     Image: JSON.stringify([]),
-                        //     Color: JSON.stringify([]),
-                        //     Size: JSON.stringify([]),
-                        //     Stock: JSON.stringify([]),
-                        //     Price: JSON.stringify([])
-                        // }
-                        // await axios.post('https://dtodo-indumentaria-server.herokuapp.com/product/new', db_val)
-    
-                        document.getElementsByName('Address')[0].focus()
-                        resetForm({ values: '' })
+                        if(ziperror === "") {
+                            EditUser(values)
+                            // var db_val = {
+                            //     Name: values.ProductName,
+                            //     Description: values.des,
+                            //     Category_id: parseInt(values.cate),
+                            //     Image: JSON.stringify([]),
+                            //     Color: JSON.stringify([]),
+                            //     Size: JSON.stringify([]),
+                            //     Stock: JSON.stringify([]),
+                            //     Price: JSON.stringify([])
+                            // }
+                            // await axios.post('https://dtodo-indumentaria-server.herokuapp.com/product/new', db_val)
+        
+                            document.getElementsByName('Address')[0].focus()
+                            resetForm({ values: '' })
+                        }
                         
                         setSubmitting(false);
                     }, 500);
@@ -39,6 +47,9 @@ function AddAddress({ EditUser, addaddress }) {
                         //     .required("Required"),
                         Address: Yup.string()
                             .required("Required"),
+                        zip: Yup.string()
+                            .required("Required")
+                            .matches(/(?=.*[0-9])/, "Zip must contain a number."),
                     })}
                 >
                     {
@@ -68,6 +79,40 @@ function AddAddress({ EditUser, addaddress }) {
                                         {errors.Address && touched.Address && (<div className="input-feedback">{errors.Address}</div>)}
                                     </div>
                                 </div>
+                                <div className="input-div one">
+                                    <div className="div">
+                                        <h5>ZIP Code</h5>
+                                        <input
+                                            type="text"
+                                            className="input"
+                                            name="zip"
+                                            maxLength="6"
+                                            value={values.zip}
+                                            onChange={(e) => {
+                                                handleChange(e)
+                                                if(e.target.value.length === 6) {
+                                                    for(var i=0; i<Delivery.length; i++) {
+                                                        if(Delivery[i].Region === parseInt(e.target.value)) {
+                                                            setZiperror("")
+                                                            return
+                                                        } else {
+                                                            setZiperror("We are not Delivering in this Region")
+                                                        }
+                                                    }
+                                                } else {
+                                                    setZiperror("")
+                                                }
+                                            }}
+                                            onBlur={handleBlur}
+                                        />
+                                    </div>
+                                </div>
+                                {ziperror === "" ? null : (
+                                    <div className="input-feedback">{ziperror}</div>
+                                )}
+                                {errors.zip && touched.zip && (
+                                    <div className="input-feedback">{errors.zip}</div>
+                                )}
                                 
                                 <div className="text-right">
                                     <input type="submit" className="btn_address" value="Submit" disabled={isSubmitting} />
@@ -82,4 +127,10 @@ function AddAddress({ EditUser, addaddress }) {
     )
 }
 
-export default AddAddress
+const mapStateToProps = (state) => {
+    return {
+        Delivery: state.Delivery
+    }
+}
+
+export default connect(mapStateToProps)(AddAddress)

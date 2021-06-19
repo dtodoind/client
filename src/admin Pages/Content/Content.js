@@ -6,6 +6,7 @@ import ServicesAdd from '../../admin component/ServicesAdd/ServicesAdd'
 import OffersAdd from '../../admin component/OffersAdd/OffersAdd'
 import TopImg from '../../admin component/TopImg/TopImg'
 import CategoryAdd from '../../admin component/CategoryAdd/CategoryAdd'
+import DeliveryCharges from '../../admin component/DeliveryCharges/DeliveryCharges'
 import { connect } from 'react-redux'
 
 import './Content.scss'
@@ -248,6 +249,20 @@ function Content(props) {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="card-header" id="headingFive">
+                            <h5 className="mb-0">
+                                <button className="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseFive">
+                                    Delivery Charges
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseSeven" className="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+                            <div className="card-body">
+                                <DeliveryCharges />
                             </div>
                         </div>
                     </div>

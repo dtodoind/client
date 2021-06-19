@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { connect } from 'react-redux'
+import axios from 'axios'
 
 import './Login_Register.scss'
 import Login from '../../component/Login/Login'
@@ -8,9 +10,28 @@ import Register from '../../component/Register/Register'
 import wave from '../../assets/wave.png'
 import grocery from '../../assets/online_shopping.svg'
 
-function Login_Register() {
+function Login_Register(props) {
 
     const [showhide, setShowHide] = useState(true)
+    const [lop, setlop] = useState(true)
+
+    const { Delivery, setdelivery } = props
+
+    useEffect(() => {
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
+            if(Delivery.length !== 0) {
+                if(Delivery[Delivery.length - 1].Delivery_id !== res.data[res.data.length - 1].Delivery_id) {
+                    setdelivery(res.data)
+                }
+                setlop(true)
+            } else {
+                if(lop) {
+                    setdelivery(res.data)
+                    setlop(false)
+                }
+            }
+        })
+    }, [Delivery, lop, setdelivery])
 
     const handleshow = (arg) => {
         // e.preventDefault();
@@ -52,4 +73,21 @@ function Login_Register() {
     )
 }
 
-export default Login_Register
+const mapStateToProps = (state) => {
+    return {
+        Delivery: state.Delivery
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        setdelivery: (val) => { 
+            dispatch({
+                type: 'DELIVERY',
+                item: val
+            })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login_Register)

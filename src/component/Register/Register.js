@@ -16,8 +16,11 @@ const socket = io("https://dtodo-indumentaria-server.herokuapp.com");
 function Register({ show, ...props }) {
 	const [emailerror, setEmailerror] = useState("");
 	const [usererror, setUsererror] = useState("");
+	const [ziperror, setZiperror] = useState("");
 	const [count, setcount] = useState(0);
 	const [hide, setHide] = useState(true)
+
+	const { Delivery } = props
 
 	useEffect(() => {
 		const inputs = document.querySelectorAll(".input");
@@ -83,73 +86,78 @@ function Register({ show, ...props }) {
 					address: "",
 					gender: "",
 					phno: 0,
+					zip: 0,
 					image: null,
 				}}
 				onSubmit={(values, { setSubmitting }) => {
 					setTimeout(async () => {
-						const formdata = new FormData();
-						formdata.append("FirstName", values.fname);
-						formdata.append("LastName", values.lname);
-						formdata.append("Username", values.uname.toLowerCase());
-						formdata.append("Email", values.email.toLowerCase());
-						formdata.append("Password", values.password);
-						formdata.append("Address", [values.address]);
-						formdata.append("Gender", values.gender);
-						formdata.append("Phoneno", parseInt(values.phno));
-						formdata.append("Image", document.getElementById("image").files[0]);
-						formdata.append("Status", "Not Activated");
+						if(ziperror === "") {
 
-						setcount(count + 1);
-						socket.emit("toast", {
-							id: "R" + count,
-							name: values.fname + " " + values.lname,
-							message:
-								values.fname +
-								" " +
-								values.lname +
-								"just Subscribe on " +
-								new Date(),
-							cat: "Subscriber",
-						});
-
-						var notify = {
-							FullName: values.fname + " " + values.lname,
-							Message:
-								values.fname +
-								" " +
-								values.lname +
-								"just Subscribe on " +
-								new Date(),
-							Notify_cate: "Subscriber",
-						};
-						await axios
-							.post("https://dtodo-indumentaria-server.herokuapp.com/notification/new", notify)
-							.then((res) =>
-								props.insertNotification({
-									...notify,
-									Notification_id: res.data.Notification_id,
-								})
-							);
-
-						await axios
-							.post("https://dtodo-indumentaria-server.herokuapp.com/users/new", formdata, {
-								header: { "Content-Type": "multipart/form-data" },
-							})
-							.then((res) => {
-								if (res.data.Users_id !== undefined) {
-									localStorage.setItem('verify', 'true')
-									window.location.href = '/loginregister'
-								} else if (res.data === "Email is already registered") {
-								
-									setEmailerror(res.data);
-								} else if (res.data === "Username is already registered") {
-									setUsererror(res.data);
-								}
-		 
+							const formdata = new FormData();
+							formdata.append("FirstName", values.fname);
+							formdata.append("LastName", values.lname);
+							formdata.append("Username", values.uname.toLowerCase());
+							formdata.append("Email", values.email.toLowerCase());
+							formdata.append("Password", values.password);
+							formdata.append("Address", [values.address]);
+							formdata.append("Gender", values.gender);
+							formdata.append("Phoneno", parseInt(values.phno));
+							formdata.append("Image", document.getElementById("image").files[0]);
+							formdata.append("Zip", [values.zip]);
+							formdata.append("Status", "Not Activated");
+	
+							setcount(count + 1);
+							socket.emit("toast", {
+								id: "R" + count,
+								name: values.fname + " " + values.lname,
+								message:
+									values.fname +
+									" " +
+									values.lname +
+									" just Subscribe on " +
+									new Date(),
+								cat: "Subscriber",
 							});
-
-
-
+	
+							var notify = {
+								FullName: values.fname + " " + values.lname,
+								Message:
+									values.fname +
+									" " +
+									values.lname +
+									" just Subscribe on " +
+									new Date(),
+								Notify_cate: "Subscriber",
+							};
+							await axios
+								.post("https://dtodo-indumentaria-server.herokuapp.com/notification/new", notify)
+								.then((res) =>
+									props.insertNotification({
+										...notify,
+										Notification_id: res.data.Notification_id,
+									})
+								);
+	
+							await axios
+								.post("https://dtodo-indumentaria-server.herokuapp.com/users/new", formdata, {
+									header: { "Content-Type": "multipart/form-data" },
+								})
+								.then((res) => {
+									if (res.data.Users_id !== undefined) {
+										localStorage.setItem('verify', 'true')
+										window.location.href = '/loginregister'
+									} else if (res.data === "Email is already registered") {
+									
+										setEmailerror(res.data);
+									} else if (res.data === "Username is already registered") {
+										setUsererror(res.data);
+									}
+			 
+								});
+	
+	
+	
+						}
 						setSubmitting(false);
 					}, 500);
 				}}
@@ -171,8 +179,12 @@ function Register({ show, ...props }) {
 					gender: Yup.string().required("Required"),
 					phno: Yup.string()
 						.min(10, "Atleast 10 digits")
+						.max(10, "Only 10 digits")
 						.required("Required"),
 					image: Yup.mixed().required("Required"),
+					zip: Yup.string()
+						.required("Required")
+						.matches(/(?=.*[0-9])/, "Zip must contain a number."),
 				})}
 			>
 				{(props) => {
@@ -338,6 +350,40 @@ function Register({ show, ...props }) {
 							{errors.address && touched.address && (
 								<div className="input-feedback">{errors.address}</div>
 							)}
+							<div className="input-div one">
+								<div className="div">
+									<h5>ZIP Code</h5>
+									<input
+										type="text"
+										className="input"
+										name="zip"
+										maxLength="6"
+										values={values.zip}
+										onChange={(e) => {
+											handleChange(e)
+											if(e.target.value.length === 6) {
+												for(var i=0; i<Delivery.length; i++) {
+													if(Delivery[i].Region === parseInt(e.target.value)) {
+														setZiperror("")
+														return
+													} else {
+														setZiperror("We are not Delivering in this Region")
+													}
+												}
+											} else {
+												setZiperror("")
+											}
+										}}
+										onBlur={handleBlur}
+									/>
+								</div>
+							</div>
+							{ziperror === "" ? null : (
+								<div className="input-feedback">{ziperror}</div>
+							)}
+							{errors.zip && touched.zip && (
+								<div className="input-feedback">{errors.zip}</div>
+							)}
 							<div className="input-radio one">
 								<div className="div">
 									<div className="container-fluid">
@@ -416,15 +462,10 @@ function Register({ show, ...props }) {
 	);
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		insertNotification: (val) => {
-			dispatch({
-				type: "NOTIFICATION",
-				item: val,
-			});
-		},
-	};
-};
+const mapStateToProps = (state) => {
+    return {
+        Delivery: state.Delivery
+    }
+}
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(mapStateToProps)(Register);

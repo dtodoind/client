@@ -7,11 +7,12 @@ import AddAddress from '../AddAddress/AddAddress'
 import axios from 'axios'
 
 function Profile(props) {
-	const { savedUser, settinguser } = props;
+	const { savedUser, settinguser, Delivery, setdelivery } = props;
 	const [lgShow, setLgShow] = useState(false);
 	const [SingleUser, setSingleUser] = useState(JSON.parse(localStorage.getItem("SingleUser")));
 	const [User, setUser] = useState(savedUser);
 	const [addshow, setAddShow] = useState(true)
+    const [lop, setlop] = useState(true)
 	
 	function onChange(e) {
 
@@ -36,7 +37,20 @@ function Profile(props) {
 
 	useEffect(() => {
 		settinguser(SingleUser)
-	}, [settinguser, SingleUser])
+		axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
+            if(Delivery.length !== 0) {
+                if(Delivery[Delivery.length - 1].Delivery_id !== res.data[res.data.length - 1].Delivery_id) {
+                    setdelivery(res.data)
+                }
+                setlop(true)
+            } else {
+                if(lop) {
+                    setdelivery(res.data)
+                    setlop(false)
+                }
+            }
+        })
+	}, [settinguser, SingleUser, Delivery, lop, setdelivery])
 	
 	function edit() {
 		// setUser({
@@ -66,7 +80,9 @@ function Profile(props) {
 
 		if(val !== undefined) {
 			var address = JSON.parse(SingleUser[0].Address)
+			var Zip = JSON.parse(SingleUser[0].Zip)
 			address.push(val.Address.split(/, /g))
+			Zip.push(val.zip)
 
 			var formdata = new FormData()
 			formdata.append('Address', JSON.stringify(address))
@@ -77,6 +93,7 @@ function Profile(props) {
 			formdata.append('LastName', SingleUser[0].LastName)
 			formdata.append('Phoneno', SingleUser[0].Phoneno)
 			formdata.append('Users_id', SingleUser[0].Users_id) 
+			formdata.append('Zip', JSON.stringify(Zip)) 
 			formdata.append('Username', SingleUser[0].Username.toLowerCase())
 
 			await axios.put('https://dtodo-indumentaria-server.herokuapp.com/users/detailsupdate', formdata, {
@@ -88,10 +105,12 @@ function Profile(props) {
 			localStorage.setItem('SingleUser', JSON.stringify([{
 				...SingleUser[0],
 				Address: JSON.stringify(address),
+				Zip: JSON.stringify(Zip),
 			}]))
 			setSingleUser([{
 				...SingleUser[0],
 				Address: JSON.stringify(address),
+				Zip: JSON.stringify(Zip),
 			}])
 			// setUser(JSON.parse(localStorage.getItem('SingleUser')))
 			// console.log(JSON.parse(localStorage.getItem('SingleUser')))
@@ -106,7 +125,8 @@ function Profile(props) {
 			formdata2.append('Image', document.getElementById("image").files.length === 0 ? User.Image : document.getElementById("image").files[0])
 			formdata2.append('LastName', User.LastName)
 			formdata2.append('Phoneno', User.Phoneno)
-			formdata2.append('Users_id', User.Users_id) 
+			formdata2.append('Users_id', User.Users_id)
+			formdata2.append('Zip', User.Zip) 
 			formdata2.append('Username', User.Username.toLowerCase())
 			
 			await axios.put('https://dtodo-indumentaria-server.herokuapp.com/users/detailsupdate', formdata2, {
@@ -128,19 +148,22 @@ function Profile(props) {
 
 	const removeAddress = async (val) => {
 		var address = JSON.parse(SingleUser[0].Address)
+		var Zip = JSON.parse(SingleUser[0].Zip)
 		address.splice(val, 1)
+		Zip.splice(val, 1)
 
 		var details = {
 			Address: JSON.stringify(address),
-			Email: "sbhavesh760@gmail.com",
-			FirstName: "Chetan",
-			Gender: "Male",
+			Email: SingleUser[0].Email,
+			FirstName: SingleUser[0].FirstName,
+			Gender: SingleUser[0].Gender,
 			// Image: "https://dtodo-indumentaria-server.herokuapp.com/57c4a76e1040e_thumb900.jpg",
-			LastName: "Solanki",
-			Phoneno: "9909027254",
+			LastName: SingleUser[0].LastName,
+			Phoneno: SingleUser[0].Phoneno,
 			// Status: "Inactive",
 			Users_id: SingleUser[0].Users_id, 
-			Username: "chetan007",
+			Zip: JSON.stringify(Zip), 
+			Username: SingleUser[0].Username,
 		}
 
 		await axios.put('https://dtodo-indumentaria-server.herokuapp.com/users/detailsupdate', details, {
@@ -152,6 +175,7 @@ function Profile(props) {
 		localStorage.setItem('SingleUser', JSON.stringify([{
 			...SingleUser[0],
 			Address: JSON.stringify(address),
+			Zip: JSON.stringify(Zip)
 		}]))
 		setSingleUser(JSON.parse(localStorage.getItem('SingleUser')))
 	}
@@ -281,6 +305,7 @@ function Profile(props) {
 																</p>
 															))
 														}
+														ZIP: {JSON.parse(SingleUser[0].Zip)[i]}
 														<div className="btn_adj">
 															<button className="btn-remove" onClick={() => removeAddress(i)}>Remove</button>
 														</div>
@@ -325,6 +350,7 @@ function Profile(props) {
 const mapStateToProps = (state) => {
 	return {
 		user: state.user,
+		Delivery: state.Delivery
 	};
 };
 
@@ -336,6 +362,12 @@ const mapDispatchToProps = (dispatch) => {
 				item: val,
 			});
 		},
+		setdelivery: (val) => { 
+            dispatch({
+                type: 'DELIVERY',
+                item: val
+            })
+        }
 	};
 };
 

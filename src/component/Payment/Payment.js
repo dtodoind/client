@@ -4,6 +4,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from 'axios'
 
 import './Payment.scss'
+import { connect } from 'react-redux';
 
 const CARD_OPTIONS = {
 	iconStyle: "solid",
@@ -93,16 +94,22 @@ const ErrorMessage = ({ children }) => (
 	</div>
 );
 
-function Payment({place_order, price, radioval, addresserr }) {
+function Payment({place_order, price, radioval, deliv, addresserr, ...props }) {
+
+	const { Delivery } = props
+    const SingleUser = JSON.parse(localStorage.getItem('SingleUser'))
+
 	const stripe = useStripe();
 	const elements = useElements();
 	const [enterval, setEnterVal] = useState(true);
 	const [isProcessing, setProcessingTo] = useState(false);
-  	const [checkoutError, setCheckoutError] = useState();
+	const [errrozip, setErrorzip] = useState(false)
+	const [checkoutError, setCheckoutError] = useState();
+	const [ziperror, setZiperror] = useState("");
 	const [billingDetails, setBillingDetails] = useState({
-		email: "",
+		email: SingleUser[0].Email,
 		phone: "",
-		name: "",
+		name: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
 		address: {
 			city: "",
 			line1: "",
@@ -146,11 +153,11 @@ function Payment({place_order, price, radioval, addresserr }) {
 
 		try {
 			const {data: clientSecret} = await axios.post("https://dtodo-indumentaria-server.herokuapp.com/order/payment", {
-				amount: price * 100
+				amount: parseInt(price) * 100
 			});
 		
 			var payment_details
-			if(radioval === '3') {
+			if(radioval === 'payment') {
 				payment_details = {
 					type: "card",
 					card: elements.getElement(CardElement),
@@ -211,9 +218,9 @@ function Payment({place_order, price, radioval, addresserr }) {
 			<div className="title">Payment Method</div>
 			<form className="Form" onSubmit={handleSubmit}>
 				{
-					radioval === undefined || radioval === '3'
+					radioval === undefined || radioval === 'payment'
 					? <fieldset className="FormGroup">
-						<Field
+						{/* <Field
 							label="Name"
 							id="name"
 							type="text"
@@ -236,7 +243,7 @@ function Payment({place_order, price, radioval, addresserr }) {
 							onChange={(e) => {
 								setBillingDetails({ ...billingDetails, email: e.target.value });
 							}}
-						/>
+						/> */}
 						<Field
 							label="Phone"
 							id="phone"
@@ -316,9 +323,27 @@ function Payment({place_order, price, radioval, addresserr }) {
 											postal_code: e.target.value
 										}
 									});
+									if(e.target.value.length === 6) {
+										for(var i=0; i<Delivery.length; i++) {
+											if(Delivery[i].Region === parseInt(e.target.value)) {
+												setZiperror("")
+												deliv(e.target.value)
+												setErrorzip(false)
+												return
+											} else {
+												setZiperror("We are not Delivering in this Region")
+												setErrorzip(true)
+											}
+										}
+									} else {
+										setZiperror("")
+									}
 								}
 							}}
 						/>
+						{ziperror === "" ? null : (
+							<div className="input-feedback">{ziperror}</div>
+						)}
 					</fieldset>
 					: null
 				}
@@ -332,7 +357,7 @@ function Payment({place_order, price, radioval, addresserr }) {
 					/>
 				</fieldset>
 				{checkoutError && <ErrorMessage>{checkoutError}</ErrorMessage>}
-				<SubmitButton disabled={isProcessing || !stripe}>
+				<SubmitButton disabled={errrozip || isProcessing || !stripe}>
 					{isProcessing ? "Processing..." : `Pay $${price}`}
 				</SubmitButton>
 				<h3 style={{textAlign: 'center', marginTop: '40px', fontSize: '24px', color: 'red'}}>
@@ -349,4 +374,10 @@ function Payment({place_order, price, radioval, addresserr }) {
 	)
 }
 
-export default Payment
+const mapStateToProps = (state) => {
+    return {
+        Delivery: state.Delivery
+    }
+}
+
+export default connect(mapStateToProps)(Payment)
