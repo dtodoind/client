@@ -97,11 +97,11 @@ function Checkout(props) {
 
     // address from stripe payment success
 
-    const place_order = async (billing_details) => {
+    const place_order = async (billing_details, payment_id) => {
         var rad = radioval
-        if(billing_details.email !== '') {
-            rad = 'payment'
-        }
+        // if(billing_details.email !== '') {
+        //     rad = 'payment'
+        // }
         var subtotal = 0
         var discount = 0
         basket.map(item => subtotal = subtotal + item.totalprice);
@@ -154,6 +154,7 @@ function Checkout(props) {
             address = ad.split(/, /g)
             order_val = {
                 Status: 'Pending',
+                PaymentSuccess: payment_id,
                 Discount: discount,
                 Address: JSON.stringify(address),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
@@ -173,6 +174,7 @@ function Checkout(props) {
             var addr = JSON.parse(SingleUser[0].Address)[parseInt(rad-2)]
             order_val = {
                 Status: 'Pending',
+                PaymentSuccess: payment_id,
                 Discount: discount,
                 Address: JSON.stringify(addr),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
@@ -183,7 +185,6 @@ function Checkout(props) {
             }
         }
         if(order_val !== undefined) {
-            console.log('its here')
             setcount(count+1)
             socket.emit('toast', {
                 id: 'S'+count,
@@ -218,7 +219,7 @@ function Checkout(props) {
                         Product_id: item.Product_id
                     })
                     localStorage.removeItem('basket')
-                    return window.location.replace('/')
+                    return window.location.replace('/account/Order')
                 })
             )
         }
@@ -240,7 +241,7 @@ function Checkout(props) {
                             : <>
                                 <Billing address={address} />
                                     <Elements stripe={stripePromise}>
-                                    <Payment place_order={place_order} radioval={radioval} price={after_total.toFixed(2)} deliv={deliv} addresserr={addresserr} />
+                                    <Payment place_order={place_order} radioval={radioval} price={after_total.toFixed(2)} subtotal={subtotal} deliv={deliv} addresserr={addresserr} />
                                 </Elements>
                             </>
                         }

@@ -51,6 +51,20 @@
         }
     }
 
+    .refund_btn {
+        background-color: black; 
+        font-weight: 500;
+        color: white;
+        border: 1px solid black;
+        margin-top: 2px;
+        transition: 0.2s;
+
+        &:hover {
+            background-color: white;
+            color: black;
+        }
+    }
+
     // table ,tr td{
     //     border:1px solid red
     // }

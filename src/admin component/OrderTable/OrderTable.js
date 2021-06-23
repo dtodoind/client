@@ -20,7 +20,7 @@ function OrderTable(props) {
         for(var q=0; q<Orders.length; q++) {
             var Overall = 0
             for(var e=0; e<Orders[q].OrderItems.length; e++) {
-                if(Orders[q].OrderItems[e].Status !== 'Return') {
+                if(Orders[q].OrderItems[e].Status !== 'Return' && Orders[q].OrderItems[e].Status !== 'Refunded') {
                     Overall = Overall + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
                 }
             }
@@ -51,57 +51,217 @@ function OrderTable(props) {
     }, [Orders, orderload])
 
     useEffect(() => {
-        Orders.map(async (order) => {
-            var order_len = order.OrderItems.length
-            var count = 0
-            order.OrderItems.map(item => {
-                if(item.Status === 'Return') {
-                    count += 1
-                }
-                return 0
-            })
-            // console.log(order_len, count)
-            if(order_len !== 0) {
-                if(count === order_len) {
-                    var order_val = {
-                        Orders_id: order.Orders_id,
-                        Status: 'Return'
-                    }
-                    await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val)
-                }
-            }
-            // document.getElementsByName(order.Orders_id)[0].defaultValue = order.Status
-            return 0
-        })
+        // Orders.map(async (order) => {
+        //     var order_len = order.OrderItems.length
+        //     var count_refund = 0
+        //     var count_return = 0
+        //     order.OrderItems.map(item => {
+        //         if(item.Status === 'Refunded') {
+        //             // console.log(item.OrderItem_id)
+        //             count_refund += 1
+        //         }
+        //         if(item.Status === 'Return') {
+        //             // console.log(item.OrderItem_id)
+        //             count_return += 1
+        //         }
+        //         return 0
+        //     })
+        //     var count = count_refund + count_return
+        //     // console.log(order_len, count, count_refund, count_return)
+        //     if(order_len !== 0) {
+        //         if(count === order_len) {
+        //             if(count_return > 0) {
+        //                 var order_val = {
+        //                     Orders_id: order.Orders_id,
+        //                     Status: 'Return'
+        //                 }
+        //                 await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val)
+        //             } else {
+        //                 var order_val2 = {
+        //                     Orders_id: order.Orders_id,
+        //                     Status: 'Refunded'
+        //                 }
+        //                 await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val2)
+        //             }
+        //         }
+        //     }
+        //     return 0
+        // })
 
         loadUsers()
     }, [Orders, loadUsers])
 
     const changestatus = async (e) => {
+        var change_delivery = ''
+        if(e.target.value === "Delivered") {
+            change_delivery = new Date().toISOString()
+        } else {
+            Orders.map((order, i) => {
+                if(order.Orders_id === parseInt(e.target.name)) {
+                    var d = new Date(parseInt(order.createdAt.substr(0,4)), parseInt(order.createdAt.substr(5,8))-1, parseInt(order.createdAt.substr(8,10)))
+                    var lastdate = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate()
+                    var date = 0
+                    var month = 0
+                    var year = 0
+                    var gap = 7
+                    if(d.getMonth()+1 > 12) {
+                        year = d.getFullYear() + 1
+                        month = 1
+                        date = (d.getDate()+gap) - lastdate
+                    } else if((d.getDate()+gap) > lastdate) {
+                        year = d.getFullYear()
+                        month = d.getMonth() + 2
+                        date = (d.getDate()+gap) - lastdate
+                    } else {
+                        date = d.getDate() + gap
+                        month = d.getMonth() + 1
+                        year = d.getFullYear()
+                    }
+                    if(month > 12) {
+                        year = year + 1
+                        month = 1
+                        date = (d.getDate()+gap) - lastdate
+                    } else if(date+1 > lastdate) {
+                        month = month + 1
+                        date = (d.getDate()+gap) - lastdate
+                    }
+                    change_delivery = new Date(`${month}/${date+1}/${year}`).toISOString()
+                }
+                return 0
+            })
+        }
         var order_val = {
             Orders_id: parseInt(e.target.name),
-            Status: e.target.value
+            Status: e.target.value,
+            Delivery_date: change_delivery
         }
+
         await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val).then(async (res) => {
             if(res.data === 'successfully Updated') {
-                await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res => allorders(res.data))
+                await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
             }
         })
         Orders.map((order, i) => {
             if(order.Orders_id === parseInt(e.target.name)) {
-                Orders[i].OrderItems.map(item => {
-                    if(item.Status !== 'Return') {
-                        var order_val1 = {
-                            OrderItem_id: item.OrderItem_id,
-                            Status: e.target.value
-                        }
-                        axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val1)
+                Orders[i].OrderItems.map(async (item) => {
+                    var order_val1 = {
+                        OrderItem_id: item.OrderItem_id,
+                        Status: e.target.value,
+                        Delivery_date: change_delivery
                     }
+                    await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val1)
                     return 0
                 })
             }
             return 0
         })
+    }
+
+    const Refund = async (e, id, refund_amount, OrderItem_id) => {
+        if(refund_amount === undefined) {
+            // console.log('Only Refund')
+            var order_val = {
+                Orders_id: parseInt(e.target.name),
+                Status: 'Refunded'
+            }
+    
+            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val).then(async (res) => {
+                if(res.data === 'successfully Updated') {
+                    await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
+                }
+            })
+            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/refund', {payment_id: id}).then(res => {
+                if(res.data.status === "succeeded") {
+                    Orders.map((order, i) => {
+                        if(order.Orders_id === parseInt(e.target.name)) {
+                            Orders[i].OrderItems.map(async (item) => {
+                                var order_val1 = {
+                                    OrderItem_id: item.OrderItem_id,
+                                    Status: 'Refunded'
+                                }
+                                await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val1).then(async (res) => {
+                                    if(res.data === 'successfully Updated') {
+                                        await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
+                                    }
+                                })
+                                return 0
+                            })
+                        }
+                        return 0
+                    })
+                }
+            })
+        } else {
+            // var order_val = {
+            //     Orders_id: parseInt(e.target.name),
+            //     Status: 'Refunded'
+            // }
+    
+            // await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val).then(async (res) => {
+            //     if(res.data === 'successfully Updated') {
+            //         await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
+            //     }
+            // })
+            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/refund', {payment_id: id, refund_amount: refund_amount*100}).then(res => {
+                if(res.data.status === "succeeded") {
+                    Orders.map((order, i) => {
+                        if(order.Orders_id === parseInt(e.target.name)) {
+                            Orders[i].OrderItems.map(async (item) => {
+                                var order_len = order.OrderItems.length
+                                var count_refund = 0
+                                var count_return = 0
+                                if(item.OrderItem_id === OrderItem_id) {
+                                    var order_val1 = {
+                                        OrderItem_id: OrderItem_id,
+                                        Status: 'Refunded'
+                                    }
+                                    await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val1).then(async (res) => {
+                                        if(res.data === 'successfully Updated') {
+                                            await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
+                                        }
+                                    })
+                                }
+                                order.OrderItems.map(item1 => {
+                                    if(item1.OrderItem_id === OrderItem_id) {
+                                        count_refund += 1
+                                    } else if(item1.Status === 'Refunded') {
+                                        // console.log(item.OrderItem_id)
+                                        count_refund += 1
+                                    } else if(item1.Status === 'Return') {
+                                        // console.log(item.OrderItem_id)
+                                        count_return += 1
+                                    }
+                                    return 0
+                                })
+                                // console.log(order_len, count_refund, count_return)
+                                var count = count_refund + count_return
+                                if(order_len !== 0) {
+                                    if(count === order_len) {
+                                        console.log(order_len, count, count_refund, count_return)
+                                        if(count_return > 0) {
+                                            console.log('Return')
+                                            var order_val = {
+                                                Orders_id: order.Orders_id,
+                                                Status: 'Return'
+                                            }
+                                            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val)
+                                        } else {
+                                            console.log('Refunded')
+                                            var order_val2 = {
+                                                Orders_id: order.Orders_id,
+                                                Status: 'Refunded'
+                                            }
+                                            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val2)
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                        return 0
+                    })
+                }
+            })
+        }
     }
 
     return (
@@ -150,18 +310,27 @@ function OrderTable(props) {
                                     <td>{o.Email}</td>
                                     <td><div style={{textAlign: 'left'}}>{JSON.parse(o.Address).map((a, i) => <p key={i} style={{margin: '0'}}>{i !== JSON.parse(o.Address).length-1 ? a+',' : a}<br /></p>)}</div></td>
                                     <td>
-                                        <select name={o.Orders_id} onChange={changestatus} defaultValue={o.Status}>
-                                            <option value="Pending">Pending</option>
-                                            <option value="Shipping">Shipping</option>
-                                            <option value="Delivered">Delivered</option>
-                                            <option value="Pickup">Pickup</option>
-                                            <option value="Return">Return</option>
-                                        </select>
+                                        {
+                                            o.Status === 'Refunded'
+                                            ? null
+                                            : <select name={o.Orders_id} onChange={(e) => changestatus(e)} defaultValue={o.Status}>
+                                                <option value="Pending">Pending</option>
+                                                <option value="Shipping">Shipping</option>
+                                                <option value="Delivered">Delivered</option>
+                                                <option value="Pickup">Pickup</option>
+                                                <option value="Return">Return</option>
+                                            </select>
+                                        }
                                     </td>
                                     <td>
-                                        <div style={{backgroundColor: o.Status === 'Delivered' ? 'green' : o.Status === 'Pending' ? '#F77F00' : o.Status === 'Shipping' ? '#5BC0BE' : o.Status === 'Pickup' ? '#281a91' : '#E63946', fontWeight: '500', color: 'white'}} className="p-2 rounded">
+                                        <div style={{backgroundColor: o.Status === 'Delivered' ? 'green' : o.Status === 'Pending' ? '#F77F00' : o.Status === 'Shipping' ? '#5BC0BE' : o.Status === 'Pickup' ? '#281a91' : o.Status === 'Refunded' ? 'black' : '#E63946', fontWeight: '500', color: 'white'}} className="p-2 rounded">
                                             {o.Status}
                                         </div>
+                                        {
+                                            o.Status === "Return"
+                                            ? <button className="p-2 w-100 rounded refund_btn" name={o.Orders_id} onClick={(e) => Refund(e, o.PaymentSuccess_id)}>Refund</button>
+                                            : null
+                                        }
                                     </td>
                                 </tr>,
                                 <tr key={'inner'+i} className="hide-table-padding">
@@ -195,7 +364,7 @@ function OrderTable(props) {
                                                                         <div className='col-6 text-left py-2'>{p.Quantity}</div>
                                                                         <div className='col-6 text-left py-2' style={{fontWeight: '500'}}>Status</div>
                                                                         <div className='col-6 text-left py-2'>
-                                                                            <span style={{
+                                                                            <div style={{
                                                                                 backgroundColor: p.Status === 'Delivered' 
                                                                                                 ? 'green' 
                                                                                                 : p.Status === 'Pending' 
@@ -204,15 +373,28 @@ function OrderTable(props) {
                                                                                                         ? '#5BC0BE' 
                                                                                                         : o.Status === 'Pickup' 
                                                                                                             ? '#281a91' 
-                                                                                                            : '#E63946', 
+                                                                                                            : o.Status === 'Refunded' 
+                                                                                                                ? 'black' 
+                                                                                                                :'#E63946', 
                                                                                 fontWeight: '500', 
-                                                                                color: 'white',
-                                                                                padding: '5px 10px'}}>
+                                                                                color: 'white', width: 'fit-content'}} className="p-2 rounded">
                                                                                 {p.Status}
-                                                                            </span>
+                                                                            </div>
+                                                                            {
+                                                                                o.Status === "Return" || o.Status === "Refunded"
+                                                                                ? null
+                                                                                : p.Status === "Return"
+                                                                                    ? <button className="p-2 rounded refund_btn" name={o.Orders_id} onClick={(e) => Refund(e, o.PaymentSuccess_id, p.Price, p.OrderItem_id)}>Refund</button>
+                                                                                    : null
+                                                                            }
+                                                                            {/* {
+                                                                                p.Status === "Return"
+                                                                                ? <button className="p-2 rounded refund_btn" name={o.Orders_id} onClick={(e) => Refund(e, o.PaymentSuccess_id, p.Price, p.OrderItem_id)}>Refund</button>
+                                                                                : null
+                                                                            } */}
                                                                         </div>
                                                                         <div className='col-6 text-left py-2' style={{fontWeight: '500'}}>Total Price</div>
-                                                                        <div className='col-6 text-left py-2'>${p.Price * p.Quantity}</div>
+                                                                        <div className='col-6 text-left py-2'>${p.Status !== "Refunded" ? p.Price * p.Quantity : 0}</div>
                                                                     </div>
                                                                 </div>
                                                             </div>

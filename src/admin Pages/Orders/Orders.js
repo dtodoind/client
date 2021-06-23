@@ -19,8 +19,8 @@ function Orders(props) {
 	const tot = () => {
         var OverallPay = 0
         for(var q=0; q<Orders.length; q++) {
-            for(var e=0; e<Orders[q].OrderItems.length; e++) {
-				if(Orders[q].OrderItems[e].Status !== 'Return') {
+			for(var e=0; e<Orders[q].OrderItems.length; e++) {
+				if(Orders[q].OrderItems[e].Status !== 'Return' && Orders[q].OrderItems[e].Status !== 'Refunded') {
 					// console.log(JSON.parse(Orders[q].OrderItems[e].Product.Price)[q][e])
 					OverallPay = OverallPay + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
 				} else {

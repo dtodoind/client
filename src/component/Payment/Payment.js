@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 // import { Link } from 'react-router-dom'import {
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from 'axios'
@@ -94,7 +94,7 @@ const ErrorMessage = ({ children }) => (
 	</div>
 );
 
-function Payment({place_order, price, radioval, deliv, addresserr, ...props }) {
+function Payment({place_order, price, subtotal, radioval, deliv, addresserr, ...props }) {
 
 	const { Delivery } = props
     const SingleUser = JSON.parse(localStorage.getItem('SingleUser'))
@@ -117,6 +117,14 @@ function Payment({place_order, price, radioval, deliv, addresserr, ...props }) {
 			postal_code: ""
 		}
 	});
+
+	useEffect(() => {
+		if(subtotal === 0) {
+			setErrorzip(true)
+		} else {
+			setErrorzip(false)
+		}
+	}, [subtotal])
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -176,16 +184,16 @@ function Payment({place_order, price, radioval, deliv, addresserr, ...props }) {
 				setProcessingTo(false);
 				return;
 			}
-			const { error } = await stripe.confirmCardPayment(clientSecret, {
+			const confirmPayment = await stripe.confirmCardPayment(clientSecret, {
 				payment_method: paymentMethodReq.paymentMethod.id
 			});
 
-			if (error) {
-				setCheckoutError(error.message);
+			if (confirmPayment.error) {
+				setCheckoutError(confirmPayment.error.message);
 				setProcessingTo(false);
 				return;
 			}
-			place_order(billingDetails)
+			place_order(billingDetails, confirmPayment.paymentIntent.id)
 			// setProcessingTo(false)
 		} catch (error) {
 			if(price === '0.00') {
