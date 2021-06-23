@@ -468,4 +468,15 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Register);
+const mapDispatchToProps = (dispatch) => {
+    return{
+        insertNotification: (val) => { 
+            dispatch({
+                type: 'NOTIFICATION',
+                item: val
+            })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
