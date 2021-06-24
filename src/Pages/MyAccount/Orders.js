@@ -146,13 +146,13 @@ function AccountOrders(props) {
                         return 0
                     })
                     if(order_len !== 0) {
-                        console.log(order_len, count)
+                        // console.log(order_len, count)
                         if(count === order_len) {
                             var order_val = {
                                 Orders_id: order.Orders_id,
                                 Status: 'Return'
                             }
-                            console.log(order_val)
+                            // console.log(order_val)
                             await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val)
                             await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
                         }
@@ -230,7 +230,7 @@ function AccountOrders(props) {
                                             {
                                                 Orders.length === 0
                                                 ? null
-                                                : Orders[i].OrderItems.map((p,j) => 
+                                                : o.OrderItems.map((p,j) => 
                                                     <div className='container-fluid my-2 border-top border-bottom' key={j}>
                                                         <div className='row'>
                                                             <div className='col-md-6'>
@@ -294,7 +294,7 @@ function AccountOrders(props) {
                                                                                                     </Modal.Body>
                                                                                                     <Modal.Footer>
                                                                                                         <button className="btn btn-danger" onClick={() => setPopshow(false)}>Disagree</button>
-                                                                                                        <button className="btn btn-success" name={Orders[i].Orders_id}
+                                                                                                        <button className="btn btn-success" name={o.Orders_id}
                                                                                                             onClick={(e) => {
                                                                                                                 changestatus(e)
                                                                                                                 setPopshow(false)
@@ -306,7 +306,7 @@ function AccountOrders(props) {
                                                                                                 </Modal>
                                                                                                 
                                                                                             </p>
-                                                                                    : new Date().toISOString().substr(0,10) === cal_delivery(Orders[i].Delivery_date.substr(0,10)).substr(0,10)
+                                                                                    : new Date().toISOString().substr(0,10) === cal_delivery(o.Delivery_date.substr(0,10)).substr(0,10)
                                                                                         ? <p>Now you cannot Return the product</p>
                                                                                         : <p style={{fontWeight: '500'}}>
                                                                                             If you want to return us the product then you can Email us or contact us on Whatsapp 

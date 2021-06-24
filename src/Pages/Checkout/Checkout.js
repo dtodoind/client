@@ -243,7 +243,7 @@ function Checkout(props) {
                         Product_id: item.Product_id
                     })
                     localStorage.removeItem('basket')
-                    return window.location.replace('/')
+                    return window.location.replace('/account/Order')
                 })
             )
         }
