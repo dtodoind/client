@@ -27,6 +27,7 @@ function Checkout(props) {
     const { basket, Offer, alloffer } = props
     const SingleUser = JSON.parse(localStorage.getItem('SingleUser'))
     const [delivery_charges, setDeliverycharges] = useState(0)
+    const [payment_addr, setPaymentaddr] = useState(0)
     const [lop, setlop] = useState(true)
 
     const { Delivery, setdelivery } = props
@@ -91,6 +92,29 @@ function Checkout(props) {
         setRadioval(e.target.value)
         if(Delivery[e.target.value-2] !== undefined) {
             setDeliverycharges(Delivery[e.target.value-2].Charges)
+        }
+        if(e.target.value === "1") {
+            setPaymentaddr({
+                email: SingleUser[0].Email,
+                phone: SingleUser[0].Phoneno,
+                name: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
+                address: {
+                    line1: JSON.parse(SingleUser[0].Address)[0].join(', '),
+                    postal_code: JSON.parse(SingleUser[0].Zip)[0]
+                }
+            })
+        } else if(e.target.value === "payment"){
+
+        } else {
+            setPaymentaddr({
+                email: SingleUser[0].Email,
+                phone: SingleUser[0].Phoneno,
+                name: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
+                address: {
+                    line1: JSON.parse(SingleUser[0].Address)[parseInt(e.target.value-2)].join(', '),
+                    postal_code: JSON.parse(SingleUser[0].Zip)[parseInt(e.target.value)-2]
+                }
+            })
         }
         setaddresserr('')
     }
@@ -241,7 +265,7 @@ function Checkout(props) {
                             : <>
                                 <Billing address={address} />
                                     <Elements stripe={stripePromise}>
-                                    <Payment place_order={place_order} radioval={radioval} price={after_total.toFixed(2)} subtotal={subtotal} deliv={deliv} addresserr={addresserr} />
+                                    <Payment place_order={place_order} radioval={radioval} price={after_total.toFixed(2)} subtotal={subtotal} payment_addr={payment_addr} deliv={deliv} addresserr={addresserr} />
                                 </Elements>
                             </>
                         }

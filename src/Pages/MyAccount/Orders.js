@@ -308,41 +308,46 @@ function AccountOrders(props) {
                                                                                             </p>
                                                                                     : new Date().toISOString().substr(0,10) === cal_delivery(Orders[i].Delivery_date.substr(0,10)).substr(0,10)
                                                                                         ? <p>Now you cannot Return the product</p>
-                                                                                        : <>
-                                                                                            <p style={{fontWeight: '500'}}>Return within 3 days. After that you will not be able to return.</p>
-                                                                                            <p id={"change_text"+p.OrderItem_id}>
-                                                                                                <button className="btn" name={p.OrderItem_id} 
-                                                                                                    onClick={() => {
-                                                                                                        setOrderitem_id(p.OrderItem_id)
-                                                                                                        setPopshow(true)
-                                                                                                    }} style={{backgroundColor: '#E63946', color: 'white'}}>
-                                                                                                    Return
-                                                                                                </button>
-                                                                                                <Modal show={popshow}>
-                                                                                                    <Modal.Header>Important Note</Modal.Header>
-                                                                                                    <Modal.Body>
-                                                                                                        If you are returning the product then it should not be damage. 
-                                                                                                        If you want to Return this Product, you have to sent to us by courier or mail. 
-                                                                                                        If you are living nearby the store then you can come to the store and return it.
-                                                                                                        If you are sending it by courier or mail then when the product reaches us 
-                                                                                                        we will inspect it and if the product is not damage then we will refund you 
-                                                                                                        which will take 5-10 days.
-                                                                                                    </Modal.Body>
-                                                                                                    <Modal.Footer>
-                                                                                                        <button className="btn btn-danger" onClick={() => setPopshow(false)}>Disagree</button>
-                                                                                                        <button className="btn btn-success" name={Orders[i].Orders_id}
-                                                                                                            onClick={(e) => {
-                                                                                                                changestatus(e)
-                                                                                                                setPopshow(false)
-                                                                                                            }} 
-                                                                                                        >
-                                                                                                            Agree
-                                                                                                        </button>
-                                                                                                    </Modal.Footer>
-                                                                                                </Modal>
+                                                                                        : <p style={{fontWeight: '500'}}>
+                                                                                            If you want to return us the product then you can Email us or contact us on Whatsapp 
+                                                                                            with the details like your username, order id, product name which you want to return and 
+                                                                                            if necessary attach photos of the product.
+                                                                                        </p>
+                                                                                        // : <>
+                                                                                        //     <p style={{fontWeight: '500'}}>Return within 3 days. After that you will not be able to return.</p>
+                                                                                        //     <p id={"change_text"+p.OrderItem_id}>
+                                                                                        //         <button className="btn" name={p.OrderItem_id} 
+                                                                                        //             onClick={() => {
+                                                                                        //                 setOrderitem_id(p.OrderItem_id)
+                                                                                        //                 setPopshow(true)
+                                                                                        //             }} style={{backgroundColor: '#E63946', color: 'white'}}>
+                                                                                        //             Return
+                                                                                        //         </button>
+                                                                                        //         <Modal show={popshow}>
+                                                                                        //             <Modal.Header>Important Note</Modal.Header>
+                                                                                        //             <Modal.Body>
+                                                                                        //                 If you are returning the product then it should not be damage. 
+                                                                                        //                 If you want to Return this Product, you have to sent to us by courier or mail. 
+                                                                                        //                 If you are living nearby the store then you can come to the store and return it.
+                                                                                        //                 If you are sending it by courier or mail then when the product reaches us 
+                                                                                        //                 we will inspect it and if the product is not damage then we will refund you 
+                                                                                        //                 which will take 5-10 days.
+                                                                                        //             </Modal.Body>
+                                                                                        //             <Modal.Footer>
+                                                                                        //                 <button className="btn btn-danger" onClick={() => setPopshow(false)}>Disagree</button>
+                                                                                        //                 <button className="btn btn-success" name={Orders[i].Orders_id}
+                                                                                        //                     onClick={(e) => {
+                                                                                        //                         changestatus(e)
+                                                                                        //                         setPopshow(false)
+                                                                                        //                     }} 
+                                                                                        //                 >
+                                                                                        //                     Agree
+                                                                                        //                 </button>
+                                                                                        //             </Modal.Footer>
+                                                                                        //         </Modal>
                                                                                                 
-                                                                                            </p>
-                                                                                        </>
+                                                                                        //     </p>
+                                                                                        // </>
                                                                             }
                                                                         </div>
                                                                         <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

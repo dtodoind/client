@@ -94,7 +94,7 @@ const ErrorMessage = ({ children }) => (
 	</div>
 );
 
-function Payment({place_order, price, subtotal, radioval, deliv, addresserr, ...props }) {
+function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, addresserr, ...props }) {
 
 	const { Delivery } = props
     const SingleUser = JSON.parse(localStorage.getItem('SingleUser'))
@@ -174,7 +174,8 @@ function Payment({place_order, price, subtotal, radioval, deliv, addresserr, ...
 			} else {
 				payment_details = {
 					type: "card",
-					card: elements.getElement(CardElement)
+					card: elements.getElement(CardElement),
+					billing_details: payment_addr
 				}
 			}
 			const paymentMethodReq = await stripe.createPaymentMethod(payment_details);
