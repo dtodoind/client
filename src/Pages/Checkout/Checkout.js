@@ -76,14 +76,18 @@ function Checkout(props) {
     var discount = 0
     var final_subtotal = 0
     if(Offer.length !== 0) {
-        if(Offer[0].Price <= subtotal) {
-            discount = Offer[0].Discount
-            final_subtotal = subtotal - (discount*subtotal/100)
+        if(Offer[0].Price !== 0) {
+            if(Offer[0].Price <= subtotal) {
+                discount = Offer[0].Discount
+                final_subtotal = subtotal - (discount*subtotal/100)
+            } else {
+                final_subtotal = subtotal
+            }
         } else {
             final_subtotal = subtotal
         }
     }
-
+    
     var total = final_subtotal
 
     var after_total = final_subtotal + delivery_charges
@@ -129,8 +133,11 @@ function Checkout(props) {
         var subtotal = 0
         var discount = 0
         basket.map(item => subtotal = subtotal + item.totalprice);
-        if(Offer[0].Price <= subtotal) {
-            discount = Offer[0].Discount
+
+        if(Offer[0].Price !== 0) {
+            if(Offer[0].Price <= subtotal) {
+                discount = Offer[0].Discount
+            }
         }
         var order_val
         var d = new Date()

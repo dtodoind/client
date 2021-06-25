@@ -12,20 +12,24 @@ function Banner(props) {
         axios.get('https://dtodo-indumentaria-server.herokuapp.com/offer/all').then(res => offer(res.data))
     }, [offer])
 
-    return (
-        <div className="banner">
-            <img src={'https://dtodo-indumentaria-server.herokuapp.com/'+Offer[0]?.Offer_Image} alt="banner" className="banner_img" />
-            <div className="offer_badge">
-                <p className="offer">Offer</p>
-            </div>
-            <div className="offer_content">
-                <div className="content_text">
-                    <h2>{Offer[0]?.Discount}% Off</h2>
-                    <p>{Offer[0]?.Description}</p>
+    if(Offer.length === 0 || Offer[0]?.Price === 0) {
+        return 0;
+    } else {
+        return (
+            <div className="banner">
+                <img src={'https://dtodo-indumentaria-server.herokuapp.com/'+Offer[0]?.Offer_Image} alt="banner" className="banner_img" />
+                <div className="offer_badge">
+                    <p className="offer">Offer</p>
+                </div>
+                <div className="offer_content">
+                    <div className="content_text">
+                        <h2>{Offer[0]?.Discount}% Off</h2>
+                        <p>{Offer[0]?.Description} ${Offer[0]?.Price}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
 const mapStateToProps = (state) => {

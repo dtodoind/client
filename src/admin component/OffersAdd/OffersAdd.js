@@ -77,9 +77,9 @@ function OffersAdd(props) {
         var formdata = new FormData()
         formdata.append('Image', Img)
         formdata.append('Offer_Image', Img !== '' ? Img.name : Offer[0].Offer_Image)
-        formdata.append('Discount', dis !== '' ? dis : Offer[0].Discount)
-        formdata.append('Price', pri !== '' ? pri : Offer[0].Price)
-        formdata.append('Description', des !== '' ? des : Offer[0].Description)
+        formdata.append('Discount', dis !== '' ? dis : '')
+        formdata.append('Price', pri !== '' ? pri : 0)
+        formdata.append('Description', des !== '' ? des : '')
         if(Offer.length === 0) {
             axios.post('https://dtodo-indumentaria-server.herokuapp.com/offer/new', formdata)
         } else {
