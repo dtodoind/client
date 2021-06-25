@@ -193,39 +193,39 @@ function OrderTable(props) {
         console.log(refund_amount, final_delivery, final_discount, total_price+delivery_charges)
         console.log((refund_amount - final_discount) + final_delivery)
         if(refund_amount === undefined) {
-            // // console.log('Only Refund')
-            // // price of the product + (Delivery charges / total number of product purchase) - ((Total price * discount / 100) / total number of product purchase)
-            // var order_val = {
-            //     Orders_id: parseInt(e.target.name),
-            //     Status: 'Refunded'
-            // }
+            // console.log('Only Refund')
+            // price of the product + (Delivery charges / total number of product purchase) - ((Total price * discount / 100) / total number of product purchase)
+            var order_val = {
+                Orders_id: parseInt(e.target.name),
+                Status: 'Refunded'
+            }
     
-            // await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val).then(async (res) => {
-            //     if(res.data === 'successfully Updated') {
-            //         await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
-            //     }
-            // })
-            // await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/refund', {payment_id: id}).then(res => {
-            //     if(res.data.status === "succeeded") {
-            //         Orders.map((order, i) => {
-            //             if(order.Orders_id === parseInt(e.target.name)) {
-            //                 Orders[i].OrderItems.map(async (item) => {
-            //                     var order_val1 = {
-            //                         OrderItem_id: item.OrderItem_id,
-            //                         Status: 'Refunded'
-            //                     }
-            //                     await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val1).then(async (res) => {
-            //                         if(res.data === 'successfully Updated') {
-            //                             await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
-            //                         }
-            //                     })
-            //                     return 0
-            //                 })
-            //             }
-            //             return 0
-            //         })
-            //     }
-            // })
+            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val).then(async (res) => {
+                if(res.data === 'successfully Updated') {
+                    await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
+                }
+            })
+            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/refund', {payment_id: id}).then(res => {
+                if(res.data.status === "succeeded") {
+                    Orders.map((order, i) => {
+                        if(order.Orders_id === parseInt(e.target.name)) {
+                            Orders[i].OrderItems.map(async (item) => {
+                                var order_val1 = {
+                                    OrderItem_id: item.OrderItem_id,
+                                    Status: 'Refunded'
+                                }
+                                await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val1).then(async (res) => {
+                                    if(res.data === 'successfully Updated') {
+                                        await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
+                                    }
+                                })
+                                return 0
+                            })
+                        }
+                        return 0
+                    })
+                }
+            })
         } else {
             // var order_val = {
             //     Orders_id: parseInt(e.target.name),
