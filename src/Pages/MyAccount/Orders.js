@@ -106,6 +106,9 @@ function AccountOrders(props) {
                     Overall = Overall + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
                 }
             }
+            if(Orders[q].Discount !== 0) {
+                Overall = Overall - (parseInt(Orders[q].Discount) * Overall / 100)
+            }
             OverallPay.push(Overall)
         }
 
@@ -379,6 +382,21 @@ function AccountOrders(props) {
                                                 )
                                             }
                                             <div className='container-fluid my-2 border-top border-bottom'>
+                                                {
+                                                    o.Discount === "0"
+                                                    ? null
+                                                    : <div className='row'>
+                                                        <div className='col-md-6'></div>
+                                                        <div className='col-md-6 d-flex align-items-center'>
+                                                            <div className="container-fluid">
+                                                                <div className='row'>
+                                                                    <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>Discount</div>
+                                                                    <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>{o.Discount}%</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
                                                 <div className='row'>
                                                     <div className='col-md-6'></div>
                                                     <div className='col-md-6 d-flex align-items-center'>
