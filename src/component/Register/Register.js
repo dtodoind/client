@@ -92,6 +92,7 @@ function Register({ show, ...props }) {
 				onSubmit={(values, { setSubmitting }) => {
 					setTimeout(async () => {
 						if(ziperror === "") {
+							var addr = values.address + ', ' + values.zip
 
 							const formdata = new FormData();
 							formdata.append("FirstName", values.fname);
@@ -99,7 +100,7 @@ function Register({ show, ...props }) {
 							formdata.append("Username", values.uname.toLowerCase());
 							formdata.append("Email", values.email.toLowerCase());
 							formdata.append("Password", values.password);
-							formdata.append("Address", [values.address]);
+							formdata.append("Address", [addr]);
 							formdata.append("Gender", values.gender);
 							formdata.append("Phoneno", parseInt(values.phno));
 							formdata.append("Image", document.getElementById("image").files[0]);

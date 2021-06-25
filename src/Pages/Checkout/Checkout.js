@@ -171,7 +171,7 @@ function Checkout(props) {
             order_val = {
                 Status: 'Pickup',
                 Discount: discount,
-                Address: SingleUser[0].Address,
+                Address: SingleUser[0].Address[0],
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
                 ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 Email: SingleUser[0].Email,
@@ -180,7 +180,7 @@ function Checkout(props) {
             }
             setaddresserr('')
         } else if(rad === "payment") {
-            var ad = billing_details.address.line1 + ', ' + billing_details.address.city + ', ' + billing_details.address.state
+            var ad = billing_details.address.line1 + ', ' + billing_details.address.city + ', ' + billing_details.address.state + ', ' + billing_details.address.postal_code
             var address = []
             address = ad.split(/, /g)
             order_val = {

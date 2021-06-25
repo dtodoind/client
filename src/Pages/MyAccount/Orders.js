@@ -136,7 +136,7 @@ function AccountOrders(props) {
                     var count = 0
                     
                     order.OrderItems.map(item1 => {
-                        console.log(item1.Status)
+                        // console.log(item1.Status)
                         if(item1.OrderItem_id === parseInt(orderitem_id)) {
                             count += 1
                         } else if(item1.Status === 'Refunded') {

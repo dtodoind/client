@@ -81,7 +81,9 @@ function Profile(props) {
 		if(val !== undefined) {
 			var address = JSON.parse(SingleUser[0].Address)
 			var Zip = JSON.parse(SingleUser[0].Zip)
-			address.push(val.Address.split(/, /g))
+			var new_addr = val.Address.split(/, /g)
+			new_addr.push(val.zip)
+			address.push(new_addr)
 			Zip.push(val.zip)
 
 			var formdata = new FormData()
@@ -305,7 +307,7 @@ function Profile(props) {
 																</p>
 															))
 														}
-														ZIP: {JSON.parse(SingleUser[0].Zip)[i]}
+														{/* ZIP: {JSON.parse(SingleUser[0].Zip)[i]} */}
 														<div className="btn_adj">
 															<button className="btn-remove" onClick={() => removeAddress(i)}>Remove</button>
 														</div>
