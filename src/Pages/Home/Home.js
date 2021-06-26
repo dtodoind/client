@@ -18,9 +18,9 @@ function Home(props) {
             <Banner />
             <div className="featured_product">
                 <div className="content">
-                    <h6>Featured Products</h6>
-                    <h1>Shop Now</h1>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+                    <h6>Nuestros Productos</h6>
+                    <h1>Mira lo que tenemos para vos !</h1>
+                    <p>Aprovecha nuestros precios al maximo, con todo tipo de ofertas en todas las categorias.</p>
                 </div>
                 <ProductSlider />
             </div>

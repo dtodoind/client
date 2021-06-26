@@ -67,6 +67,14 @@ function CartTotal(props) {
                             {discount}%
                         </div>
                     </div>
+                    <div className="row py-2 px-3">
+                        <div className="col">
+                            <p>Promo Code</p>
+                        </div>
+                        <div className="col">
+                           <input placeholder='#82928' className='input_prom'/>
+                        </div>
+                    </div>
                     <div className="row py-2 px-3" style={{borderTop: '1px solid rgba(0,0,0,.2)'}}>
                         <div className="col">
                             <p></p>

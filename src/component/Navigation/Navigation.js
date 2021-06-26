@@ -164,25 +164,30 @@ function Navigation(props) {
 							</li>
 							<li className="nav-links hover">
 								<Link to="/" className="links" onClick={() => searchchange(0)}>
-									<ImHome className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />Home
+									<ImHome className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
+									{/* Home */}
+									Inicio
 								</Link>
 							</li>
 							<li className="nav-links hover">
 								<Link to="/category" className="links" onClick={() => searchchange(1)}>
 									<CgMenuGridO className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
-									Category
+									{/* Category */}
+									Categorias
 								</Link>
 							</li>
 							<li className="nav-links hover">
 								<Link to="/review" className="links" onClick={() => searchchange(2)}>
 									<MdRateReview className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
-									Review
+									{/* Review */}
+									Clientes
 								</Link>
 							</li>
 							<li className="nav-links hover">
 								<Link to="/aboutus" className="links" onClick={() => searchchange(3)}>
 									<BsFillPeopleFill className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
-									About Us
+									{/* About Us */}
+									Nosotros
 								</Link>
 							</li>
 							<hr className="linesidebar" />
@@ -211,13 +216,15 @@ function Navigation(props) {
 										<li className="nav-links hover sideview">
 											<Link to="/account/profile" className="links" onClick={() => searchchange(5)}>
 												<ImProfile className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
-												Profile
+												{/* Profile */}
+												Perfil
 											</Link>
 										</li>
 										<li className="nav-links hover sideview">
 											<Link to="/account/Order" className="links" onClick={() => searchchange(6)}>
 												<FaShoppingBag className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
-												Order
+												{/* Order */}
+												Ordenes
 											</Link>
 										</li>
 										<hr className="linesidebar" />
@@ -265,10 +272,16 @@ function Navigation(props) {
 							<div className="point"></div>
 							<div className="accountdropdown w-100">
 								<div className="btn_all">
-									<Link to="/account/profile" className="btn_pro">Profile</Link>
+									<Link to="/account/profile" className="btn_pro">
+										{/* Profile */}
+										Perfil
+										</Link>
 								</div>
 								<div className="btn_all">
-									<Link to="/account/Order" className="btn_pro">Order</Link>
+									<Link to="/account/Order" className="btn_pro">
+										{/* Order */}
+										Ordenes
+										</Link>
 								</div>
 								<button className="logout_btn" onClick={async() => {
 									var result = JSON.parse(localStorage.getItem("SingleUser"))
@@ -345,7 +358,10 @@ function Navigation(props) {
 									</div>
 									{/* <hr /> */}
 									<p style={{margin: '0', fontWeight: '500'}}>SubTotal: ${subtotal}</p>
-									<Link to="/shopcart" className=" btn view_button">View Cart</Link>
+									<Link to="/shopcart" className=" btn view_button">
+										{/* View Cart */}
+										Mi Carrito
+									</Link>
 									<Link to="/checkout" className="btn checkout_button">Checkout</Link>
 								</div>
 							</div>
