@@ -161,7 +161,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 
 		try {
 			const {data: clientSecret} = await axios.post("https://dtodo-indumentaria-server.herokuapp.com/order/payment", {
-				amount: parseInt(price) * 100
+				amount: parseFloat(price) * 100
 			});
 		
 			var payment_details

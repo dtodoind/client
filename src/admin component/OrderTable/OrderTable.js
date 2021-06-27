@@ -9,7 +9,7 @@ import './OrderTable.scss'
 
 function OrderTable(props) {
 
-    const { Orders, allorders } = props
+    const { Orders, allorders, Delivery } = props
     const [orderload, setOrderload] = useState(5)
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(true)
@@ -23,6 +23,10 @@ function OrderTable(props) {
                 if(Orders[q].OrderItems[e].Status !== 'Return' && Orders[q].OrderItems[e].Status !== 'Refunded') {
                     Overall = Overall + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
                 }
+            }
+            
+            if(Orders[q].Discount !== 0) {
+                Overall = Overall - (parseInt(Orders[q].Discount) * Overall / 100)
             }
             OverallPay.push(Overall)
         }
@@ -158,8 +162,39 @@ function OrderTable(props) {
     }
 
     const Refund = async (e, id, refund_amount, OrderItem_id) => {
+        var len_orderitem = 0
+        var qty = 0
+        var delivery_charges = 0
+        var discount = 0
+        var total_price = 0
+        for(var q=0; q<Orders.length; q++) {
+            for(var h=0; h<Orders[q].OrderItems.length; h++) {
+                if(Orders[q].Orders_id === parseInt(e.target.name)) {
+                    total_price = total_price + (Orders[q].OrderItems[h].Price * Orders[q].OrderItems[h].Quantity)
+                    len_orderitem = Orders[q].OrderItems[h].Quantity + len_orderitem
+                    if(Orders[q].OrderItems[h].OrderItem_id === OrderItem_id) {
+                        qty = Orders[q].OrderItems[h].Quantity
+                        var zip = JSON.parse(Orders[q].Address)[JSON.parse(Orders[q].Address).length-1]
+                        discount = Orders[q].Discount
+                        for(var t=0; t<Delivery.length; t++) {
+                            if(Delivery[t].Region === parseInt(zip)) {
+                                delivery_charges = parseInt(Delivery[t].Charges)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        var final_delivery = parseFloat(((delivery_charges/len_orderitem) * qty).toFixed(2))
+        var final_discount = parseFloat((((total_price * discount / 100) / len_orderitem) * qty).toFixed(2))
+
+        var final_refund_amount = (refund_amount - final_discount) + final_delivery
+
+        console.log(refund_amount, final_delivery, final_discount, total_price+delivery_charges)
+        console.log((refund_amount - final_discount) + final_delivery)
         if(refund_amount === undefined) {
             // console.log('Only Refund')
+            // price of the product + (Delivery charges / total number of product purchase) - ((Total price * discount / 100) / total number of product purchase)
             var order_val = {
                 Orders_id: parseInt(e.target.name),
                 Status: 'Refunded'
@@ -202,7 +237,7 @@ function OrderTable(props) {
             //         await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
             //     }
             // })
-            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/refund', {payment_id: id, refund_amount: refund_amount*100}).then(res => {
+            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/refund', {payment_id: id, refund_amount: final_refund_amount*100}).then(res => {
                 if(res.data.status === "succeeded") {
                     Orders.map((order, i) => {
                         if(order.Orders_id === parseInt(e.target.name)) {
@@ -384,7 +419,7 @@ function OrderTable(props) {
                                                                                 o.Status === "Return" || o.Status === "Refunded"
                                                                                 ? null
                                                                                 : p.Status === "Return"
-                                                                                    ? <button className="p-2 rounded refund_btn" name={o.Orders_id} onClick={(e) => Refund(e, o.PaymentSuccess_id, p.Price, p.OrderItem_id)}>Refund</button>
+                                                                                    ? <button className="p-2 rounded refund_btn" name={o.Orders_id} onClick={(e) => Refund(e, o.PaymentSuccess_id, p.Price * p.Quantity, p.OrderItem_id)}>Refund</button>
                                                                                     : null
                                                                             }
                                                                             {/* {
@@ -403,13 +438,28 @@ function OrderTable(props) {
                                                 )
                                             }
                                             <div className='container-fluid my-2 border-top border-bottom'>
+                                                {
+                                                    o.Discount === "0"
+                                                    ? null
+                                                    : <div className='row'>
+                                                        <div className='col-md-6'></div>
+                                                        <div className='col-md-6 d-flex align-items-center'>
+                                                            <div className="container-fluid">
+                                                                <div className='row'>
+                                                                    <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>Discount</div>
+                                                                    <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>{o.Discount}%</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
                                                 <div className='row'>
                                                     <div className='col-md-6'></div>
                                                     <div className='col-md-6 d-flex align-items-center'>
                                                         <div className="container-fluid">
                                                             <div className='row'>
                                                                 <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>Overall Payment</div>
-                                                                <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>${tot(i)}</div>
+                                                                <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>${tot(i).toFixed(2)}</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -433,7 +483,8 @@ function OrderTable(props) {
 
 const mapStateToProps = (state) => {
     return {
-        Orders: state.Orders
+        Orders: state.Orders,
+        Delivery: state.Delivery
     }
 }
 

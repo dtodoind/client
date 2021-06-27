@@ -60,7 +60,7 @@ function Billing(props) {
                                                     </p>
                                                 )
                                             }
-                                            ZIP: {JSON.parse(SingleUser[0].Zip)[i]}
+                                            {/* ZIP: {JSON.parse(SingleUser[0].Zip)[i]} */}
                                         </label>
                                     </div>
                                 </div>
