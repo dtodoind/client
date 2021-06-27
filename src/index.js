@@ -14,17 +14,17 @@ import thunk from 'redux-thunk'
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
 ReactDOM.render(
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>,
-  // <React.StrictMode>
-  //   <StateProvider initialState={initialState} reducer={reducer}>
-  //     <App />
-  //   </StateProvider>
-  // </React.StrictMode>
-  document.getElementById('root')
+		<BrowserRouter>
+			<Provider store={store}>
+				<App />
+			</Provider>
+		</BrowserRouter>,
+	// <React.StrictMode>
+	//   <StateProvider initialState={initialState} reducer={reducer}>
+	//     <App />
+	//   </StateProvider>
+	// </React.StrictMode>
+	document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
