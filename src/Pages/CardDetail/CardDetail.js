@@ -5,10 +5,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { MDBRow, MDBCol } from "mdbreact";
 import { connect } from 'react-redux'
 import { useParams } from "react-router";
+import axios from 'axios';
 
 function CardDetail(props) {
 
-	const { Products, basket,addbasket } = props
+	const { Products, basket, addbasket, allproduct } = props
 	const id = parseInt(useParams().id)
 	const index = parseInt(useParams().id)
 	const [qty, setqty] = useState(1)
@@ -57,15 +58,19 @@ function CardDetail(props) {
 		// 		}
 		// 	}
 		// }
-		for(let q=0; q<basket.length; q++) {
-			if(JSON.parse(Products[index].Color)[colorselected] === basket[q].color && JSON.parse(Products[index].Size)[colorselected][sizeselected] === basket[q].size && basket[q].id === index) {
-				if(qty >= basket[q].Stock) {
-					setqty(basket[q].Stock)
-					document.getElementsByClassName('plus'+index)[0].disabled = true
+		if(Products.length === 0) {
+			axios.get('https://dtodo-indumentaria-server.herokuapp.com/product/all').then(res => allproduct(res.data))
+		} else {
+			for(let q=0; q<basket.length; q++) {
+				if(JSON.parse(Products[index].Color)[colorselected] === basket[q].color && JSON.parse(Products[index].Size)[colorselected][sizeselected] === basket[q].size && basket[q].id === index) {
+					if(qty >= basket[q].Stock) {
+						setqty(basket[q].Stock)
+						document.getElementsByClassName('plus'+index)[0].disabled = true
+					}
 				}
 			}
 		}
-	}, [basket, Products, colorselected, index, qty, sizeselected, bas, addbasket])
+	}, [basket, Products, colorselected, index, qty, sizeselected, bas, addbasket, allproduct])
 
 	function counter(val) {
 		if(val === 'add') {
@@ -408,6 +413,12 @@ const mapDispatchToProps = (dispatch) => {
 				id: id,
 				qty: q
 			});
+        },
+		allproduct: (val) => {
+            dispatch({
+                type: 'PRODUCTS',
+                item: val
+            }) 
         }
     }
 }
