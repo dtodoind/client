@@ -119,6 +119,8 @@ function OffersAdd(props) {
                         <p style={{color: 'rgba(0,0,0,0.3)'}}>Example: 10</p>
                         <input type="text" placeholder="Offer Applicable" name="price" defaultValue={Offer.length !== 0 ? Offer[0].Price : null} onChange={changeoffer} />
                         <p style={{color: 'rgba(0,0,0,0.3)'}}>Example: 200</p>
+                        <input type="text" placeholder="Promo code" name="promo"/>
+                        <p style={{color: 'rgba(0,0,0,0.3)'}}>Example: #288BG6</p>
                         <input type="text" placeholder="Short Description" name="short_des" defaultValue={Offer.length !== 0 ? Offer[0].Description : null} onChange={changeoffer} /><br/>
                         <button className="btn-offers" onClick={saveoffer}>Save</button>
                     </div>
