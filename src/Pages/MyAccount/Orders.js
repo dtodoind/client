@@ -42,7 +42,7 @@ function AccountOrders(props) {
     }, [Orders, orderload])
 
 	useEffect(() => {
-        axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all/'+JSON.parse(localStorage.getItem('SingleUser'))[0].Users_id, 
+        axios.get('http://localhost:5000/order/all/'+JSON.parse(localStorage.getItem('SingleUser'))[0].Users_id, 
         {
             headers: {
                 'x-auth-token': localStorage.getItem('token')
@@ -120,9 +120,9 @@ function AccountOrders(props) {
             OrderItem_id: parseInt(orderitem_id),
             Status: 'Return'
         }
-        await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val).then(async (res) => {
+        await axios.put('http://localhost:5000/orderitem/status', order_val).then(async (res) => {
             if(res.data === 'successfully Updated') {
-                await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
+                await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
             }
             // document.getElementById('change_text'+parseInt(orderitem_id)).innerHTML = `<p>You have Return this Product. Refund will be done after the product reaches to our store.</p>`
             // document.getElementById('btn_change'+parseInt(orderitem_id)).innerHTML = `
@@ -156,8 +156,8 @@ function AccountOrders(props) {
                                 Status: 'Return'
                             }
                             // console.log(order_val)
-                            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val)
-                            await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
+                            await axios.put('http://localhost:5000/order/status', order_val)
+                            await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
                         }
                     }
                 }
@@ -180,7 +180,7 @@ function AccountOrders(props) {
                 new Date(),
             Notify_cate: "Return",
         }
-        await axios.post('https://dtodo-indumentaria-server.herokuapp.com/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
+        await axios.post('http://localhost:5000/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
     }
 
 	return (
@@ -238,7 +238,7 @@ function AccountOrders(props) {
                                                         <div className='row'>
                                                             <div className='col-md-6'>
                                                                 <div className="order_img">
-                                                                    <img src={'https://dtodo-indumentaria-server.herokuapp.com/'+p.Image} alt='' className="order_img_inner" />
+                                                                    <img src={'http://localhost:5000/'+p.Image} alt='' className="order_img_inner" />
                                                                 </div>
                                                             </div>
                                                             <div className='col-md-6 d-flex align-items-center'>

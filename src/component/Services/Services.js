@@ -12,7 +12,7 @@ function Services(props) {
     const { Services, services } = props
 
     useEffect(() => {
-        axios.get('https://dtodo-indumentaria-server.herokuapp.com/service/all').then(res => services(res.data))
+        axios.get('http://localhost:5000/service/all').then(res => services(res.data))
     }, [services])
 
     return (

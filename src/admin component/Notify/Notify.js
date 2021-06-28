@@ -14,8 +14,8 @@ function Notify({name, message, profile, cat, index, Notification_id, drop, noti
     if(cat === "Subscriber") color = 'warning'
 
     const remove_notify = async () => {
-        await axios.delete(`https://dtodo-indumentaria-server.herokuapp.com/notification/delete/${Notification_id}`)
-        await axios.get('https://dtodo-indumentaria-server.herokuapp.com/notification/all').then(res => notification(res.data))
+        await axios.delete(`http://localhost:5000/notification/delete/${Notification_id}`)
+        await axios.get('http://localhost:5000/notification/all').then(res => notification(res.data))
     }
 
     return (

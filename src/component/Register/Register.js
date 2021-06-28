@@ -131,7 +131,7 @@ function Register({ show, ...props }) {
 								Notify_cate: "Subscriber",
 							};
 							await axios
-								.post("https://dtodo-indumentaria-server.herokuapp.com/notification/new", notify)
+								.post("http://localhost:5000/notification/new", notify)
 								.then((res) =>
 									props.insertNotification({
 										...notify,
@@ -140,7 +140,7 @@ function Register({ show, ...props }) {
 								);
 	
 							await axios
-								.post("https://dtodo-indumentaria-server.herokuapp.com/users/new", formdata, {
+								.post("http://localhost:5000/users/new", formdata, {
 									header: { "Content-Type": "multipart/form-data" },
 								})
 								.then((res) => {

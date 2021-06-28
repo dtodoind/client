@@ -52,7 +52,7 @@ function Orders(props) {
 				DeliveryD: 0,
 				PickupD: 0
 			}
-			await axios.get(`https://dtodo-indumentaria-server.herokuapp.com/order/all`).then(res => {
+			await axios.get(`http://localhost:5000/order/all`).then(res => {
 				// console.log(Orders, res.data)
 				if(Orders.length !== 0) {
 					if(Orders[0].Orders_id !== res.data[0].Orders_id) {

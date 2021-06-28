@@ -12,12 +12,14 @@ import categoryimg from '../../assets/banner-girls.png'
 function Shopcart(props) {
 
     const [lop, setlop] = useState(true)
+    const [count, setCount] = useState(0)
+    const [promocode, setPromocode] = useState('')
 
-    const { Delivery, setdelivery, basket, Offer } = props
+    const { Delivery, setdelivery, basket, Offer, alloffer } = props
 
     useEffect(() => {
         if(Delivery.length === 0) {
-            axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
+            axios.get('http://localhost:5000/delivery/all').then(res => {
                 if(Delivery.length !== 0) {
                     if(Delivery[Delivery.length - 1].Delivery_id !== res.data[res.data.length - 1].Delivery_id) {
                         setdelivery(res.data)
@@ -31,7 +33,24 @@ function Shopcart(props) {
                 }
             })
         }
-    }, [Delivery, lop, setdelivery])
+        axios.get('http://localhost:5000/offer/all').then(res => {
+            if(Offer.length === 0){
+                if(count === 0) {
+                    alloffer(res.data)
+                    setCount(1)
+                }
+            } else {
+                if(count === 1){
+                    alloffer(res.data)
+                } 
+                setCount(0)
+            }
+        })
+    }, [Delivery, lop, setdelivery, Offer, alloffer, count])
+
+    const promo = (val) => {
+        setPromocode(val)
+    }
 
     var subtotal = 0
     basket.map(item => subtotal = subtotal + item.totalprice);
@@ -39,15 +58,22 @@ function Shopcart(props) {
     var discount = 0
     var final_subtotal = 0
     if(Offer.length !== 0) {
-        if(Offer[0].Price !== 0) {
-            if(Offer[0].Price <= subtotal) {
+        if(Offer[0].Promocode === "") {
+            if(Offer[0].Price !== 0) {
+                if(Offer[0].Price <= subtotal) {
+                    discount = Offer[0].Discount
+                    final_subtotal = subtotal - (discount*subtotal/100)
+                } else {
+                    final_subtotal = subtotal
+                }
+            }
+        } else if(Offer.length !== '') {
+            if(promocode === Offer[0].Promocode) {
                 discount = Offer[0].Discount
                 final_subtotal = subtotal - (discount*subtotal/100)
             } else {
                 final_subtotal = subtotal
             }
-        } else {
-            final_subtotal = subtotal
         }
     }
 
@@ -65,7 +91,7 @@ function Shopcart(props) {
                     </div>
                     <div className="col-lg-3">
                         <div className="container px-0">
-                            <CartTotal cart='checkout' subtotal={subtotal} total={total} />
+                            <CartTotal cart='checkout' subtotal={subtotal} total={total} promo={promo} />
                         </div>
                     </div>
                 </div>
@@ -87,6 +113,12 @@ const mapDispatchToProps = (dispatch) => {
         setdelivery: (val) => { 
             dispatch({
                 type: 'DELIVERY',
+                item: val
+            })
+        },
+        alloffer: (val) => { 
+            dispatch({
+                type: 'OFFERS',
                 item: val
             })
         }

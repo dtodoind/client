@@ -13,7 +13,7 @@ function TopImg(props) {
     const [lop, setlop] = useState(true)
 
     useEffect(() => {
-        axios.get('https://dtodo-indumentaria-server.herokuapp.com/topimages/all').then(res => {
+        axios.get('http://localhost:5000/topimages/all').then(res => {
             if(Single !== null) {
                 if(Single.length !== 0) {
                     if(Single[Single.length - 1].TopImages_id !== res.data[res.data.length - 1].TopImages_id) {
@@ -88,14 +88,14 @@ function TopImg(props) {
         if(Single === null) {
             var imgdata = new FormData()
             imgdata.append('topImage', wholeimg)
-            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/topimages/new', imgdata)
-            // await axios.get('https://dtodo-indumentaria-server.herokuapp.com/topimages/all').then(res => console.log(res.data))
+            await axios.post('http://localhost:5000/topimages/new', imgdata)
+            // await axios.get('http://localhost:5000/topimages/all').then(res => console.log(res.data))
         } else {
             var formdata = new FormData()
             formdata.append('topImage', wholeimg)
             formdata.append('Image', imgtop)
-            await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/topimages/edit/${Single[0].TopImages_id}`, formdata)
-            // await axios.get('https://dtodo-indumentaria-server.herokuapp.com/topimages/all').then(res => console.log(res.data))
+            await axios.put(`http://localhost:5000/topimages/edit/${Single[0].TopImages_id}`, formdata)
+            // await axios.get('http://localhost:5000/topimages/all').then(res => console.log(res.data))
         }
     }
 
@@ -107,7 +107,7 @@ function TopImg(props) {
                 {
                     Single === null
                     ? <div className="w-100 text-center py-2 my-1" style={{backgroundColor: 'rgba(0,0,0,0.05)'}}>No Image</div>
-                    : <img src={Single.length === 0 ? null : 'https://dtodo-indumentaria-server.herokuapp.com/'+Single[0].Image} alt="" className="image_display w-100 text-center py-2 my-1" />
+                    : <img src={Single.length === 0 ? null : 'http://localhost:5000/'+Single[0].Image} alt="" className="image_display w-100 text-center py-2 my-1" />
                 }
             </div>
             <button className="btn-topimg" onClick={save_img}>Save</button>

@@ -46,7 +46,7 @@ function ResetPassword() {
                         initialValues={{ password: "", conpassword: "" }}
                         onSubmit={(values, { setSubmitting }) => {
                         setTimeout(() => {
-                            axios.put('https://dtodo-indumentaria-server.herokuapp.com/users/passwordreset', {email: localStorage.getItem('emailreset'), Password: values.password}).then(res => {
+                            axios.put('http://localhost:5000/users/passwordreset', {email: localStorage.getItem('emailreset'), Password: values.password}).then(res => {
                                 if(res.data === 'success') {
                                     localStorage.removeItem('emailreset')
                                     localStorage.setItem('history', '/resetpassword')

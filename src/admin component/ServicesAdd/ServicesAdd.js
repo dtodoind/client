@@ -18,7 +18,7 @@ function ServicesAdd(props) {
     const [lop, setlop] = useState(true)
 
     useEffect(() => {
-        axios.get('https://dtodo-indumentaria-server.herokuapp.com/service/all').then(res => {
+        axios.get('http://localhost:5000/service/all').then(res => {
             if(Services.length !== 0) {
                 if(Services[Services.length - 1].Service_id !== res.data[res.data.length - 1].Service_id) {
                     services(res.data)
@@ -99,8 +99,8 @@ function ServicesAdd(props) {
             // var se = Services
             // se.push(s)
             // props.services(Services)
-            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/service/new', s)
-            await axios.get('https://dtodo-indumentaria-server.herokuapp.com/service/all').then(res => services(res.data))
+            await axios.post('http://localhost:5000/service/new', s)
+            await axios.get('http://localhost:5000/service/all').then(res => services(res.data))
             seticon('')
             document.getElementsByClassName('selectpicker')[0].selectedIndex = "0"
             document.getElementsByName('title')[0].value = ''
@@ -114,8 +114,8 @@ function ServicesAdd(props) {
         // var serv = Services
         // serv.splice(i, 1)
         // props.services(Services)
-        await axios.delete(`https://dtodo-indumentaria-server.herokuapp.com/service/delete/${i}`)
-        await axios.get('https://dtodo-indumentaria-server.herokuapp.com/service/all').then(res => services(res.data))
+        await axios.delete(`http://localhost:5000/service/delete/${i}`)
+        await axios.get('http://localhost:5000/service/all').then(res => services(res.data))
     }
 
     return (

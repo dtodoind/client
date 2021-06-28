@@ -26,8 +26,8 @@ function Navigation(props) {
 	const prevScroll = useRef()
 
     useEffect(() => {
-		axios.get('https://dtodo-indumentaria-server.herokuapp.com/product/all').then(res => insertProductAll(res.data))
-		axios.get('https://dtodo-indumentaria-server.herokuapp.com/category/all').then(res => category(res.data))
+		axios.get('http://localhost:5000/product/all').then(res => insertProductAll(res.data))
+		axios.get('http://localhost:5000/category/all').then(res => category(res.data))
 	}, [insertProductAll, category])
 	
 	window.addEventListener('resize', () => {
@@ -114,7 +114,7 @@ function Navigation(props) {
 	// 	Email: "sbhavesh760@gmail.com",
 	// 	FirstName: "Chetan",
 	// 	Gender: "Male",
-	// 	Image: "https://dtodo-indumentaria-server.herokuapp.com/57c4a76e1040e_thumb900.jpg",
+	// 	Image: "http://localhost:5000/57c4a76e1040e_thumb900.jpg",
 	// 	LastName: "Solanki",
 	// 	Password: "$2b$10$mY7S12RbTCbOSYbTPC7cJu2f3q2m538snzF7ThJ0oQbfp3WM9pI..",
 	// 	Phoneno: "9909027254",
@@ -235,7 +235,7 @@ function Navigation(props) {
 														Users_id: result[0].Users_id,
 														Status: 'Inactive'
 													}
-													await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/users/status`, db_val, {
+													await axios.put(`http://localhost:5000/users/status`, db_val, {
 														headers: {
 															'x-auth-token': localStorage.getItem('token')
 														}
@@ -289,7 +289,7 @@ function Navigation(props) {
 										Users_id: result[0].Users_id,
 										Status: 'Inactive'
 									}
-									await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/users/status`, db_val, {
+									await axios.put(`http://localhost:5000/users/status`, db_val, {
 										headers: {
 											'x-auth-token': localStorage.getItem('token')
 										}
@@ -327,7 +327,7 @@ function Navigation(props) {
 													<div className="row">
 														<div className="col-3 p-0 text-center">
 															<div className="img-cart">
-																<img src={'https://dtodo-indumentaria-server.herokuapp.com/'+item.img} alt="cart_prod" className="cart_prod" />
+																<img src={'http://localhost:5000/'+item.img} alt="cart_prod" className="cart_prod" />
 															</div>
 														</div>
 														<div className="col-6">

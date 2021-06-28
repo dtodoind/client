@@ -10,17 +10,37 @@ function OffersAdd(props) {
     const { Offer, offer } = props
     const [Img, setimg] = useState('')
     const [dis, setdis] = useState('')
+    const [promo, setPromo] = useState('')
     const [pri, setpri] = useState('')
     const [des, setdes] = useState('')
+    const [count, setCount] = useState(0)
     const [error,] = useState("File size should be less than 1 MB")
 
     useEffect(() => {
-        axios.get('https://dtodo-indumentaria-server.herokuapp.com/offer/all').then(res => offer(res.data))
-    }, [offer])
+        axios.get('http://localhost:5000/offer/all').then(res => {
+            if(Offer.length === 0) {
+                if(count === 0) {
+                    offer(res.data)
+                    setCount(1)
+                }
+            } else {
+                if(count === 1){
+                    offer(res.data)
+                    setdis(res.data[0].Discount)
+                    setPromo(res.data[0].Promocode)
+                    setdes(res.data[0].Description)
+                    setpri(res.data[0].Price)
+                }
+                setCount(0)
+            }
+        })
+    }, [Offer, offer, count])
 
     const changeoffer = async (e) => {
         if(e.target.name === 'discount') {
             setdis(e.target.value)
+        } else if(e.target.name === 'promo') {
+            setPromo(e.target.value.toUpperCase())
         } else if(e.target.name === 'short_des') {
             setdes(e.target.value)
         } else if(e.target.name === 'price') {
@@ -78,13 +98,18 @@ function OffersAdd(props) {
         formdata.append('Image', Img)
         formdata.append('Offer_Image', Img !== '' ? Img.name : Offer[0].Offer_Image)
         formdata.append('Discount', dis !== '' ? dis : '')
+        formdata.append('Promocode', promo !== '' ? promo : '')
         formdata.append('Price', pri !== '' ? pri : 0)
         formdata.append('Description', des !== '' ? des : '')
-        if(Offer.length === 0) {
-            axios.post('https://dtodo-indumentaria-server.herokuapp.com/offer/new', formdata)
-        } else {
-            await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/offer/edit/${Offer[0].Offer_id}`, formdata)
-        }
+        await axios.get('http://localhost:5000/offer/all').then(async(res) => {
+            if(res.data.length === 0) {
+                await axios.post('http://localhost:5000/offer/new', formdata)
+                offer(res.data)
+            } else {
+                await axios.put(`http://localhost:5000/offer/edit/${res.data[0].Offer_id}`, formdata)
+                offer(res.data)
+            }
+        })
     }
 
     const displayimg = (val) => {
@@ -108,7 +133,7 @@ function OffersAdd(props) {
                             {
                                 Img === ''
                                 ? Offer.length !== 0
-                                    ? <img src={'https://dtodo-indumentaria-server.herokuapp.com/'+Offer[0].Offer_Image} alt="" className="vl w-100" />
+                                    ? <img src={'http://localhost:5000/'+Offer[0].Offer_Image} alt="" className="vl w-100" />
                                     : null
                                 : <img src={displayimg(Img)} alt="" className="vl w-100" />
                             }
@@ -119,7 +144,7 @@ function OffersAdd(props) {
                         <p style={{color: 'rgba(0,0,0,0.3)'}}>Example: 10</p>
                         <input type="text" placeholder="Offer Applicable" name="price" defaultValue={Offer.length !== 0 ? Offer[0].Price : null} onChange={changeoffer} />
                         <p style={{color: 'rgba(0,0,0,0.3)'}}>Example: 200</p>
-                        <input type="text" placeholder="Promo code" name="promo"/>
+                        <input type="text" placeholder="Promo code" name="promo" style={{textTransform: 'uppercase'}} defaultValue={Offer.length !== 0 ? Offer[0].Promocode : null} onChange={changeoffer} />
                         <p style={{color: 'rgba(0,0,0,0.3)'}}>Example: #288BG6</p>
                         <input type="text" placeholder="Short Description" name="short_des" defaultValue={Offer.length !== 0 ? Offer[0].Description : null} onChange={changeoffer} /><br/>
                         <button className="btn-offers" onClick={saveoffer}>Save</button>

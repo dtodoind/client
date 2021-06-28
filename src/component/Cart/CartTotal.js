@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import './CartTotal.scss'
@@ -6,10 +6,10 @@ import { FaDollarSign } from 'react-icons/fa';
 // import StripeCheckoutButton from '../../component/Payment/strip-button'
 
 import { connect } from 'react-redux'
-import axios from 'axios';
 
 function CartTotal(props) {
-    const { Offer, alloffer, delivery_charges, total, subtotal, after_total } = props
+    const { Offer, delivery_charges, total, subtotal, after_total, promo } = props
+    const [promocode, setPromocode] = useState('')
     // var subtotal = 0
     // basket.map(item => subtotal = subtotal + item.totalprice);
     
@@ -22,21 +22,25 @@ function CartTotal(props) {
     // } else {
     //     console.log('its here')
     // }
-    useEffect(() => {
-        if(Offer.length === 0) {
-            axios.get('https://dtodo-indumentaria-server.herokuapp.com/offer/all').then(res => alloffer(res.data))
-        }
-    }, [Offer, alloffer])
+    // useEffect(() => {
+        
+    // }, [Offer, alloffer, count])
     
     var discount = 0
     // var final_subtotal = 0
     if(Offer.length !== 0) {
-        if(Offer[0].Price !== 0) {
-            if(Offer[0].Price <= subtotal) {
+        if(Offer[0].Promocode === '') {
+            if(Offer[0].Price !== 0) {
+                if(Offer[0].Price <= subtotal) {
+                    discount = Offer[0].Discount
+                    // final_subtotal = subtotal - (discount*100/subtotal)
+                } else {
+                    // final_subtotal = subtotal
+                }
+            }
+        } else if(Offer.length !== '') {
+            if(promocode === Offer[0].Promocode) {
                 discount = Offer[0].Discount
-                // final_subtotal = subtotal - (discount*100/subtotal)
-            } else {
-                // final_subtotal = subtotal
             }
         }
     }
@@ -61,25 +65,42 @@ function CartTotal(props) {
                         </div>
                     </div>
                     {
-                        Offer[0]?.Price === 0
-                        ? null
-                        : (<><div className="row py-2 px-3">
-                            <div className="col">
-                                <p>Discount</p>
+                        Offer[0]?.Promocode === ''
+                        ? Offer[0]?.Price !== 0
+                            ? <>
+                                <div className="row py-2 px-3">
+                                    <div className="col">
+                                        <p>Discount</p>
+                                    </div>
+                                    <div className="col">
+                                        <FaDollarSign/>
+                                        {discount}%
+                                    </div>
+                                </div>
+                            </>
+                            : null
+                        : <>
+                            <div className="row py-2 px-3">
+                                <div className="col">
+                                    <p>Discount</p>
+                                </div>
+                                <div className="col">
+                                    <FaDollarSign/>
+                                    {discount}%
+                                </div>
                             </div>
-                            <div className="col">
-                                <FaDollarSign/>
-                                {discount}%
+                            <div className="row py-2 px-3">
+                                <div className="col">
+                                    <p>Promo Code</p>
+                                </div>
+                                <div className="col">
+                                    <input placeholder='#82928' className='input_prom' name="promocode" style={{textTransform: 'uppercase'}} onChange={(e) => {
+                                        setPromocode(e.target.value.toUpperCase())
+                                        promo(e.target.value.toUpperCase())
+                                    }} />
+                                </div>
                             </div>
-                        </div>
-                         <div className="row py-2 px-3">
-                         <div className="col">
-                             <p>Promo Code</p>
-                         </div>
-                         <div className="col">
-                            <input placeholder='#82928' className='input_prom'/>
-                         </div>
-                     </div></>)
+                        </>
                     }
                     <div className="row py-2 px-3" style={{borderTop: '1px solid rgba(0,0,0,.2)'}}>
                         <div className="col">
@@ -142,15 +163,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return{
-        alloffer: (val) => { 
-            dispatch({
-                type: 'OFFERS',
-                item: val
-            })
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartTotal)
+export default connect(mapStateToProps)(CartTotal)

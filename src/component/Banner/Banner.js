@@ -9,7 +9,7 @@ function Banner(props) {
     const { Offer, offer } = props
 
     useEffect(() => {
-        axios.get('https://dtodo-indumentaria-server.herokuapp.com/offer/all').then(res => offer(res.data))
+        axios.get('http://localhost:5000/offer/all').then(res => offer(res.data))
     }, [offer])
 
     if(Offer.length === 0 || Offer[0]?.Price === 0) {
@@ -17,7 +17,7 @@ function Banner(props) {
     } else {
         return (
             <div className="banner">
-                <img src={'https://dtodo-indumentaria-server.herokuapp.com/'+Offer[0]?.Offer_Image} alt="banner" className="banner_img" />
+                <img src={'http://localhost:5000/'+Offer[0]?.Offer_Image} alt="banner" className="banner_img" />
                 <div className="offer_badge">
                     <p className="offer">Offer</p>
                 </div>

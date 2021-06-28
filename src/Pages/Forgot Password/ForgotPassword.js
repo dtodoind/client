@@ -51,7 +51,7 @@ function ForgotPassword() {
                         onSubmit={(values, { setSubmitting }) => {
                         setTimeout(() => {
                             localStorage.setItem('emailreset', values.email)
-                            axios.post('https://dtodo-indumentaria-server.herokuapp.com/users/resetpass', {email: values.email}).then(res => {
+                            axios.post('http://localhost:5000/users/resetpass', {email: values.email}).then(res => {
                                 if(res.data === '') {
                                     setemailerr('Email is not registered')
                                     document.getElementsByClassName('emailerr')[0].style.display = 'inherit'

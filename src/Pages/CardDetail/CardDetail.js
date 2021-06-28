@@ -59,7 +59,7 @@ function CardDetail(props) {
 		// 	}
 		// }
 		if(Products.length === 0) {
-			axios.get('https://dtodo-indumentaria-server.herokuapp.com/product/all').then(res => allproduct(res.data))
+			axios.get('http://localhost:5000/product/all').then(res => allproduct(res.data))
 		} else {
 			for(let q=0; q<basket.length; q++) {
 				if(JSON.parse(Products[index].Color)[colorselected] === basket[q].color && JSON.parse(Products[index].Size)[colorselected][sizeselected] === basket[q].size && basket[q].id === index) {
@@ -256,7 +256,7 @@ function CardDetail(props) {
 												<div className="w-100 h-100 d-flex justify-content-center">
 													<img
 														className="margin-auto h-100"
-														src={'https://dtodo-indumentaria-server.herokuapp.com/'+p}
+														src={'http://localhost:5000/'+p}
 														alt={p}
 													/>
 												</div>
