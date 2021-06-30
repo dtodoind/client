@@ -77,7 +77,7 @@ function Profile(props) {
 		// 	phone: User.Phoneno,
 		// 	// address: User.Address,
 		// };
-
+		
 		if(val !== undefined) {
 			var address = JSON.parse(SingleUser[0].Address)
 			var Zip = JSON.parse(SingleUser[0].Zip)
@@ -135,7 +135,7 @@ function Profile(props) {
 				headers: {
 					'x-auth-token': localStorage.getItem('token')
 				}
-			})
+			}).then((res) => User.Image = res.data)
 			localStorage.setItem('SingleUser', JSON.stringify([User]))
 			setSingleUser([User])
 		}
