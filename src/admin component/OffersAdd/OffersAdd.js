@@ -130,10 +130,11 @@ function OffersAdd(props) {
                         <input type="file" name="file_img" onChange={changeoffer} />
                         <div id="error2" style={{color: 'red', fontWeight: '500', display: 'none'}}>{error}</div>
                         <div className="w-100 py-2">
+                            {/* <img src='/edit/1/3554x1999_3d-technology-digital-art-purple-color-4k-abstract-min.jpg' alt="" className="vl w-100" /> */}
                             {
                                 Img === ''
                                 ? Offer.length !== 0
-                                    ? <img src={'http://localhost:5000/'+Offer[0].Offer_Image} alt="" className="vl w-100" />
+                                    ? <img src={Offer[0].Offer_Image} alt="" className="vl w-100" />
                                     : null
                                 : <img src={displayimg(Img)} alt="" className="vl w-100" />
                             }

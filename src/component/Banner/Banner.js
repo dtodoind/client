@@ -17,14 +17,14 @@ function Banner(props) {
     } else {
         return (
             <div className="banner">
-                <img src={'http://localhost:5000/'+Offer[0]?.Offer_Image} alt="banner" className="banner_img" />
+                <img src={Offer[0]?.Offer_Image} alt="banner" className="banner_img" />
                 <div className="offer_badge">
                     <p className="offer">Offer</p>
                 </div>
                 <div className="offer_content">
                     <div className="content_text">
                         <h2>{Offer[0]?.Discount}% Off</h2>
-                        <p>{Offer[0]?.Description} ${Offer[0]?.Price}</p>
+                        <p>{Offer[0]?.Description} {Offer[0]?.Promocode === 0 ? Offer[0]?.Price === '' ? null : '$'+Offer[0]?.Price : '. Use Promocode '+Offer[0]?.Promocode}</p>
                     </div>
                 </div>
             </div>
