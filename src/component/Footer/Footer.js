@@ -30,9 +30,9 @@ function Footer(){
 				<MDBRow className='footer-row'>
 					<MDBCol md="3" className="py-4">
 						<h5 className="title">DTODO INDUMENTARIA</h5>
-						<p style={{width:'258px'}}>
+						{/* <p style={{width:'258px'}}>
 							Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.
-						</p>
+						</p> */}
 
 						<a href='https://www.instagram.com/dtodoind/'><FaInstagram  className='footer-icon'/></a>
 						<a href='https://www.facebook.com/dtodoind'><FaFacebook className='footer-icon'/></a>
@@ -42,7 +42,10 @@ function Footer(){
 						<h5 className="title">Menu</h5>
 						<ul>
 							<li className="list-unstyled">
-								<Link to='/'>Home</Link>
+								<Link to='/'>
+									{/* Home */}
+									Inicio
+								</Link>
 							</li>
 							<li className="list-unstyled">
 								<Link to="/category">Category</Link>

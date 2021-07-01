@@ -207,10 +207,11 @@ function AccountOrders(props) {
                             ? null
                             : orders.map((o,i) => 
                                 [<tr key={i}>
+                                    {console.log(orders, 'ORDERS')}
                                     <td className="accordion-toggle collapsed" id={"accordion"+i} data-toggle="collapse" data-parent={"#accordion"+i} href={"#collap"+i}>
                                         <div style={{position: 'relative'}}>
                                             <IoAddCircle style={{display: 'inline'}} className="p icon_ind" onClick={() => {
-                                                document.getElementsByClassName('p')[i].style.display = 'none'
+                                               document.getElementsByClassName('p')[i].style.display = 'none'
                                                 document.getElementsByClassName('c')[i].style.display = 'inherit'
                                                 }}
                                             />
