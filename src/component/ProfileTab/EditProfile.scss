@@ -59,14 +59,17 @@
 			margin-top: 5%;
 			// float:right;
 			//   margin-top: 6%;
-			width: 18%;
+			width: 200px;
 			height: 37px;
 			border: 1px solid $color3;
-			background-color: $color9 !important;
+			color: white;
+			background-color: $color3;
+			transition: 0.2s;
+			border-radius: 5px;
 		}
 		.btnp-edit:hover {
-			color: rgb(255, 255, 255);
-			background-color: $color5 !important;
+			color: black;
+			background-color: white;
 		}
 	}
 

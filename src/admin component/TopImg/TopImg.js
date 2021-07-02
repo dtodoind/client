@@ -107,7 +107,7 @@ function TopImg(props) {
                 {
                     Single === null
                     ? <div className="w-100 text-center py-2 my-1" style={{backgroundColor: 'rgba(0,0,0,0.05)'}}>No Image</div>
-                    : <img src={Single.length === 0 ? null : 'http://localhost:5000/'+Single[0].Image} alt="" className="image_display w-100 text-center py-2 my-1" />
+                    : <img src={Single.length === 0 ? null : Single[0].Image} alt="" className="image_display w-100 text-center py-2 my-1" />
                 }
             </div>
             <button className="btn-topimg" onClick={save_img}>Save</button>

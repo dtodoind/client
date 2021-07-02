@@ -193,7 +193,7 @@ function ProductTable({inspro, ...props}) {
                                 }} />
                         </td>
                         {/* <td></td> */}
-                        <td><img src={JSON.parse(p.Image)[0] !== undefined ? `http://localhost:5000/${JSON.parse(p.Image)[0][0]}`: null} alt="" style={{width: '50px'}} /></td>
+                        <td><img src={JSON.parse(p.Image)[0] !== undefined ? `${JSON.parse(p.Image)[0][0]}`: null} alt="" style={{width: '50px'}} /></td>
                         <td className={p.Name}>{p.Name}</td>
                         <td>{p.Category.Name}</td>
                         <td>{p.Description} </td>

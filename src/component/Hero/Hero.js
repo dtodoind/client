@@ -25,7 +25,7 @@ function Hero(props) {
                             <Carousel.Item style={{height: "100%"}} animation="false" key={hero.HeroImages_id}>
                                 <img
                                     className="hero-img"
-                                    src={'http://localhost:5000/'+hero.Image}
+                                    src={hero.Image}
                                     alt={hero.HeroImages_id+"slide"}
                                 />
                             </Carousel.Item>

@@ -256,7 +256,7 @@ function CardDetail(props) {
 												<div className="w-100 h-100 d-flex justify-content-center">
 													<img
 														className="margin-auto h-100"
-														src={'http://localhost:5000/'+p}
+														src={p}
 														alt={p}
 													/>
 												</div>

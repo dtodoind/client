@@ -327,7 +327,7 @@ function Navigation(props) {
 													<div className="row">
 														<div className="col-3 p-0 text-center">
 															<div className="img-cart">
-																<img src={'http://localhost:5000/'+item.img} alt="cart_prod" className="cart_prod" />
+																<img src={item.img} alt="cart_prod" className="cart_prod" />
 															</div>
 														</div>
 														<div className="col-6">
