@@ -15,7 +15,7 @@ function EditModal({ User, EditUser, ...props }) {
 			>
 				<Modal.Header closeButton>
 					<Modal.Title id="example-modal-sizes-title-sm">
-						Edit Profile
+						Editar perfil
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body className="modal-body">
@@ -81,7 +81,7 @@ function EditModal({ User, EditUser, ...props }) {
 					</div>
 					<input type="file" className="input-edit-file" />
 					<button className="btn-edit-account" onClick={EditUser}>
-						Save Changes
+						Guardar Cambios
 					</button>
 				</Modal.Body>
 			</Modal>

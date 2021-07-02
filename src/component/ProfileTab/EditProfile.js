@@ -108,7 +108,7 @@ function EditProfile({ User, showornot, EditUser, ...props }) {
 									<div className="container-fluid">
 										<div className="row d-flex align-items-center">
 											<div className="col-3">
-												<h5 className="m-0">Gender</h5>
+												<h5 className="m-0">Género</h5>
 											</div>
 											<div className="col-9">
 												<div className="form-check-inline">
@@ -161,7 +161,7 @@ function EditProfile({ User, showornot, EditUser, ...props }) {
 							</div>
 							<div className="btnp-edit-div">
 								<button className="btnp-edit" onClick={() => EditUser()}>
-									Save changes
+									Guardar
 								</button>
 							</div>
 						</Col>

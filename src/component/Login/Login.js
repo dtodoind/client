@@ -164,7 +164,7 @@ function Login(props) {
                 }
             }
             </Formik>
-            <p>Not Register? <button onClick={() => props.show('Register')}>Sign up</button></p>
+            <p>No estas registrado? <button onClick={() => props.show('Register')}>Sign up</button></p>
         </div>
     )
 }

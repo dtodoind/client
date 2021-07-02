@@ -14,7 +14,7 @@ function AddAddress({ EditUser, addaddress, ...props }) {
     
     return (
         <div className="addAddress">
-            <button className="address" onClick={addaddress}>Add Address</button>
+            <button className="address" onClick={addaddress}>NUEVA DIRECCIÓN</button>
             <div className="drop_contain">
                 <Formik
                     initialValues={{ Address: "", zip: "" }}
@@ -72,7 +72,7 @@ function AddAddress({ EditUser, addaddress, ...props }) {
                                     <div className="col">
                                         <div className="input-div one">
                                             <div className="div">
-                                                <h5>Address</h5>
+                                                <h5>Dirección</h5>
                                                 <input type="text" className="input w-100" name="Address" value={values.Address} onChange={handleChange} onBlur={handleBlur} />
                                             </div>
                                         </div>
@@ -81,7 +81,7 @@ function AddAddress({ EditUser, addaddress, ...props }) {
                                 </div>
                                 <div className="input-div one">
                                     <div className="div">
-                                        <h5>ZIP Code</h5>
+                                        <h5>Código postal</h5>
                                         <input
                                             type="text"
                                             className="input"

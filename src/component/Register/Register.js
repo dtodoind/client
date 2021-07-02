@@ -319,7 +319,7 @@ function Register({ show, ...props }) {
 							)}
 							<div className="input-div one">
 								<div className="div">
-									<h5>Phone Number</h5>
+									<h5>Celular</h5>
 									<input
 										type="text"
 										className="input"
@@ -337,7 +337,7 @@ function Register({ show, ...props }) {
 							)}
 							<div className="input-div one">
 								<div className="div">
-									<h5>Address</h5>
+									<h5>Dirección</h5>
 									<input
 										type="text"
 										className="input"
@@ -353,7 +353,7 @@ function Register({ show, ...props }) {
 							)}
 							<div className="input-div one">
 								<div className="div">
-									<h5>ZIP Code</h5>
+									<h5>Código postal</h5>
 									<input
 										type="text"
 										className="input"
@@ -390,7 +390,7 @@ function Register({ show, ...props }) {
 									<div className="container-fluid">
 										<div className="row d-flex align-items-center">
 											<div className="col-3">
-												<h5 className="m-0">Gender</h5>
+												<h5 className="m-0">Género</h5>
 											</div>
 											<div className="col-9">
 												<div className="form-check-inline">
@@ -457,7 +457,7 @@ function Register({ show, ...props }) {
 				}}
 			</Formik>
 			<p>
-				Already Register? <button onClick={() => show("login")}>Login</button>
+				Ya estas registrado? <button onClick={() => show("login")}>Login</button>
 			</p>
 		</div>
 	);

@@ -108,7 +108,7 @@ function DeliveryCharges(props) {
             <table className="table">
                 <thead>
                     <tr>
-                        <th scope="col">Region ZIP code</th>
+                        <th scope="col">Region código postal</th>
                         <th scope="col">Charges</th>
                         <th scope="col" className="text-center">Remove</th>
                     </tr>

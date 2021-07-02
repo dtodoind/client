@@ -266,7 +266,7 @@ function Checkout(props) {
                         {
                             SingleUser === null
                             ? <>
-                                <h2>You are not Logged In</h2>
+                                <h2>No Iniciaste sesión todavía</h2>
                                 <Link to='/loginregister' className="logincheckout">Login</Link>
                             </>
                             : <>

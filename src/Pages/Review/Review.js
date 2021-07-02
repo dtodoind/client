@@ -58,7 +58,7 @@ function Review(props) {
 
     return (
         <div className="review">
-            <TopBanner img={categoryimg} name="REVIEWS" />
+            <TopBanner img={categoryimg} name=" CLIENTES" />
             <div className="container-fluid adj">
                 <div className="container inner_contain">
                     <div className="container">

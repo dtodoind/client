@@ -224,7 +224,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 	
 	return (
 		<div className="payment">
-			<div className="title">Payment Method</div>
+			<div className="title">Método de pago</div>
 			<form className="Form" onSubmit={handleSubmit}>
 				{
 					radioval === undefined || radioval === 'payment'
@@ -254,7 +254,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 							}}
 						/> */}
 						<Field
-							label="Phone"
+							label="Celular"
 							id="phone"
 							type="tel"
 							placeholder="Enter Phone number"
@@ -268,7 +268,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 							}}
 						/>
 						<Field
-							label="Address 1"
+							label="Dirección 1"
 							id="address"
 							type="text"
 							placeholder="Enter Address"
@@ -284,7 +284,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 							}}
 						/>
 							<Field
-								label="City"
+								label="Ciudad"
 								id="city"
 								type="text"
 								placeholder="Enter City"
@@ -300,7 +300,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 								}}
 							/>
 						<Field
-							label="State"
+							label="Estado"
 							id="state"
 							type="text"
 							placeholder="Enter State"
@@ -316,7 +316,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 							}}
 						/>
 						<Field
-							label="ZIP"
+							label="Postal"
 							id="zip"
 							type="text"
 							placeholder="Enter Postal Code"
@@ -367,7 +367,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 				</fieldset>
 				{checkoutError && <ErrorMessage>{checkoutError}</ErrorMessage>}
 				<SubmitButton disabled={errrozip || isProcessing || !stripe}>
-					{isProcessing ? "Processing..." : `Pay $${price}`}
+					{isProcessing ? "Processing..." : `Pagar $${price}`}
 				</SubmitButton>
 				<h3 style={{textAlign: 'center', marginTop: '40px', fontSize: '24px', color: 'red'}}>
 					*Please use the following test credit card for payments*

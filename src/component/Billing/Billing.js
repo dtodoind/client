@@ -34,12 +34,12 @@ function Billing(props) {
 
     return (
         <div className="billing">
-            <div className="main_title">Billing Details</div>
+            <div className="main_title">Detalles de Factura</div>
 
             <div className="form-check">
                 <label className="form-check-label" style={{width: "100%"}}>
                     <input type="radio" style={{marginLeft: '-25px'}} value="1" className="form-check-input" name="address" onChange={props.address} />
-                    Pick up from the store
+                    Retirar en la sucursal
                 </label>
             </div>
 
@@ -75,7 +75,7 @@ function Billing(props) {
             <div className="form-check">
                 <label className="form-check-label" style={{width: "100%"}}>
                     <input type="radio" style={{marginLeft: '-25px'}} value="payment" className="form-check-input" name="address" onChange={props.address} defaultChecked />
-                    New Address
+                    Nueva Dirección
                     {/* <Formik
                         initialValues={{ fname: "", lname: "", street: "", town: "", zip: "", phone: "", email: "" }}
                         onSubmit={(values, { setSubmitting }) => {

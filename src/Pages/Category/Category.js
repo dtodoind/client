@@ -44,7 +44,7 @@ function Category(props) {
 
 	return (
 		<div className="category">
-			<TopBanner img={categoryimg} name="SHOP NOW" />
+			<TopBanner img={categoryimg} name="COMPRA AHORA" />
 			<div className="product-display">
 				<ul className="nav nav-pills" role="tablist">
 				<li className="nav-item">

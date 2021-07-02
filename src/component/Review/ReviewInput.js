@@ -93,7 +93,7 @@ function ReviewInput(props) {
                                 ? <div>
                                     <div className="input-div one">
                                         <div className="div">
-                                            <h5>Full Name</h5>
+                                            <h5>Nombre</h5>
                                             <input type="text" className="input" name="fullname" values={values.fullname} onChange={handleChange} onBlur={handleBlur} />
                                         </div>
                                     </div>
@@ -112,7 +112,7 @@ function ReviewInput(props) {
                             }
                             <div className="input-div one">
                                 <div className="div">
-                                    <h5>Message</h5>
+                                    <h5>Mensage</h5>
                                     <input type="text" className="input" name="message" values={values.message} onChange={handleChange} onBlur={handleBlur} />
                                 </div>
                             </div>

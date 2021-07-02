@@ -70,7 +70,7 @@ function CartTotal(props) {
                             ? <>
                                 <div className="row py-2 px-3">
                                     <div className="col">
-                                        <p>Discount</p>
+                                        <p>Descuento</p>
                                     </div>
                                     <div className="col">
                                         <FaDollarSign/>
@@ -82,7 +82,7 @@ function CartTotal(props) {
                         : <>
                             <div className="row py-2 px-3">
                                 <div className="col">
-                                    <p>Discount</p>
+                                    <p>Descuento</p>
                                 </div>
                                 <div className="col">
                                     <FaDollarSign/>
@@ -118,7 +118,7 @@ function CartTotal(props) {
                         ? <>
                             <div className="row py-2 px-3">
                                 <div className="col">
-                                    <p>Delivery</p>
+                                    <p>Entrega</p>
                                 </div>
                                 <div className="col">
                                     <FaDollarSign/>

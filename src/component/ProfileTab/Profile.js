@@ -243,14 +243,14 @@ function Profile(props) {
 									</div>
 
 									<div className="col-4">
-										<p className="font-weight-bold">Phone: </p>
+										<p className="font-weight-bold">Celular: </p>
 									</div>
 
 									<div className="col-8">
 										<p className="col-data">{SingleUser[0].Phoneno}</p>
 									</div>
 									<div className="col-4">
-										<p className="font-weight-bold">Gender: </p>
+										<p className="font-weight-bold">Género: </p>
 									</div>
 									<div className="col-8">
 										<p className="col-data">{SingleUser[0].Gender}</p>
@@ -278,7 +278,7 @@ function Profile(props) {
 
 
 				<div className="divp-2">
-					<p className="title">Address</p>
+					<p className="title">Direcciones</p>
 					<AddAddress
 						EditUser={EditUser}
 						addaddress={addaddress}
@@ -297,7 +297,7 @@ function Profile(props) {
 													className="input-r"
 												/> */}
 												<div className="colp-1">
-													<span style={{margin: '5px 20px', fontSize: '21px', fontWeight: '500'}}>Address {i+1}</span>
+													<span style={{margin: '5px 20px', fontSize: '21px', fontWeight: '500'}}>Dirección {i+1}</span>
 													<div className="ad_dis">
 														{
 															alladdress.map((a, j) => (

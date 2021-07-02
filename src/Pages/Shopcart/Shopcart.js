@@ -81,7 +81,7 @@ function Shopcart(props) {
 
     return (
         <div className="shopcart">
-            <TopBanner img={categoryimg} name="ShopCart" />
+            <TopBanner img={categoryimg} name="CARRITO DE COMPRAS" />
             <div className="container-fluid py-0 my-4">
                 <div className="row">
                     <div className="col-lg-9">

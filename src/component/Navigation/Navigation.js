@@ -217,14 +217,14 @@ function Navigation(props) {
 											<Link to="/account/profile" className="links" onClick={() => searchchange(5)}>
 												<ImProfile className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
 												{/* Profile */}
-												Perfil
+												Profile
 											</Link>
 										</li>
 										<li className="nav-links hover sideview">
 											<Link to="/account/Order" className="links" onClick={() => searchchange(6)}>
 												<FaShoppingBag className="side-display" style={{fontSize: '20px', marginRight: '20px'}} />
 												{/* Order */}
-												Ordenes
+												Order
 											</Link>
 										</li>
 										<hr className="linesidebar" />
@@ -274,13 +274,13 @@ function Navigation(props) {
 								<div className="btn_all">
 									<Link to="/account/profile" className="btn_pro">
 										{/* Profile */}
-										Perfil
+										Profile
 										</Link>
 								</div>
 								<div className="btn_all">
 									<Link to="/account/Order" className="btn_pro">
 										{/* Order */}
-										Ordenes
+										Orders
 										</Link>
 								</div>
 								<button className="logout_btn" onClick={async() => {

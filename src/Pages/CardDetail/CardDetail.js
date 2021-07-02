@@ -332,7 +332,7 @@ function CardDetail(props) {
 								)
 							}
 						</div>
-						<h4 className="mt-3">Size</h4>
+						<h4 className="mt-3">Talle</h4>
 						<div className="allbtn">
 							{
 								Products?.map((product,i) =>
@@ -359,7 +359,7 @@ function CardDetail(props) {
 							}
 						</div>
 						<div className="product-quantity-detail">
-							<h4 className="m-0">Quantity</h4>
+							<h4 className="m-0">Cantidad</h4>
 							{
 								Products?.map((product,i) =>
 									id === i
@@ -384,7 +384,7 @@ function CardDetail(props) {
 								)
 							}
 						</div>
-						<button className="btn-buy" onClick={addtocart}>ADD TO CART</button>
+						<button className="btn-buy" onClick={addtocart}>AGREGAR A MI COMPRA</button>
 					</div>
 				</MDBCol>
 			</MDBRow>

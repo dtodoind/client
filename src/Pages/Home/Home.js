@@ -20,7 +20,7 @@ function Home(props) {
                 <div className="content">
                     <h6>Nuestros Productos</h6>
                     <h1>Mira lo que tenemos para vos !</h1>
-                    <p>Aprovecha nuestros precios al maximo, con todo tipo de ofertas en todas las categorias.</p>
+                    <p>Aprovecha nuestros precios al máximo, con todo tipo de ofertas en todas las categorías..</p>
                 </div>
                 <ProductSlider />
             </div>

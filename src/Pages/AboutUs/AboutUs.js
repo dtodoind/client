@@ -43,7 +43,7 @@ function AboutUs(props) {
 			<div className='name-about'>
 				<h3>About Us</h3>
 			</div> */}
-			<TopBanner img={categoryimg} name="ABOUT US" />
+			<TopBanner img={categoryimg} name="NOSOTROS" />
 			<div className="contact-cards">
 				<MDBRow className="contact-cards">
 					<MDBCol lg="4">
@@ -99,7 +99,7 @@ function AboutUs(props) {
 						<div className="col-lg py-3 d-flex justify-content-center about-text-container">
 							<div className="about-text">
 								<h5 className="title-text">
-									Welcome to DTODO an eCommerce website
+								Bienvenido a DTODO un eCommerce online 
 								</h5>
 								<p>
 									{/* Somos una tienda de ropa donde nos gusta dejar satisfechos a

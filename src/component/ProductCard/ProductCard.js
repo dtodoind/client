@@ -261,7 +261,7 @@ function ProductCard(props){
 								)
 							}
 						</div>
-						<h5>Size</h5>
+						<h5>Talle</h5>
 						<div>
 							{
 								Products?.map((product,i) =>
@@ -299,7 +299,7 @@ function ProductCard(props){
 								)
 							}
 						</div>
-						<h5>Quantity</h5>
+						<h5>Cantidad</h5>
 						<div>
 							{
 								Products?.map((product,i) =>
@@ -328,6 +328,7 @@ function ProductCard(props){
 					</div>
 				</div>
 			</div>
+			<Link to={"/detail/"+index} > 
 			<h3 className='title'>{props.name}</h3>
 			<p className="category">
 				{props.category}
@@ -369,6 +370,7 @@ function ProductCard(props){
 					</div>
 				</div>
 			</div>
+			</Link> 
 			<div className="btn-cont">
 				{
 					Products?.map((product,i) =>
@@ -377,7 +379,7 @@ function ProductCard(props){
 							colorselected === u
 							? pro?.map((p,j) => 
 								j === sizeselected
-								? <button className="btn-cart" type="button" onClick={addToBasket} disabled={JSON.parse(product.Stock)[u][j] <= qty ? JSON.parse(product.Stock)[u][j] === 0 ? true : false : qty === 0 ? true : false} key={j}>Add to cart</button>
+								? <button className="btn-cart" type="button" onClick={addToBasket} disabled={JSON.parse(product.Stock)[u][j] <= qty ? JSON.parse(product.Stock)[u][j] === 0 ? true : false : qty === 0 ? true : false} key={j}>AGREGAR CARRITO</button>
 								: null
 							)
 							: null

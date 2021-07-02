@@ -43,8 +43,8 @@ function CartTable(props) {
                         <th></th>
                         <th>Product Name</th>
                         <th>Color</th>
-                        <th>Size</th>
-                        <th>Quantity</th>
+                        <th>Talle</th>
+                        <th>Cantidad</th>
                         <th>Total</th>
                         <th>Remove</th>
                     </tr>

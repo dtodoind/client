@@ -48,13 +48,13 @@ function Footer(){
 								</Link>
 							</li>
 							<li className="list-unstyled">
-								<Link to="/category">Category</Link>
+								<Link to="/category">Categorías</Link>
 							</li>
 							<li className="list-unstyled">
-								<Link to="/aboutus">About us</Link>
+								<Link to="/aboutus">Nosotros</Link>
 							</li>
 							<li className="list-unstyled">
-								<Link to="/review">Review</Link>
+								<Link to="/review">Clientes</Link>
 							</li>
 							<li className="list-unstyled">
 								<Link to="/loginregister">Login</Link>
@@ -66,16 +66,16 @@ function Footer(){
 						<ul>
 							<li className="list-unstyled">
 								<Link to="/shipping">
-									Shipping Information
+									Envíos
 								</Link>
 							</li>
 							<li className="list-unstyled">
 							<Link to="/exchange">
-								Returns & Exchange
+								Política de cambio
 								</Link>
 							</li>
 							<li className="list-unstyled">
-								Privacy Policy
+							Política de pivacidad
 							</li>
 						</ul>
 					</MDBCol>

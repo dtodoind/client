@@ -43,19 +43,19 @@ function Account(props) {
 								<p className="m-0">{user[0].Email}</p>
 							</div>
 							<div className="col-4 py-3 d-flex align-items-center col-color" style={{fontWeight: '400'}}>
-								Phoneno
+								Celular
 							</div>
 							<div className="col-8 py-3 d-flex align-items-center col-color">
 								<p className="m-0">{user[0].Phoneno}</p>
 							</div>
 							<div className="col-4 py-3 d-flex align-items-center" style={{fontWeight: '400'}}>
-								Gender
+								Género
 							</div>
 							<div className="col-8 py-3 d-flex align-items-center">
 								<p className="m-0">{user[0].Gender}</p>
 							</div>
 							<div className="col-4 py-3 d-flex align-items-center col-color" style={{fontWeight: '400'}}>
-								Address
+								Dirección
 							</div>
 							<div className="col-8 py-3 col-color">
 								{JSON.parse(user[0].Address)[0].map((a, i) => <p key={i} style={{margin: '0'}}>{a}<br /></p>)}
