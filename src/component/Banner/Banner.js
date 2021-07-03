@@ -9,7 +9,7 @@ function Banner(props) {
     const { Offer, offer } = props
 
     useEffect(() => {
-        axios.get('http://localhost:5000/offer/all').then(res => offer(res.data))
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/offer/all').then(res => offer(res.data))
     }, [offer])
 
     if(Offer.length === 0 || Offer[0]?.Price === 0) {

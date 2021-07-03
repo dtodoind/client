@@ -16,7 +16,7 @@ function DeliveryCharges(props) {
     const { Delivery, setdelivery } = props
     
     useEffect(() => {
-        axios.get('http://localhost:5000/delivery/all').then(res => {
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
             if(Delivery.length !== 0) {
                 if(Delivery[Delivery.length - 1].Delivery_id !== res.data[res.data.length - 1].Delivery_id) {
                     setdelivery(res.data)
@@ -77,8 +77,8 @@ function DeliveryCharges(props) {
                         Charges: charges
                     }
                     if(insert) {
-                        await axios.post('http://localhost:5000/delivery/new', val)
-                        await axios.get('http://localhost:5000/delivery/all').then(res => {
+                        await axios.post('https://dtodo-indumentaria-server.herokuapp.com/delivery/new', val)
+                        await axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
                             setdelivery(res.data)
                         })
                         setZip('')
@@ -93,8 +93,8 @@ function DeliveryCharges(props) {
     }
 
     const remove_delivery = async (id) => {
-        await axios.delete(`http://localhost:5000/delivery/delete/${id}`)
-        await axios.get('http://localhost:5000/delivery/all').then(res => {
+        await axios.delete(`https://dtodo-indumentaria-server.herokuapp.com/delivery/delete/${id}`)
+        await axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
             if(Delivery.length !== 0) {
                 if(Delivery.length !== res.data.length) {
                     setdelivery(res.data)

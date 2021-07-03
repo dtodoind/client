@@ -32,7 +32,7 @@ function AddAddress({ EditUser, addaddress, ...props }) {
                             //     Stock: JSON.stringify([]),
                             //     Price: JSON.stringify([])
                             // }
-                            // await axios.post('http://localhost:5000/product/new', db_val)
+                            // await axios.post('https://dtodo-indumentaria-server.herokuapp.com/product/new', db_val)
         
                             document.getElementsByName('Address')[0].focus()
                             resetForm({ values: '' })

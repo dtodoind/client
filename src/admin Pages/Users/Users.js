@@ -14,7 +14,7 @@ function Users(props) {
     const [lop, setlop] = useState(true)
 
 	useEffect(() => {
-		axios.get('http://localhost:5000/users/all').then(res => {
+		axios.get('https://dtodo-indumentaria-server.herokuapp.com/users/all').then(res => {
 			if(user.length !== 0) {
 				if(user[user.length - 1].Users_id !== res.data[res.data.length - 1].Users_id) {
 					allUser(res.data)

@@ -37,7 +37,7 @@ function Profile(props) {
 
 	useEffect(() => {
 		settinguser(SingleUser)
-		axios.get('http://localhost:5000/delivery/all').then(res => {
+		axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
             if(Delivery.length !== 0) {
                 if(Delivery[Delivery.length - 1].Delivery_id !== res.data[res.data.length - 1].Delivery_id) {
                     setdelivery(res.data)
@@ -98,7 +98,7 @@ function Profile(props) {
 			formdata.append('Zip', JSON.stringify(Zip)) 
 			formdata.append('Username', SingleUser[0].Username.toLowerCase())
 
-			await axios.put('http://localhost:5000/users/detailsupdate', formdata, {
+			await axios.put('https://dtodo-indumentaria-server.herokuapp.com/users/detailsupdate', formdata, {
 				headers: {
 					'x-auth-token': localStorage.getItem('token')
 				}
@@ -118,7 +118,7 @@ function Profile(props) {
 			// console.log(JSON.parse(localStorage.getItem('SingleUser')))
 		} else {
 			User.Address = SingleUser[0].Address
-			User.Image = document.getElementById("image").files.length === 0 ? User.Image : 'http://localhost:5000/'+document.getElementById("image").files[0].name
+			User.Image = document.getElementById("image").files.length === 0 ? User.Image : 'https://dtodo-indumentaria-server.herokuapp.com/'+document.getElementById("image").files[0].name
 			var formdata2 = new FormData()
 			formdata2.append('Address', SingleUser[0].Address)
 			formdata2.append('Email', User.Email)
@@ -131,7 +131,7 @@ function Profile(props) {
 			formdata2.append('Zip', User.Zip) 
 			formdata2.append('Username', User.Username.toLowerCase())
 			
-			await axios.put('http://localhost:5000/users/detailsupdate', formdata2, {
+			await axios.put('https://dtodo-indumentaria-server.herokuapp.com/users/detailsupdate', formdata2, {
 				headers: {
 					'x-auth-token': localStorage.getItem('token')
 				}
@@ -159,7 +159,7 @@ function Profile(props) {
 			Email: SingleUser[0].Email,
 			FirstName: SingleUser[0].FirstName,
 			Gender: SingleUser[0].Gender,
-			// Image: "http://localhost:5000/57c4a76e1040e_thumb900.jpg",
+			// Image: "https://dtodo-indumentaria-server.herokuapp.com/57c4a76e1040e_thumb900.jpg",
 			LastName: SingleUser[0].LastName,
 			Phoneno: SingleUser[0].Phoneno,
 			// Status: "Inactive",
@@ -168,7 +168,7 @@ function Profile(props) {
 			Username: SingleUser[0].Username,
 		}
 
-		await axios.put('http://localhost:5000/users/detailsupdate', details, {
+		await axios.put('https://dtodo-indumentaria-server.herokuapp.com/users/detailsupdate', details, {
 			headers: {
 				'x-auth-token': localStorage.getItem('token')
 			}
