@@ -71,7 +71,7 @@ function Checkout(props) {
                 }
             })
         }
-    }, [Offer, alloffer, Delivery, lop, setdelivery, radioval])
+    }, [Offer.length, alloffer, Delivery, lop, setdelivery, radioval])
     
     var discount = 0
     var final_subtotal = 0
@@ -86,6 +86,8 @@ function Checkout(props) {
         } else {
             final_subtotal = subtotal
         }
+    } else {
+        final_subtotal = subtotal
     }
     
     var total = final_subtotal
