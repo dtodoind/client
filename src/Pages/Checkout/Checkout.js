@@ -136,9 +136,11 @@ function Checkout(props) {
         var discount = 0
         basket.map(item => subtotal = subtotal + item.totalprice);
 
-        if(Offer[0].Price !== 0) {
-            if(Offer[0].Price <= subtotal) {
-                discount = Offer[0].Discount
+        if(Offer.length !== 0) {
+            if(Offer[0].Price !== 0) {
+                if(Offer[0].Price <= subtotal) {
+                    discount = Offer[0].Discount
+                }
             }
         }
         var order_val

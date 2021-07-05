@@ -75,6 +75,8 @@ function Shopcart(props) {
                 final_subtotal = subtotal
             }
         }
+    } else {
+        final_subtotal = subtotal
     }
 
     var total = final_subtotal

@@ -379,7 +379,7 @@ function OrderTable(props) {
                                                         <div className='row'>
                                                             <div className='col-md-6'>
                                                                 <div className="order_img">
-                                                                    <img src={'https://dtodo-indumentaria-server.herokuapp.com/'+p.Image} alt='' className="order_img_inner" />
+                                                                    <img src={p.Image} alt='' className="order_img_inner" />
                                                                 </div>
                                                             </div>
                                                             <div className='col-md-6 d-flex align-items-center'>
