@@ -120,7 +120,7 @@ function Content(props) {
         if(len === 0) {
             await axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: about}).then(res => setlen(1))
         } else {
-            await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/aboutus/edit/${about.Aboutus_id}`, {Content: about})
+            await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/aboutus/edit/${aboutid.Aboutus_id}`, {Content: about})
         }
         aboutus(about)
     }
