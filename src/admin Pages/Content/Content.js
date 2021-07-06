@@ -32,7 +32,8 @@ function Content(props) {
             } else {
                 if(lop) {
                     if(res.data.length === 0) {
-                        axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: ''}).then(res => aboutus(res.data))
+                        await axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: ''}).then(res => aboutus(res.data))
+                        setAboutid(res.data[0])
                     } else {
                         aboutus(res.data[0].Content)
                         setAboutid(res.data[0])
