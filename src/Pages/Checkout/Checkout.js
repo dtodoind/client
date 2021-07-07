@@ -29,6 +29,7 @@ function Checkout(props) {
     const [delivery_charges, setDeliverycharges] = useState(0)
     const [payment_addr, setPaymentaddr] = useState(0)
     const [lop, setlop] = useState(true)
+    const [promocode, setPromocode] = useState('')
 
     const { Delivery, setdelivery } = props
 
@@ -39,6 +40,9 @@ function Checkout(props) {
                 return
             }
         }
+    }
+    const promo = (val) => {
+        setPromocode(val)
     }
 
     var subtotal = 0
@@ -83,8 +87,13 @@ function Checkout(props) {
             } else {
                 final_subtotal = subtotal
             }
-        } else {
-            final_subtotal = subtotal
+        } else if(Offer.length !== '') {
+            if(promocode === Offer[0].Promocode) {
+                discount = Offer[0].Discount
+                final_subtotal = subtotal - (discount*subtotal/100)
+            } else {
+                final_subtotal = subtotal
+            }
         }
     } else {
         final_subtotal = subtotal
@@ -141,6 +150,10 @@ function Checkout(props) {
                 if(Offer[0].Price <= subtotal) {
                     discount = Offer[0].Discount
                 }
+            } else if(Offer.length !== '') {
+                if(promocode === Offer[0].Promocode) {
+                    discount = Offer[0].Discount
+                }
             }
         }
         var order_val
@@ -175,8 +188,9 @@ function Checkout(props) {
             order_val = {
                 Status: 'Pickup',
                 Discount: discount,
-                Address: SingleUser[0].Address[0],
+                Address: JSON.stringify(JSON.parse(SingleUser[0].Address)[0]),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
+                Delivery_charges: "0",
                 ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 Email: SingleUser[0].Email,
                 Phone: SingleUser[0].Phoneno,
@@ -193,6 +207,7 @@ function Checkout(props) {
                 Discount: discount,
                 Address: JSON.stringify(address),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
+                Delivery_charges: JSON.stringify(delivery_charges),
                 Email: billing_details.email,
                 Phone: billing_details.phone,
                 ClientName: billing_details.name,
@@ -213,6 +228,7 @@ function Checkout(props) {
                 Discount: discount,
                 Address: JSON.stringify(addr),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
+                Delivery_charges: JSON.stringify(delivery_charges),
                 ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 Email: SingleUser[0].Email,
                 Phone: SingleUser[0].Phoneno,
@@ -273,6 +289,10 @@ function Checkout(props) {
                                 <h2>You are not Logged In</h2>
                                 <Link to='/loginregister' className="logincheckout">Login</Link>
                             </>
+                            : basket.length === 0
+                            ? <>
+                                <h3 style={{backgroundColor: '#E63946', textAlign: 'center', padding: '10px', color: 'white', borderRadius: '5px'}}>Please add some product</h3>
+                            </>
                             : <>
                                 <Billing address={address} />
                                     <Elements stripe={stripePromise}>
@@ -284,7 +304,7 @@ function Checkout(props) {
                     <div className="col-lg-4">
                         <div className="row">
                             <div className="col">
-                                <CartTotal radioval={radioval} delivery_charges={delivery_charges} subtotal={subtotal} total={total} after_total={after_total} place_order={place_order} />
+                                <CartTotal radioval={radioval} delivery_charges={delivery_charges} subtotal={subtotal} total={total} after_total={after_total} place_order={place_order} promo={promo} />
                             </div>
                         </div>
                         <div className="row">

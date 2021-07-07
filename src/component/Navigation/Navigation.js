@@ -144,7 +144,7 @@ function Navigation(props) {
 						<button className="p-1 border-0 bg-transparent text-light side-display" onClick={() => sidebar(true)}>
 							<FiMenu fontSize="25px" />
 						</button>
-						<div className="nav-logo"><Link to="/" className='manjares' onClick={() => searchchange(0)}> DTODO </Link>INDUMENTARIA</div>
+						<div className="nav-logo"><Link to="/" className='manjares' onClick={() => searchchange(0)}> DTODO <span style={{color: 'white'}}>INDUMENTARIA</span> </Link></div>
 						<div className="adj_cart">
 							<Link to="/shopcart" style={{display: 'flex', alignItems: 'center'}}>
 								<FaShoppingCart className='side-display'/>

@@ -17,16 +17,19 @@ function Orders(props) {
 	// console.log(Revenue[-1])
 
 	const tot = () => {
-        var OverallPay = 0
+		var OverallPay = 0
         for(var q=0; q<Orders.length; q++) {
+			var Overall = 0
 			for(var e=0; e<Orders[q].OrderItems.length; e++) {
 				if(Orders[q].OrderItems[e].Status !== 'Return' && Orders[q].OrderItems[e].Status !== 'Refunded') {
 					// console.log(JSON.parse(Orders[q].OrderItems[e].Product.Price)[q][e])
-					OverallPay = OverallPay + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
-				} else {
-					// OverallPay = OverallPay - (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
+					Overall = Overall + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
 				}
             }
+			if(Orders[q].Discount !== 0) {
+				Overall = Overall - (parseInt(Orders[q].Discount) * Overall / 100) + parseInt(Orders[q].Delivery_charges)
+			}
+			OverallPay = OverallPay + Overall
         }
 		return OverallPay
     }

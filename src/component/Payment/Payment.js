@@ -101,11 +101,12 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 
 	const stripe = useStripe();
 	const elements = useElements();
-	const [enterval, setEnterVal] = useState(true);
 	const [isProcessing, setProcessingTo] = useState(false);
-	const [errrozip, setErrorzip] = useState(false)
+	const [errorzip, setErrorzip] = useState(false)
+	const [errorphone, setErrorPhone] = useState(false)
 	const [checkoutError, setCheckoutError] = useState();
 	const [ziperror, setZiperror] = useState("");
+	const [phoneerror, setPhoneError] = useState("");
 	const [billingDetails, setBillingDetails] = useState({
 		email: SingleUser[0].Email,
 		phone: "",
@@ -157,70 +158,74 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
         //     alert('There was an issue with your payment. Please make sure you have enter the correct details.')
         // })
 
-		setProcessingTo(true);
-
-		try {
-			const {data: clientSecret} = await axios.post("https://dtodo-indumentaria-server.herokuapp.com/order/payment", {
-				amount: parseFloat(price) * 100
-			});
-		
-			var payment_details
-			if(radioval === 'payment') {
-				payment_details = {
-					type: "card",
-					card: elements.getElement(CardElement),
-					billing_details: billingDetails
-				}
-			} else {
-				payment_details = {
-					type: "card",
-					card: elements.getElement(CardElement),
-					billing_details: payment_addr
-				}
-			}
-			const paymentMethodReq = await stripe.createPaymentMethod(payment_details);
-
-			if (paymentMethodReq.error) {
-				setCheckoutError(paymentMethodReq.error.message);
-				setProcessingTo(false);
-				return;
-			}
-			const confirmPayment = await stripe.confirmCardPayment(clientSecret, {
-				payment_method: paymentMethodReq.paymentMethod.id
-			});
-
-			if (confirmPayment.error) {
-				setCheckoutError(confirmPayment.error.message);
-				setProcessingTo(false);
-				return;
-			}
-			place_order(billingDetails, confirmPayment.paymentIntent.id)
-			// setProcessingTo(false)
-		} catch (error) {
-			if(price === '0.00') {
-				setCheckoutError('Please add some Product in the cart')
-			} else {
-				setCheckoutError(error.message)
-			}
-		}
-
-		// setProcessing(false);
+		if(ziperror === '' && phoneerror === '') {
+			setProcessingTo(true);
 	
-		// if (payload.error) {
-		//   	setError(payload.error);
-		// } else {
-		//   	setPaymentMethod(payload.paymentMethod);
-		// }
+			try {
+				const {data: clientSecret} = await axios.post("https://dtodo-indumentaria-server.herokuapp.com/order/payment", {
+					amount: parseInt(price * 100)
+				});
+			
+				var payment_details
+				if(radioval === 'payment') {
+					payment_details = {
+						type: "card",
+						card: elements.getElement(CardElement),
+						billing_details: billingDetails
+					}
+				} else {
+					payment_details = {
+						type: "card",
+						card: elements.getElement(CardElement),
+						billing_details: payment_addr
+					}
+				}
+				const paymentMethodReq = await stripe.createPaymentMethod(payment_details);
+	
+				if (paymentMethodReq.error) {
+					setCheckoutError(paymentMethodReq.error.message);
+					setProcessingTo(false);
+					return;
+				}
+				const confirmPayment = await stripe.confirmCardPayment(clientSecret, {
+					payment_method: paymentMethodReq.paymentMethod.id
+				});
+	
+				if (confirmPayment.error) {
+					setCheckoutError(confirmPayment.error.message);
+					setProcessingTo(false);
+					return;
+				}
+				place_order(billingDetails, confirmPayment.paymentIntent.id)
+				// setProcessingTo(false)
+			} catch (error) {
+				if(price === '0.00') {
+					setCheckoutError('Please add some Product in the cart')
+				} else {
+					setCheckoutError(error.message)
+				}
+			}
+	
+			// setProcessing(false);
+		
+			// if (payload.error) {
+			//   	setError(payload.error);
+			// } else {
+			//   	setPaymentMethod(payload.paymentMethod);
+			// }
+		}
 	};
 
-	function onlyNumberKey(evt) {
-        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)){
-			setEnterVal(false)
-		} else {
-			setEnterVal(true)
-		}
-    }
+	const onlyNumberKey = (e) => {
+		var a = [];
+		var k = e.which;
+
+		for (let i = 48; i < 58; i++)
+			a.push(i);
+
+		if (!(a.indexOf(k)>=0))
+			e.preventDefault();
+	}
 	
 	return (
 		<div className="payment">
@@ -265,8 +270,21 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 							value={billingDetails.phone}
 							onChange={(e) => {
 								setBillingDetails({ ...billingDetails, phone: e.target.value });
+								if(e.target.value === '') {
+									setErrorPhone(true);
+									setPhoneError('Required')
+								} else if(e.target.value.length !== 10) {
+									setErrorPhone(true);
+									setPhoneError("atleast 10 digit")
+								} else {
+									setErrorPhone(false);
+									setPhoneError('')
+								}
 							}}
 						/>
+						{phoneerror === "" ? null : (
+							<div className="input-feedback">{phoneerror}</div>
+						)}
 						<Field
 							label="Address 1"
 							id="address"
@@ -326,13 +344,15 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 							autoComplete="zip"
 							value={billingDetails.address.postal_code}
 							onChange={(e) => {
-								if(enterval) {
 									setBillingDetails({ ...billingDetails, address: {
 											...billingDetails.address,
 											postal_code: e.target.value
 										}
 									});
-									if(e.target.value.length === 6) {
+									if(e.target.value === '') {
+										setZiperror("Required")
+										setErrorzip(true)
+									} else if(e.target.value.length === 6) {
 										for(var i=0; i<Delivery.length; i++) {
 											if(Delivery[i].Region === parseInt(e.target.value)) {
 												setZiperror("")
@@ -345,10 +365,11 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 											}
 										}
 									} else {
-										setZiperror("")
+										setZiperror("atleast 6 digit")
+										setErrorzip(true)
 									}
 								}
-							}}
+							}
 						/>
 						{ziperror === "" ? null : (
 							<div className="input-feedback">{ziperror}</div>
@@ -366,7 +387,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 					/>
 				</fieldset>
 				{checkoutError && <ErrorMessage>{checkoutError}</ErrorMessage>}
-				<SubmitButton disabled={errrozip || isProcessing || !stripe}>
+				<SubmitButton disabled={errorzip || isProcessing || !stripe || errorphone}>
 					{isProcessing ? "Processing..." : `Pay $${price}`}
 				</SubmitButton>
 				<h3 style={{textAlign: 'center', marginTop: '40px', fontSize: '24px', color: 'red'}}>

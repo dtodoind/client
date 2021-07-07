@@ -24,6 +24,9 @@ function Content(props) {
  
     useEffect(() => {
         axios.get('https://dtodo-indumentaria-server.herokuapp.com/aboutus/all').then(async res => {
+            if(res.data.length === 0) {
+                setlop(false)
+            }
             if(Aboutus !== null) {
                 if(Aboutus.length !== res.data[0].Content.length) {
                     aboutus(res.data[0].Content)
@@ -32,7 +35,7 @@ function Content(props) {
             } else {
                 if(lop) {
                     if(res.data.length === 0) {
-                        await axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: ''}).then(res => aboutus(res.data))
+                        await axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: ''})
                         setAboutid(res.data[0])
                     } else {
                         aboutus(res.data[0].Content)

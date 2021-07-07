@@ -28,7 +28,7 @@ function OrderTable(props) {
             if(Orders[q].Discount !== 0) {
                 Overall = Overall - (parseInt(Orders[q].Discount) * Overall / 100)
             }
-            OverallPay.push(Overall)
+            OverallPay.push(Overall + JSON.parse(Orders[q].Delivery_charges))
         }
 
         return OverallPay[i]
@@ -190,8 +190,8 @@ function OrderTable(props) {
 
         var final_refund_amount = (refund_amount - final_discount) + final_delivery
 
-        console.log(refund_amount, final_delivery, final_discount, total_price+delivery_charges)
-        console.log((refund_amount - final_discount) + final_delivery)
+        // console.log(refund_amount, final_delivery, final_discount, total_price+delivery_charges)
+        // console.log((refund_amount - final_discount) + final_delivery)
         if(refund_amount === undefined) {
             // console.log('Only Refund')
             // price of the product + (Delivery charges / total number of product purchase) - ((Total price * discount / 100) / total number of product purchase)
@@ -272,16 +272,16 @@ function OrderTable(props) {
                                 var count = count_refund + count_return
                                 if(order_len !== 0) {
                                     if(count === order_len) {
-                                        console.log(order_len, count, count_refund, count_return)
+                                        // console.log(order_len, count, count_refund, count_return)
                                         if(count_return > 0) {
-                                            console.log('Return')
+                                            // console.log('Return')
                                             var order_val = {
                                                 Orders_id: order.Orders_id,
                                                 Status: 'Return'
                                             }
                                             await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val)
                                         } else {
-                                            console.log('Refunded')
+                                            // console.log('Refunded')
                                             var order_val2 = {
                                                 Orders_id: order.Orders_id,
                                                 Status: 'Refunded'
@@ -448,6 +448,21 @@ function OrderTable(props) {
                                                                 <div className='row'>
                                                                     <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>Discount</div>
                                                                     <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>{o.Discount}%</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                {
+                                                    o.Delivery_charges === "0"
+                                                    ? null
+                                                    : <div className='row'>
+                                                        <div className='col-md-6'></div>
+                                                        <div className='col-md-6 d-flex align-items-center'>
+                                                            <div className="container-fluid">
+                                                                <div className='row'>
+                                                                    <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>Delivery Charges</div>
+                                                                    <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>${o.Delivery_charges}</div>
                                                                 </div>
                                                             </div>
                                                         </div>
