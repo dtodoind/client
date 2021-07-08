@@ -37,39 +37,39 @@ function OrderTable(props) {
         // }
         for(var q=0; q<Orders.length; q++) {
             var Overall = 0
-            var total_price = 0
-            var len_orderitem = 0
-            var qty = 0
-            var discount = 0
-            var delivery_charges = 0
-            var final_delivery = 0
-            var final_discount = 0
-            var final_refund_amount = 0
-            var price = 0
+            // var total_price = 0
+            // var len_orderitem = 0
+            // var qty = 0
+            // var discount = 0
+            // var delivery_charges = 0
+            // var final_delivery = 0
+            // var final_discount = 0
+            // var final_refund_amount = 0
+            // var price = 0
             for(var e=0; e<Orders[q].OrderItems.length; e++) {
-                total_price = total_price + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
-                len_orderitem = Orders[q].OrderItems[e].Quantity + len_orderitem
-                qty = Orders[q].OrderItems[e].Quantity
-                discount = parseInt(Orders[q].Discount)
-                delivery_charges = parseInt(Orders[q].Delivery_charges)
+                // total_price = total_price + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
+                // len_orderitem = Orders[q].OrderItems[e].Quantity + len_orderitem
+                // qty = Orders[q].OrderItems[e].Quantity
+                // discount = parseInt(Orders[q].Discount)
+                // delivery_charges = parseInt(Orders[q].Delivery_charges)
                 if(Orders[q].OrderItems[e].Status !== 'Return' && Orders[q].OrderItems[e].Status !== 'Refunded') {
                     Overall = Overall + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
                 } else {
                     price = Orders[q].OrderItems[e].Price
                 }
             }
-            if(Orders[q].Status !== 'Return' && Orders[q].Status !== 'Refunded') {
-                if(price !== 0) {
-                    final_delivery = parseFloat(((delivery_charges/len_orderitem) * qty).toFixed(2))
-                    final_discount = parseFloat((((total_price * discount / 100) / len_orderitem) * qty).toFixed(2))
-                    final_refund_amount = ((price - final_discount) + final_delivery)
-                    // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
-                    // console.log(final_refund_amount)
-                } else {
-                    // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
-                    // console.log('Price is: ', price)
-                }
-            }
+            // if(Orders[q].Status !== 'Return' && Orders[q].Status !== 'Refunded') {
+            //     if(price !== 0) {
+            //         final_delivery = parseFloat(((delivery_charges/len_orderitem) * qty).toFixed(2))
+            //         final_discount = parseFloat((((total_price * discount / 100) / len_orderitem) * qty).toFixed(2))
+            //         final_refund_amount = ((price - final_discount) + final_delivery)
+            //         // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+            //         // console.log(final_refund_amount)
+            //     } else {
+            //         // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+            //         // console.log('Price is: ', price)
+            //     }
+            // }
             
             if(Orders[q].Discount !== 0) {
                 Overall = Overall - (parseInt(Orders[q].Discount) * Overall / 100) + JSON.parse(Orders[q].Delivery_charges)
