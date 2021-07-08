@@ -187,6 +187,7 @@ function Checkout(props) {
         if(rad === "1") {
             order_val = {
                 Status: 'Pickup',
+                PaymentSuccess: payment_id,
                 Discount: discount,
                 Address: JSON.stringify(JSON.parse(SingleUser[0].Address)[0]),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),

@@ -109,7 +109,7 @@ function AccountOrders(props) {
             if(Orders[q].Discount !== 0) {
                 Overall = Overall - ((parseInt(Orders[q].Discount) * Overall / 100))
             }
-            OverallPay.push(Overall + JSON.parse(Orders[q].Delivery_charges))
+            OverallPay.push(Overall)
         }
 
         return OverallPay[i]

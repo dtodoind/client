@@ -9,7 +9,7 @@ import './OrderTable.scss'
 
 function OrderTable(props) {
 
-    const { Orders, allorders, Delivery } = props
+    const { Orders, allorders } = props
     const [orderload, setOrderload] = useState(5)
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(true)
@@ -17,18 +17,66 @@ function OrderTable(props) {
     
     const tot = (i) => {
         var OverallPay = []
+        // for(var q=0; q<Orders.length; q++) {
+        //     for(var h=0; h<Orders[q].OrderItems.length; h++) {
+        //         if(Orders[q].Orders_id === parseInt(e.target.name)) {
+        //             total_price = total_price + (Orders[q].OrderItems[h].Price * Orders[q].OrderItems[h].Quantity)
+        //             len_orderitem = Orders[q].OrderItems[h].Quantity + len_orderitem
+        //             if(Orders[q].OrderItems[h].OrderItem_id === OrderItem_id) {
+        //                 qty = Orders[q].OrderItems[h].Quantity
+        //                 discount = Orders[q].Discount
+        //                 delivery_charges = Orders[q].Delivery_charges
+        //                 // for(var t=0; t<Delivery.length; t++) {
+        //                 //     if(Delivery[t].Region === parseInt(zip)) {
+        //                 //         delivery_charges = parseInt(Delivery[t].Charges)
+        //                 //     }
+        //                 // }
+        //             }
+        //         }
+        //     }
+        // }
         for(var q=0; q<Orders.length; q++) {
             var Overall = 0
+            var total_price = 0
+            var len_orderitem = 0
+            var qty = 0
+            var discount = 0
+            var delivery_charges = 0
+            var final_delivery = 0
+            var final_discount = 0
+            var final_refund_amount = 0
+            var price = 0
             for(var e=0; e<Orders[q].OrderItems.length; e++) {
+                total_price = total_price + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
+                len_orderitem = Orders[q].OrderItems[e].Quantity + len_orderitem
+                qty = Orders[q].OrderItems[e].Quantity
+                discount = parseInt(Orders[q].Discount)
+                delivery_charges = parseInt(Orders[q].Delivery_charges)
                 if(Orders[q].OrderItems[e].Status !== 'Return' && Orders[q].OrderItems[e].Status !== 'Refunded') {
                     Overall = Overall + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
+                } else {
+                    price = Orders[q].OrderItems[e].Price
+                }
+            }
+            if(Orders[q].Status !== 'Return' && Orders[q].Status !== 'Refunded') {
+                if(price !== 0) {
+                    final_delivery = parseFloat(((delivery_charges/len_orderitem) * qty).toFixed(2))
+                    final_discount = parseFloat((((total_price * discount / 100) / len_orderitem) * qty).toFixed(2))
+                    final_refund_amount = ((price - final_discount) + final_delivery)
+                    // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+                    // console.log(final_refund_amount)
+                } else {
+                    // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+                    // console.log('Price is: ', price)
                 }
             }
             
             if(Orders[q].Discount !== 0) {
-                Overall = Overall - (parseInt(Orders[q].Discount) * Overall / 100)
+                Overall = Overall - (parseInt(Orders[q].Discount) * Overall / 100) + JSON.parse(Orders[q].Delivery_charges)
             }
-            OverallPay.push(Overall + JSON.parse(Orders[q].Delivery_charges))
+            
+
+            OverallPay.push(Overall)
         }
 
         return OverallPay[i]
@@ -174,17 +222,18 @@ function OrderTable(props) {
                     len_orderitem = Orders[q].OrderItems[h].Quantity + len_orderitem
                     if(Orders[q].OrderItems[h].OrderItem_id === OrderItem_id) {
                         qty = Orders[q].OrderItems[h].Quantity
-                        var zip = JSON.parse(Orders[q].Address)[JSON.parse(Orders[q].Address).length-1]
                         discount = Orders[q].Discount
-                        for(var t=0; t<Delivery.length; t++) {
-                            if(Delivery[t].Region === parseInt(zip)) {
-                                delivery_charges = parseInt(Delivery[t].Charges)
-                            }
-                        }
+                        delivery_charges = Orders[q].Delivery_charges
+                        // for(var t=0; t<Delivery.length; t++) {
+                        //     if(Delivery[t].Region === parseInt(zip)) {
+                        //         delivery_charges = parseInt(Delivery[t].Charges)
+                        //     }
+                        // }
                     }
                 }
             }
         }
+
         var final_delivery = parseFloat(((delivery_charges/len_orderitem) * qty).toFixed(2))
         var final_discount = parseFloat((((total_price * discount / 100) / len_orderitem) * qty).toFixed(2))
 

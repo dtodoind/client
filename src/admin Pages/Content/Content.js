@@ -25,6 +25,7 @@ function Content(props) {
     useEffect(() => {
         axios.get('https://dtodo-indumentaria-server.herokuapp.com/aboutus/all').then(async res => {
             if(res.data.length === 0) {
+                setlen(0)
                 setlop(false)
             }
             if(Aboutus !== null) {
@@ -35,8 +36,11 @@ function Content(props) {
             } else {
                 if(lop) {
                     if(res.data.length === 0) {
-                        await axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: ''})
-                        setAboutid(res.data[0])
+                        // await axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: ''}).then(result => {
+                        //     console.log(result.data)
+                        //     aboutus(result.data)
+                        //     setAboutid(result.data[0])
+                        // })
                     } else {
                         aboutus(res.data[0].Content)
                         setAboutid(res.data[0])
@@ -122,7 +126,10 @@ function Content(props) {
     
     const save_about = async () => {
         if(len === 0) {
-            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: about}).then(res => setlen(1))
+            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: about}).then(res => {
+                setAboutid(res.data)
+                setlen(1)
+            })
         } else {
             await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/aboutus/edit/${aboutid.Aboutus_id}`, {Content: about})
         }

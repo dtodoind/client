@@ -348,9 +348,13 @@ function Profile(props) {
 															))
 														}
 														{/* ZIP: {JSON.parse(SingleUser[0].Zip)[i]} */}
-														<div className="btn_adj">
-															<button className="btn-remove" onClick={() => removeAddress(i)}>Remove</button>
-														</div>
+														{
+															JSON.parse(SingleUser[0].Address).length !== 1
+															? <div className="btn_adj">
+																<button className="btn-remove" onClick={() => removeAddress(i)}>Remove</button>
+															</div>
+															: null
+														}
 													</div>
 												</div>
 											{/* </label>

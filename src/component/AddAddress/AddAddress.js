@@ -90,7 +90,6 @@ function AddAddress({ EditUser, addaddress, ...props }) {
                                             value={values.zip}
                                             onChange={(e) => {
                                                 handleChange(e)
-                                                console.log('hello')
                                                 if(e.target.value.length === 6) {
                                                     for(var i=0; i<Delivery.length; i++) {
                                                         if(Delivery[i].Region === parseInt(e.target.value)) {
