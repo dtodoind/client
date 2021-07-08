@@ -55,7 +55,7 @@ function OrderTable(props) {
                 if(Orders[q].OrderItems[e].Status !== 'Return' && Orders[q].OrderItems[e].Status !== 'Refunded') {
                     Overall = Overall + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
                 } else {
-                    price = Orders[q].OrderItems[e].Price
+                    // price = Orders[q].OrderItems[e].Price
                 }
             }
             // if(Orders[q].Status !== 'Return' && Orders[q].Status !== 'Refunded') {
