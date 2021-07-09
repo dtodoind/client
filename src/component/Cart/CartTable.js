@@ -59,7 +59,7 @@ function CartTable(props) {
                             <tr key={i}>
                                 <td className="cart_prod">
                                     <div className="cart_prod_img">
-                                        <img src={'http://localhost:5000/'+item.img} alt="cart_prod" style={{width: '100%'}} />
+                                        <img src={item.img} alt="cart_prod" style={{width: '100%'}} />
                                     </div>
                                 </td>
                                 <td>

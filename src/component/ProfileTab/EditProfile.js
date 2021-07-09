@@ -50,7 +50,7 @@ function EditProfile({ User, showornot, EditUser, ...props }) {
 						<Col sm={8}>
 							{" "}
 							<div className="row mt-2">
-								<div className="col-md-6">
+								{/* <div className="col-md-6">
 									<input
 										onChange={props.onChange}
 										type="text"
@@ -59,7 +59,7 @@ function EditProfile({ User, showornot, EditUser, ...props }) {
 										name="Username"
 										value={User.Username}
 									/>
-								</div>
+								</div> */}
 								<div className="col-md-6">
 									<input
 										onChange={props.onChange}
@@ -70,8 +70,6 @@ function EditProfile({ User, showornot, EditUser, ...props }) {
 										value={User.FirstName}
 									/>
 								</div>
-							</div>
-							<div className="row mt-3">
 								<div className="col-md-6">
 									<input
 										onChange={props.onChange}
@@ -82,6 +80,8 @@ function EditProfile({ User, showornot, EditUser, ...props }) {
 										value={User.LastName}
 									/>
 								</div>
+							</div>
+							<div className="row mt-3">
 								<div className="col-md-6">
 									<input
 										onChange={props.onChange}
@@ -95,7 +95,7 @@ function EditProfile({ User, showornot, EditUser, ...props }) {
 								</div>
 							</div>
 							<div className="row mt-3">
-								<div className="col-md-6">
+								<div className="col">
 									{/* <input
 										onChange={props.onChange}
 										type="text"
@@ -141,7 +141,9 @@ function EditProfile({ User, showornot, EditUser, ...props }) {
 										</div>
 									</div>
 								</div>
-								<div className="col-md-6">
+							</div>
+							<div className="row mt-3">
+								<div className="col">
 									<input
 										type="file"
 										name="image"

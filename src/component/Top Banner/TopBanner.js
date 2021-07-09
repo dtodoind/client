@@ -14,7 +14,7 @@ function TopBanner({ img, name, ...props}) {
 
     return (
         <div className="top_banner">
-            <img src={props.Single !== null && props.Single.length !== 0 ? 'http://localhost:5000/'+props.Single[0].Image: null} alt="category" className="banner_img" />
+            <img src={props.Single !== null && props.Single.length !== 0 ? props.Single[0].Image: null} alt="category" className="banner_img" />
             <div className="banner_text">
                 <h2>{name}</h2>
             </div>

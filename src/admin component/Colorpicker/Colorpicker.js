@@ -30,14 +30,14 @@ function Colorpicker({colap, ...props}) {
             Product_id: Products[colap].Product_id, 
             Name: Products[colap].Name,
             Category_id: Products[colap].Category.Category_id,
-            Description: Products[colap].des,
+            Description: Products[colap].Description,
             Image: JSON.stringify(Products[colap].images),
             Color: JSON.stringify(Products[colap].color),
             Size: JSON.stringify(Products[colap].size),
             Stock: JSON.stringify(Products[colap].qty),
             Price: JSON.stringify(Products[colap].price),
         }
-        await axios.put('http://localhost:5000/product/edit', edit_val)
+        await axios.put(`http://localhost:5000/product/edit`, edit_val)
 
         // console.log(val)
         if(val === 'update') {

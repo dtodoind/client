@@ -242,7 +242,7 @@ function ProductCard(props){
 			<div className="img_content">
 				<Link to={"/detail/"+index} style={{display: 'flex', alignItems: 'center'}}>				
 					<div className="img-cont">
-						<img src={'http://localhost:5000/'+JSON.parse(Products[index].Image)[colorselected][0]} alt="Apple" className="img-fruit" />
+						<img src={JSON.parse(Products[index].Image)[colorselected][0]} alt="Apple" className="img-fruit" />
 					</div>
 				</Link>
 				<div className="hovercontent">

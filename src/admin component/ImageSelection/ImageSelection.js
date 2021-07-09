@@ -72,12 +72,12 @@ function ImageSelection({imgid, colap, mainedit, ...props}) {
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="numbertext">${i + 1} / ${len}</div>
-						<img src='http://localhost:5000/${m}' style="width: auto; max-height: 200px;" alt=''/>
+						<img src='${m}' style="width: auto; max-height: 200px;" alt=''/>
 					</div>
 				`;
 				document.getElementById("all_img_bottom"+ String(colap) + String(imgid)).innerHTML += `
 					<div class="column">
-					<img class="demo any${String(colap) + String(imgid)} cursor" src='http://localhost:5000/${m}' style="width: auto;  height: 100%;" alt="">
+					<img class="demo any${String(colap) + String(imgid)} cursor" src='${m}' style="width: auto;  height: 100%;" alt="">
 					</div>
 				`;
 			} else {
@@ -87,12 +87,12 @@ function ImageSelection({imgid, colap, mainedit, ...props}) {
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<div class="numbertext">${i + 1} / ${len}</div>
-						<img src='http://localhost:5000/${m}' style="width: auto; max-height: 200px;" alt=''/>
+						<img src='${m}' style="width: auto; max-height: 200px;" alt=''/>
 					</div>
 				`;
 				document.getElementById("all_img_bottom"+ String(colap) + String(imgid)).innerHTML = `
 					<div class="column" id='col${String(colap) + String(imgid)}'>
-						<img class="demo any${String(colap) + String(imgid)} cursor active" src='http://localhost:5000/${m}' style="width: auto; height: 100%;" alt="">
+						<img class="demo any${String(colap) + String(imgid)} cursor active" src='${m}' style="width: auto; height: 100%;" alt="">
 					</div>
 				`;
 			}
@@ -135,11 +135,24 @@ function ImageSelection({imgid, colap, mainedit, ...props}) {
 
 	const updateImg = async (val) => {
 		for(var t=0; t<val.length; t++) {
-			Products[colap].images[imgid].push(document.getElementsByName("image_name"+ String(colap) + String(imgid))[0].files[t].name)
+			// Products[colap].images[imgid].push(document.getElementsByName("image_name"+ String(colap) + String(imgid))[0].files[t].name)
 			
 			const formdata = new FormData();
 			formdata.append('productImage', document.getElementsByName("image_name"+ String(colap) + String(imgid))[0].files[t])
-			await axios.put('http://localhost:5000/product/edit', formdata, {
+			formdata.append('colap', colap)
+			formdata.append('imgid', imgid)
+
+			formdata.append('Product_id', Products[colap].Product_id)
+            formdata.append('Name', Products[colap].Name)
+            formdata.append('Category_id', Products[colap].Category.Category_id)
+            formdata.append('Description', Products[colap].Description)
+            formdata.append('Image', JSON.stringify(Products[colap].images))
+            formdata.append('Color', JSON.stringify(Products[colap].color))
+            formdata.append('Size', JSON.stringify(Products[colap].size))
+            formdata.append('Stock', JSON.stringify(Products[colap].qty))
+            formdata.append('Price', JSON.stringify(Products[colap].price))
+			// formdata.append('Product_id', Products[colap].Product_id)
+			await axios.put(`http://localhost:5000/product/edit`, formdata, {
 				headers: {
 					'content-type': 'multipart/form-data'
 				}
@@ -148,7 +161,7 @@ function ImageSelection({imgid, colap, mainedit, ...props}) {
 					axios.get('http://localhost:5000/product/all').then(res => props.insertproduct(res.data))
 				}
 			})
-			mainedit('update')
+			// mainedit('update')
 		}
 	}
 	

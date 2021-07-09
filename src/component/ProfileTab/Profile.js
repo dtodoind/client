@@ -114,7 +114,7 @@ function Profile(props) {
 				Address: JSON.stringify(address),
 				Zip: JSON.stringify(Zip),
 			}])
-			// setUser(JSON.parse(localStorage.getItem('SingleUser')))
+			settinguser(JSON.parse(localStorage.getItem('SingleUser')))
 			// console.log(JSON.parse(localStorage.getItem('SingleUser')))
 		} else {
 			User.Address = SingleUser[0].Address

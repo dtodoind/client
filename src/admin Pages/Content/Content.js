@@ -107,7 +107,8 @@ function Content(props) {
     }
 
     const remove_hero = async (i) => {
-        await axios.delete(`http://localhost:5000/heroimages/delete/${Hero_img[i].HeroImages_id}`)
+        var keyimg = Hero_img[i].Image.split('/').pop()
+        await axios.delete(`http://localhost:5000/heroimages/delete/${Hero_img[i].HeroImages_id}/${keyimg}`)
         await axios.get('http://localhost:5000/heroimages/all').then(res => heroimg(res.data))
     }
 
@@ -163,7 +164,7 @@ function Content(props) {
                                                     <div className="col-md-4 border-right" key={i}>
                                                         <IoCloseCircle className="close_btn" onClick={() => remove_hero(i)} />
                                                         <div className="hero_img_outter">
-                                                            <img src={h.Image !== null ? 'http://localhost:5000/'+h.Image : null} alt="" id={'img'+i} className="hero_img" />
+                                                            <img src={h.Image !== null ? h.Image : null} alt="" id={'img'+i} className="hero_img" />
                                                         </div>
                                                     </div>
                                                 )
