@@ -324,14 +324,9 @@ function AccountOrders(props) {
                                                                                                     Return
                                                                                                 </button>
                                                                                                 <Modal show={popshow}>
-                                                                                                    <Modal.Header>Important Note</Modal.Header>
+                                                                                                    <Modal.Header>Nota Importante</Modal.Header>
                                                                                                     <Modal.Body>
-                                                                                                        If you are returning the product then it should not be damage. 
-                                                                                                        If you want to Return this Product, you have to sent to us by courier or mail. 
-                                                                                                        If you are living nearby the store then you can come to the store and return it.
-                                                                                                        If you are sending it by courier or mail then when the product reaches us 
-                                                                                                        we will inspect it and if the product is not damage then we will refund you 
-                                                                                                        which will take 5-10 days.
+                                                                                                    Si devuelve el producto, no debería estar dañado. Si desea devolver este producto, debe enviárnoslo por mensajería o correo. Si vive cerca de la tienda, puede venir a la tienda y devolverlo. Si lo envía por mensajería o correo, cuando el producto nos llegue lo inspeccionaremos y si el producto no está dañado, le reembolsaremos el dinero, lo que demorará entre 5 y 10 días.
                                                                                                     </Modal.Body>
                                                                                                     <Modal.Footer>
                                                                                                         <button className="btn btn-danger" onClick={() => setPopshow(false)}>Disagree</button>
@@ -341,18 +336,19 @@ function AccountOrders(props) {
                                                                                                                 setPopshow(false)
                                                                                                             }} 
                                                                                                         >
-                                                                                                            Agree
+                                                                                                            OK
                                                                                                         </button>
                                                                                                     </Modal.Footer>
                                                                                                 </Modal>
                                                                                                 
                                                                                             </p>
                                                                                     : new Date().toISOString().substr(0,10) === cal_delivery(o.Delivery_date.substr(0,10)).substr(0,10)
-                                                                                        ? <p>Now you cannot Return the product</p>
+                                                                                        ? <p>
+                                                                                        Ahora no puedes devolver el producto</p>
                                                                                         : <p style={{fontWeight: '500'}}>
-                                                                                            If you want to return us the product then you can Email us or contact us on Whatsapp 
-                                                                                            with the details like your username, order id, product name which you want to return and 
-                                                                                            if necessary attach photos of the product.
+                                                                                            Si desea devolvernos el producto, puede enviarnos un correo electrónico o contactarnos por Whatsapp
+                                                                                            con los detalles como su nombre de usuario, identificación de pedido, nombre del producto que desea devolver y
+                                                                                            si es necesario adjunte fotos del producto.
                                                                                         </p>
                                                                                         // : <>
                                                                                         //     <p style={{fontWeight: '500'}}>Return within 3 days. After that you will not be able to return.</p>
@@ -405,12 +401,12 @@ function AccountOrders(props) {
                                                                                 </div>
                                                                                 <div className="modal-footer">
                                                                                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                                    <button type="button" className="btn btn-primary">Save changes</button>
+                                                                                    <button type="button" className="btn btn-primary">Guardar Cambios</button>
                                                                                 </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Total Price</div>
+                                                                        <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Precio Total</div>
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center'><b>${p.Status !== "Refunded" ? p.Price * p.Quantity : 0}</b></div>
                                                                     </div>
                                                                 </div>
