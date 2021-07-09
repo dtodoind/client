@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./CardDetail.scss";
 import { Carousel } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { MDBRow, MDBCol } from "mdbreact";
 import { connect } from 'react-redux'
 import { useParams } from "react-router";
 import axios from 'axios';
@@ -242,152 +241,154 @@ function CardDetail(props) {
 
 	return (
 		<div className="card-detail">
-			<MDBRow className='row-all-detail'>
-				<MDBCol className='col-detail-one'>
-					<div className="d-flex justify-content-center">
-						<Carousel className="card-carousel">
-							{
-								Products?.map((product,i) =>
-									id === i
-									? JSON.parse(product.Image)?.map((pro, u) =>
-										colorselected === u
-										? pro?.map((p,j) => 
-											<Carousel.Item>
-												<div className="w-100 h-100 d-flex justify-content-center">
-													<img
-														className="margin-auto h-100"
-														src={p}
-														alt={p}
-													/>
-												</div>
-												<Carousel.Caption>
-													{/* <h3>First slide label</h3>
-													<p>
-														Nulla vitae elit libero, span pharetra augue mollis interdum.
-													</p> */}
-												</Carousel.Caption>
-											</Carousel.Item>
-										
+			<div className="container-fluid">
+				<div className="row">
+					<div className="col-md-6">
+						<div className="d-flex justify-content-center">
+							<Carousel className="card-carousel">
+								{
+									Products?.map((product,i) =>
+										id === i
+										? JSON.parse(product.Image)?.map((pro, u) =>
+											colorselected === u
+											? pro?.map((p,j) => 
+												<Carousel.Item>
+													<div className="w-100 h-100 d-flex justify-content-center align-items-center">
+														<img
+															className="margin-auto w-100"
+															src={p}
+															alt={p}
+														/>
+													</div>
+													<Carousel.Caption>
+														{/* <h3>First slide label</h3>
+														<p>
+															Nulla vitae elit libero, span pharetra augue mollis interdum.
+														</p> */}
+													</Carousel.Caption>
+												</Carousel.Item>
+											
+											)
+											: null
 										)
 										: null
 									)
-									: null
-								)
-							}
-						</Carousel>
+								}
+							</Carousel>
+						</div>
 					</div>
-				</MDBCol>
-				<MDBCol>
-					<div>
-						{/* <p className="codigo-detail">codigo RANT</p> */}
-						<h1 className="title-detail">{Products[id]?.Name}</h1>
-						<p className="description-detail text-justify">{Products[id]?.Description}</p>
+					<div className="col-md-6">
 						<div>
-							{
-								Products?.map((product,i) =>
-									id === i
-									? JSON.parse(product.Price)?.map((pro, u) =>
-										colorselected === u
-										? pro?.map((price,j) => 
-											j === sizeselected
-											? JSON.parse(product.Stock)[u][j] === 0
-												? <h3 style={{fontWeight: '500', color: '#dc3545'}} key={j}>Out of Stock</h3>
+							{/* <p className="codigo-detail">codigo RANT</p> */}
+							<h1 className="title-detail">{Products[id]?.Name}</h1>
+							<p className="description-detail text-justify">{Products[id]?.Description}</p>
+							<div>
+								{
+									Products?.map((product,i) =>
+										id === i
+										? JSON.parse(product.Price)?.map((pro, u) =>
+											colorselected === u
+											? pro?.map((price,j) => 
+												j === sizeselected
+												? JSON.parse(product.Stock)[u][j] === 0
+													? <h3 style={{fontWeight: '500', color: '#dc3545'}} key={j}>Out of Stock</h3>
+													: null
 												: null
+											)
 											: null
 										)
 										: null
 									)
-									: null
-								)
-							}
-						</div>
-						<div>
-							{
-								Products?.map((product,i) =>
-									id === i
-									? JSON.parse(product.Price)?.map((pro, u) =>
-										colorselected === u
-										? pro?.map((price,j) => 
-											j === sizeselected
-											? <h3 className="my-3" style={{fontWeight: '400'}} key={j}>${price}</h3>
+								}
+							</div>
+							<div>
+								{
+									Products?.map((product,i) =>
+										id === i
+										? JSON.parse(product.Price)?.map((pro, u) =>
+											colorselected === u
+											? pro?.map((price,j) => 
+												j === sizeselected
+												? <h3 className="my-3" style={{fontWeight: '400'}} key={j}>${price}</h3>
+												: null
+											)
 											: null
 										)
 										: null
 									)
-									: null
-								)
-							}
-						</div>
-						<h4>Color</h4>
-						<div className="allbtn">
-							{
-								Products?.map((product,i) =>
-									id === i
-									? JSON.parse(product.Color)?.map((col, u) => 
-										u === 0
-										? <button className={"btn col"+u} style={{border: '1px solid black'}} onClick={() => colorbtn(u)} key={u}>{col}</button>
-										: <button className={"btn col"+u} onClick={() => colorbtn(u)} key={u}>{col}</button>
+								}
+							</div>
+							<h4>Color</h4>
+							<div className="allbtn">
+								{
+									Products?.map((product,i) =>
+										id === i
+										? JSON.parse(product.Color)?.map((col, u) => 
+											u === 0
+											? <button className={"btn col"+u} style={{border: '1px solid black'}} onClick={() => colorbtn(u)} key={u}>{col}</button>
+											: <button className={"btn col"+u} onClick={() => colorbtn(u)} key={u}>{col}</button>
+										)
+										: null
 									)
-									: null
-								)
-							}
-						</div>
-						<h4 className="mt-3">Size</h4>
-						<div className="allbtn">
-							{
-								Products?.map((product,i) =>
-									id === i
-									? JSON.parse(product.Size)?.map((pro, u) =>
-										colorselected === u
-										? pro?.map((p,j) => 
-											j < pro.length - 1
-											? j === sizeselected
-												? <button className={"btn size"+j} style={{border: '1px solid black'}} onClick={() => sizebtn(u,j)} key={j} 
-													disabled={JSON.parse(product.Stock)[u][j] === 0 ? true : false}>
-														{p}
-													</button>
-												: <button className={"btn size"+j} onClick={() => sizebtn(u,j)} key={j} 
-													disabled={JSON.parse(product.Stock)[u][j] === 0 ? true : false}>
-														{p}
-													</button>
+								}
+							</div>
+							<h4 className="mt-3">Size</h4>
+							<div className="allbtn">
+								{
+									Products?.map((product,i) =>
+										id === i
+										? JSON.parse(product.Size)?.map((pro, u) =>
+											colorselected === u
+											? pro?.map((p,j) => 
+												j < pro.length - 1
+												? j === sizeselected
+													? <button className={"btn size"+j} style={{border: '1px solid black'}} onClick={() => sizebtn(u,j)} key={j} 
+														disabled={JSON.parse(product.Stock)[u][j] === 0 ? true : false}>
+															{p}
+														</button>
+													: <button className={"btn size"+j} onClick={() => sizebtn(u,j)} key={j} 
+														disabled={JSON.parse(product.Stock)[u][j] === 0 ? true : false}>
+															{p}
+														</button>
+												: null
+											)
 											: null
 										)
 										: null
 									)
-									: null
-								)
-							}
-						</div>
-						<div className="product-quantity-detail">
-							<h4 className="m-0">Quantity</h4>
-							{
-								Products?.map((product,i) =>
-									id === i
-									? JSON.parse(product.Size)?.map((pro, u) =>
-										colorselected === u
-										? pro?.map((p,j) => 
-											j === sizeselected
-											? <div className="quantity-select" key={j}>
-												<button className="counterbtn mr-2 px-2 minus" onClick={() => counter('sub')} disabled={JSON.parse(product.Stock)[u][j] === 0 ? true : qty === 0 ? true : false}>-</button>
-												{
-													JSON.parse(product.Stock)[u][j] !== 0
-													? qty
-													: 0
-												}
-												<button className={"counterbtn ml-2 px-2 plus"+i} onClick={() => counter('add')} disabled={JSON.parse(product.Stock)[u][j] <= qty ? true : JSON.parse(product.Stock)[u][j] === 0 ? true : false}>+</button>
-											</div>
+								}
+							</div>
+							<div className="product-quantity-detail">
+								<h4 className="m-0">Quantity</h4>
+								{
+									Products?.map((product,i) =>
+										id === i
+										? JSON.parse(product.Size)?.map((pro, u) =>
+											colorselected === u
+											? pro?.map((p,j) => 
+												j === sizeselected
+												? <div className="quantity-select" key={j}>
+													<button className="counterbtn mr-2 px-2 minus" onClick={() => counter('sub')} disabled={JSON.parse(product.Stock)[u][j] === 0 ? true : qty === 0 ? true : false}>-</button>
+													{
+														JSON.parse(product.Stock)[u][j] !== 0
+														? qty
+														: 0
+													}
+													<button className={"counterbtn ml-2 px-2 plus"+i} onClick={() => counter('add')} disabled={JSON.parse(product.Stock)[u][j] <= qty ? true : JSON.parse(product.Stock)[u][j] === 0 ? true : false}>+</button>
+												</div>
+												: null
+											)
 											: null
 										)
 										: null
 									)
-									: null
-								)
-							}
+								}
+							</div>
+							<button className="btn-buy" onClick={addtocart}>ADD TO CART</button>
 						</div>
-						<button className="btn-buy" onClick={addtocart}>ADD TO CART</button>
 					</div>
-				</MDBCol>
-			</MDBRow>
+				</div>
+			</div>
 		</div>
 	);
 }
