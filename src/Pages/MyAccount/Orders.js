@@ -329,7 +329,7 @@ function AccountOrders(props) {
                                                                                                     Si devuelve el producto, no debería estar dañado. Si desea devolver este producto, debe enviárnoslo por mensajería o correo. Si vive cerca de la tienda, puede venir a la tienda y devolverlo. Si lo envía por mensajería o correo, cuando el producto nos llegue lo inspeccionaremos y si el producto no está dañado, le reembolsaremos el dinero, lo que demorará entre 5 y 10 días.
                                                                                                     </Modal.Body>
                                                                                                     <Modal.Footer>
-                                                                                                        <button className="btn btn-danger" onClick={() => setPopshow(false)}>Disagree</button>
+                                                                                                        <button className="btn btn-danger" onClick={() => setPopshow(false)}>No Acepto</button>
                                                                                                         <button className="btn btn-success" name={o.Orders_id}
                                                                                                             onClick={(e) => {
                                                                                                                 changestatus(e)
