@@ -18,6 +18,7 @@ function Register({ show, ...props }) {
 	const [usererror, setUsererror] = useState("");
 	const [ziperror, setZiperror] = useState("");
 	const [count, setcount] = useState(0);
+	// const [phoneerror, setPhoneError] = useState("");
 	const [hide, setHide] = useState(true)
 
 	const { Delivery } = props
@@ -131,7 +132,7 @@ function Register({ show, ...props }) {
 								Notify_cate: "Subscriber",
 							};
 							await axios
-								.post("http://localhost:5000/notification/new", notify)
+								.post("https://dtodo-indumentaria-server.herokuapp.com/notification/new", notify)
 								.then((res) =>
 									props.insertNotification({
 										...notify,
@@ -140,7 +141,7 @@ function Register({ show, ...props }) {
 								);
 	
 							await axios
-								.post("http://localhost:5000/users/new", formdata, {
+								.post("https://dtodo-indumentaria-server.herokuapp.com/users/new", formdata, {
 									header: { "Content-Type": "multipart/form-data" },
 								})
 								.then((res) => {
@@ -325,7 +326,15 @@ function Register({ show, ...props }) {
 										className="input"
 										name="phno"
 										values={values.phno}
-										onChange={handleChange}
+										onChange={(e) => {
+											handleChange(e)
+											// if(e.target.value.length !== 10) {
+											// 	setPhoneError("atleast 10 digit")
+											// 	return
+											// } else {
+											// 	setPhoneError('')
+											// }
+										}}
 										onBlur={handleBlur}
 										maxLength="10"
 										onKeyPress={checkdigit}
@@ -335,6 +344,9 @@ function Register({ show, ...props }) {
 							{errors.phno && touched.phno && (
 								<div className="input-feedback">{errors.phno}</div>
 							)}
+							{/* {phoneerror === "" ? null : (
+								<div className="input-feedback">{phoneerror}</div>
+							)} */}
 							<div className="input-div one">
 								<div className="div">
 									<h5>Dirección</h5>
@@ -372,7 +384,7 @@ function Register({ show, ...props }) {
 													}
 												}
 											} else {
-												setZiperror("")
+												setZiperror("Enter 6 Digit")
 											}
 										}}
 										onBlur={handleBlur}

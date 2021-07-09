@@ -19,7 +19,7 @@ function TopSale(props) {
 	return (
 		<div className="topsale-container">
 			<div className="topsale-header">
-				<p>Out of Stock Products</p>
+				<p>Productos Sin Stock </p>
 			</div>
 			<Scrollbars style={{ width: "100%", height: window.innerWidth >= 900 ? 'calc(100% - 40px)' : '400px'}} className="scrollheiTop">
 				{
@@ -31,7 +31,7 @@ function TopSale(props) {
 										<div className="row">	
 											<div className="col-1 p-0">
 												<div className="img_resize">
-													<img src={'http://localhost:5000/'+JSON.parse(data.Image)[j][0]} alt="clothes" />
+													<img src={'https://dtodo-indumentaria-server.herokuapp.com/'+JSON.parse(data.Image)[j][0]} alt="clothes" />
 												</div>
 											</div>
 											<div className='col sale-col-one' size="6">
@@ -46,7 +46,7 @@ function TopSale(props) {
 											</div>
 											<div className='col-3 sale-col-two'>
 												<div className='sale-stock'>
-													<p className="m-0">Out of Stock</p>
+													<p className="m-0">sin Stock</p>
 												</div>
 											</div>
 										</div>

@@ -9,7 +9,7 @@ import './OrderTable.scss'
 
 function OrderTable(props) {
 
-    const { Orders, allorders, Delivery } = props
+    const { Orders, allorders } = props
     const [orderload, setOrderload] = useState(5)
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(true)
@@ -17,18 +17,96 @@ function OrderTable(props) {
     
     const tot = (i) => {
         var OverallPay = []
+        // var delivery = []
+        // for(var q=0; q<Orders.length; q++) {
+        //     for(var h=0; h<Orders[q].OrderItems.length; h++) {
+        //         if(Orders[q].Orders_id === parseInt(e.target.name)) {
+        //             total_price = total_price + (Orders[q].OrderItems[h].Price * Orders[q].OrderItems[h].Quantity)
+        //             len_orderitem = Orders[q].OrderItems[h].Quantity + len_orderitem
+        //             if(Orders[q].OrderItems[h].OrderItem_id === OrderItem_id) {
+        //                 qty = Orders[q].OrderItems[h].Quantity
+        //                 discount = Orders[q].Discount
+        //                 delivery_charges = Orders[q].Delivery_charges
+        //                 // for(var t=0; t<Delivery.length; t++) {
+        //                 //     if(Delivery[t].Region === parseInt(zip)) {
+        //                 //         delivery_charges = parseInt(Delivery[t].Charges)
+        //                 //     }
+        //                 // }
+        //             }
+        //         }
+        //     }
+        // }
         for(var q=0; q<Orders.length; q++) {
             var Overall = 0
+            var total_price = 0
+            var len_orderitem = 0
+            var qty = 0
+            var discount = 0
+            var delivery_charges = 0
+            var final_delivery = 0
+            var final_discount = 0
+            var final_refund_amount = []
+            var price = []
             for(var e=0; e<Orders[q].OrderItems.length; e++) {
+                total_price = total_price + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
+                len_orderitem = Orders[q].OrderItems[e].Quantity + len_orderitem
+                qty = Orders[q].OrderItems[e].Quantity
+                discount = parseInt(Orders[q].Discount)
+                delivery_charges = parseInt(Orders[q].Delivery_charges)
                 if(Orders[q].OrderItems[e].Status !== 'Return' && Orders[q].OrderItems[e].Status !== 'Refunded') {
                     Overall = Overall + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
+                } else {
+                    price.push(Orders[q].OrderItems[e].Price)
                 }
             }
-            
-            if(Orders[q].Discount !== 0) {
-                Overall = Overall - (parseInt(Orders[q].Discount) * Overall / 100)
+
+            final_delivery = parseFloat(((delivery_charges/len_orderitem) * qty).toFixed(2))
+            final_discount = parseFloat((((total_price * discount / 100) / len_orderitem) * qty).toFixed(2))
+            // delivery.push(delivery_charges - parseFloat(((delivery_charges/len_orderitem) * price.length).toFixed(2)))
+            if(price.length !== 0) {
+                for(var l = 0; l < price.length; l++) {
+                    if(Orders[q].Status !== 'Return' && Orders[q].Status !== 'Refunded') {
+                        final_refund_amount.push((price[l] - final_discount) + final_delivery)
+                        // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+                        // console.log(final_refund_amount)
+                    }
+                }
             }
-            OverallPay.push(Overall)
+            var amount = 0
+            var t = 0
+            if(Orders[q].Status !== 'Return' && Orders[q].Status !== 'Refunded') {
+                amount = final_refund_amount.reduce((a,b) => a + b, 0)
+                t = parseFloat((total_price - (total_price * discount / 100) + delivery_charges).toFixed(2)) - amount
+                // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+                // console.log(t)
+            } else {
+                // console.log(`-> Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+                // console.log(t)
+            }
+            // console.log(price)
+            // if(Orders[q].Status !== 'Return' && Orders[q].Status !== 'Refunded') {
+            //     if(price !== 0) {
+            //         final_delivery = parseFloat(((delivery_charges/len_orderitem) * qty).toFixed(2))
+            //         final_discount = parseFloat((((total_price * discount / 100) / len_orderitem) * qty).toFixed(2))
+            //         final_refund_amount = ((price - final_discount) + final_delivery)
+            //         console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+            //         console.log(final_refund_amount)
+            //     } else {
+            //         console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+            //         console.log('Price is: ', price)
+            //     }
+            // }
+            
+            // if(t === 0) {
+            //     if(Orders[q].Discount !== 0) {
+            //         Overall = Overall - (parseInt(Orders[q].Discount) * Overall / 100) + JSON.parse(Orders[q].Delivery_charges)
+            //     }
+            // }
+            // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+            // console.log(Overall, t)
+            
+
+            OverallPay.push(t)
         }
 
         return OverallPay[i]
@@ -79,13 +157,13 @@ function OrderTable(props) {
         //                     Orders_id: order.Orders_id,
         //                     Status: 'Return'
         //                 }
-        //                 await axios.put('http://localhost:5000/order/status', order_val)
+        //                 await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val)
         //             } else {
         //                 var order_val2 = {
         //                     Orders_id: order.Orders_id,
         //                     Status: 'Refunded'
         //                 }
-        //                 await axios.put('http://localhost:5000/order/status', order_val2)
+        //                 await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val2)
         //             }
         //         }
         //     }
@@ -140,9 +218,9 @@ function OrderTable(props) {
             Delivery_date: change_delivery
         }
 
-        await axios.put('http://localhost:5000/order/status', order_val).then(async (res) => {
+        await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val).then(async (res) => {
             if(res.data === 'successfully Updated') {
-                await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
+                await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
             }
         })
         Orders.map((order, i) => {
@@ -153,7 +231,7 @@ function OrderTable(props) {
                         Status: e.target.value,
                         Delivery_date: change_delivery
                     }
-                    await axios.put('http://localhost:5000/orderitem/status', order_val1)
+                    await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val1)
                     return 0
                 })
             }
@@ -174,24 +252,25 @@ function OrderTable(props) {
                     len_orderitem = Orders[q].OrderItems[h].Quantity + len_orderitem
                     if(Orders[q].OrderItems[h].OrderItem_id === OrderItem_id) {
                         qty = Orders[q].OrderItems[h].Quantity
-                        var zip = JSON.parse(Orders[q].Address)[JSON.parse(Orders[q].Address).length-1]
                         discount = Orders[q].Discount
-                        for(var t=0; t<Delivery.length; t++) {
-                            if(Delivery[t].Region === parseInt(zip)) {
-                                delivery_charges = parseInt(Delivery[t].Charges)
-                            }
-                        }
+                        delivery_charges = Orders[q].Delivery_charges
+                        // for(var t=0; t<Delivery.length; t++) {
+                        //     if(Delivery[t].Region === parseInt(zip)) {
+                        //         delivery_charges = parseInt(Delivery[t].Charges)
+                        //     }
+                        // }
                     }
                 }
             }
         }
+
         var final_delivery = parseFloat(((delivery_charges/len_orderitem) * qty).toFixed(2))
         var final_discount = parseFloat((((total_price * discount / 100) / len_orderitem) * qty).toFixed(2))
 
         var final_refund_amount = (refund_amount - final_discount) + final_delivery
 
-        console.log(refund_amount, final_delivery, final_discount, total_price+delivery_charges)
-        console.log((refund_amount - final_discount) + final_delivery)
+        // console.log(refund_amount, final_delivery, final_discount, total_price+delivery_charges)
+        // console.log((refund_amount - final_discount) + final_delivery)
         if(refund_amount === undefined) {
             // console.log('Only Refund')
             // price of the product + (Delivery charges / total number of product purchase) - ((Total price * discount / 100) / total number of product purchase)
@@ -200,12 +279,12 @@ function OrderTable(props) {
                 Status: 'Refunded'
             }
     
-            await axios.put('http://localhost:5000/order/status', order_val).then(async (res) => {
+            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val).then(async (res) => {
                 if(res.data === 'successfully Updated') {
-                    await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
+                    await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
                 }
             })
-            await axios.post('http://localhost:5000/order/refund', {payment_id: id}).then(res => {
+            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/refund', {payment_id: id}).then(res => {
                 if(res.data.status === "succeeded") {
                     Orders.map((order, i) => {
                         if(order.Orders_id === parseInt(e.target.name)) {
@@ -214,9 +293,9 @@ function OrderTable(props) {
                                     OrderItem_id: item.OrderItem_id,
                                     Status: 'Refunded'
                                 }
-                                await axios.put('http://localhost:5000/orderitem/status', order_val1).then(async (res) => {
+                                await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val1).then(async (res) => {
                                     if(res.data === 'successfully Updated') {
-                                        await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
+                                        await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
                                     }
                                 })
                                 return 0
@@ -232,12 +311,12 @@ function OrderTable(props) {
             //     Status: 'Refunded'
             // }
     
-            // await axios.put('http://localhost:5000/order/status', order_val).then(async (res) => {
+            // await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val).then(async (res) => {
             //     if(res.data === 'successfully Updated') {
-            //         await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
+            //         await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
             //     }
             // })
-            await axios.post('http://localhost:5000/order/refund', {payment_id: id, refund_amount: final_refund_amount*100}).then(res => {
+            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/refund', {payment_id: id, refund_amount: final_refund_amount*100}).then(res => {
                 if(res.data.status === "succeeded") {
                     Orders.map((order, i) => {
                         if(order.Orders_id === parseInt(e.target.name)) {
@@ -250,9 +329,9 @@ function OrderTable(props) {
                                         OrderItem_id: OrderItem_id,
                                         Status: 'Refunded'
                                     }
-                                    await axios.put('http://localhost:5000/orderitem/status', order_val1).then(async (res) => {
+                                    await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val1).then(async (res) => {
                                         if(res.data === 'successfully Updated') {
-                                            await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
+                                            await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
                                         }
                                     })
                                 }
@@ -272,21 +351,21 @@ function OrderTable(props) {
                                 var count = count_refund + count_return
                                 if(order_len !== 0) {
                                     if(count === order_len) {
-                                        console.log(order_len, count, count_refund, count_return)
+                                        // console.log(order_len, count, count_refund, count_return)
                                         if(count_return > 0) {
-                                            console.log('Return')
+                                            // console.log('Return')
                                             var order_val = {
                                                 Orders_id: order.Orders_id,
                                                 Status: 'Return'
                                             }
-                                            await axios.put('http://localhost:5000/order/status', order_val)
+                                            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val)
                                         } else {
-                                            console.log('Refunded')
+                                            // console.log('Refunded')
                                             var order_val2 = {
                                                 Orders_id: order.Orders_id,
                                                 Status: 'Refunded'
                                             }
-                                            await axios.put('http://localhost:5000/order/status', order_val2)
+                                            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val2)
                                         }
                                     }
                                 }
@@ -379,7 +458,7 @@ function OrderTable(props) {
                                                         <div className='row'>
                                                             <div className='col-md-6'>
                                                                 <div className="order_img">
-                                                                    <img src={'http://localhost:5000/'+p.Image} alt='' className="order_img_inner" />
+                                                                    <img src={p.Image} alt='' className="order_img_inner" />
                                                                 </div>
                                                             </div>
                                                             <div className='col-md-6 d-flex align-items-center'>
@@ -453,6 +532,21 @@ function OrderTable(props) {
                                                         </div>
                                                     </div>
                                                 }
+                                                {/* {
+                                                    o.Delivery_charges === "0"
+                                                    ? null
+                                                    : <div className='row'>
+                                                        <div className='col-md-6'></div>
+                                                        <div className='col-md-6 d-flex align-items-center'>
+                                                            <div className="container-fluid">
+                                                                <div className='row'>
+                                                                    <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>Delivery Charges</div>
+                                                                    <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>${final_del[i]}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                } */}
                                                 <div className='row'>
                                                     <div className='col-md-6'></div>
                                                     <div className='col-md-6 d-flex align-items-center'>

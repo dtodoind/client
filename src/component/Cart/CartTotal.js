@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 
 function CartTotal(props) {
     const { Offer, delivery_charges, total, subtotal, after_total, promo } = props
+    // console.log(total)
     const [promocode, setPromocode] = useState('')
     // var subtotal = 0
     // basket.map(item => subtotal = subtotal + item.totalprice);
@@ -65,9 +66,22 @@ function CartTotal(props) {
                         </div>
                     </div>
                     {
-                        Offer[0]?.Promocode === ''
-                        ? Offer[0]?.Price !== 0
-                            ? <>
+                        Offer.length !== 0
+                        ? Offer[0]?.Promocode === ''
+                            ? Offer[0]?.Price !== 0
+                                ? <>
+                                    <div className="row py-2 px-3">
+                                        <div className="col">
+                                            <p>Descuento</p>
+                                        </div>
+                                        <div className="col">
+                                            <FaDollarSign/>
+                                            {discount}%
+                                        </div>
+                                    </div>
+                                </>
+                                : null
+                            : <>
                                 <div className="row py-2 px-3">
                                     <div className="col">
                                         <p>Descuento</p>
@@ -77,30 +91,19 @@ function CartTotal(props) {
                                         {discount}%
                                     </div>
                                 </div>
+                                <div className="row py-2 px-3">
+                                    <div className="col">
+                                        <p>Codigo Promoción</p>
+                                    </div>
+                                    <div className="col">
+                                        <input placeholder='#82928' className='input_prom' name="promocode" style={{textTransform: 'uppercase'}} onChange={(e) => {
+                                            setPromocode(e.target.value.toUpperCase())
+                                            promo(e.target.value.toUpperCase())
+                                        }} />
+                                    </div>
+                                </div>
                             </>
-                            : null
-                        : <>
-                            <div className="row py-2 px-3">
-                                <div className="col">
-                                    <p>Descuento</p>
-                                </div>
-                                <div className="col">
-                                    <FaDollarSign/>
-                                    {discount}%
-                                </div>
-                            </div>
-                            <div className="row py-2 px-3">
-                                <div className="col">
-                                    <p>Promo Code</p>
-                                </div>
-                                <div className="col">
-                                    <input placeholder='#82928' className='input_prom' name="promocode" style={{textTransform: 'uppercase'}} onChange={(e) => {
-                                        setPromocode(e.target.value.toUpperCase())
-                                        promo(e.target.value.toUpperCase())
-                                    }} />
-                                </div>
-                            </div>
-                        </>
+                        : null
                     }
                     <div className="row py-2 px-3" style={{borderTop: '1px solid rgba(0,0,0,.2)'}}>
                         <div className="col">

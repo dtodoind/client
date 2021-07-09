@@ -18,7 +18,7 @@ function Login_Register(props) {
     const { Delivery, setdelivery } = props
 
     useEffect(() => {
-        axios.get('http://localhost:5000/delivery/all').then(res => {
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
             if(Delivery.length !== 0) {
                 if(Delivery[Delivery.length - 1].Delivery_id !== res.data[res.data.length - 1].Delivery_id) {
                     setdelivery(res.data)

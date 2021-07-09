@@ -356,7 +356,7 @@ function ProductCard(props){
 									? pro?.map((p,j) => 
 										j === sizeselected
 										? JSON.parse(product.Stock)[u][j] === 0
-											? <span key={j}><span style={{margin: '0px 10px'}}>&bull;</span>, <span style={{color: '#dc3545', fontWeight: '500'}}>Out of Stock</span></span>
+											? <span key={j}><span style={{margin: '0px 10px'}}>&bull;</span>, <span style={{color: '#dc3545', fontWeight: '500'}}>Sin Stock</span></span>
 											: null
 										: null
 									)

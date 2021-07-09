@@ -14,7 +14,7 @@ function CategoryAdd(props) {
     const [prev_id, setPrev_id] = useState(0)
     
     useEffect(() => {
-        axios.get('http://localhost:5000/category/all').then(async (res) => {
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/category/all').then(async (res) => {
             if(CategoryAdd.length !== 0) {
                 if(CategoryAdd[CategoryAdd.length - 1].Category_id !== res.data[res.data.length - 1].Category_id) {
                     categoryadd(res.data)
@@ -28,7 +28,7 @@ function CategoryAdd(props) {
                 if(lop) {
                     if(localStorage.getItem('loop') === null && res.data.length === 0) {
                         localStorage.setItem('loop', '1')
-                        await axios.post('http://localhost:5000/category/new', {Name: ''}).then(res => setPrev_id(res.data.Category_id))
+                        await axios.post('https://dtodo-indumentaria-server.herokuapp.com/category/new', {Name: ''}).then(res => setPrev_id(res.data.Category_id))
                     }
                     categoryadd(res.data)
                     setlop(false)
@@ -60,8 +60,8 @@ function CategoryAdd(props) {
         var newval = {
             Name: "",
         }
-        await axios.post('http://localhost:5000/category/new', newval)
-        var cate1 = await axios.get('http://localhost:5000/category/all').then(res => res.data)
+        await axios.post('https://dtodo-indumentaria-server.herokuapp.com/category/new', newval)
+        var cate1 = await axios.get('https://dtodo-indumentaria-server.herokuapp.com/category/all').then(res => res.data)
         // cate1.splice(i+1, 0, "")
         props.categoryadd(cate1)
         upd()
@@ -80,7 +80,7 @@ function CategoryAdd(props) {
         //     var val = {
         //         Name: e.target.value,
         //     }
-        //     await axios.post('http://localhost:5000/category/new', val)
+        //     await axios.post('https://dtodo-indumentaria-server.herokuapp.com/category/new', val)
         //     document.getElementById(e.target.id).focus()
         // } else {
         //     console.log('its here')
@@ -89,17 +89,17 @@ function CategoryAdd(props) {
                 Category_id: parseInt(e.target.id),
                 Name: e.target.value,
             }
-            await axios.put('http://localhost:5000/category/edit', edit)
+            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/category/edit', edit)
         // }
-        let c = await axios.get('http://localhost:5000/category/all').then(res => res.data)
+        let c = await axios.get('https://dtodo-indumentaria-server.herokuapp.com/category/all').then(res => res.data)
         // c.splice(index, 1, e.target.value)
         
         props.categoryadd(c)
     }
 
     const remove_cate = async (i) => {
-        await axios.delete(`http://localhost:5000/category/delete/${i}`)
-        var c = await axios.get('http://localhost:5000/category/all').then(res => res.data)
+        await axios.delete(`https://dtodo-indumentaria-server.herokuapp.com/category/delete/${i}`)
+        var c = await axios.get('https://dtodo-indumentaria-server.herokuapp.com/category/all').then(res => res.data)
         // c.splice(i, 1)
         props.categoryadd(c)
         upd()

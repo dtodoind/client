@@ -13,6 +13,9 @@ function Profile(props) {
 	const [User, setUser] = useState(savedUser);
 	const [addshow, setAddShow] = useState(true)
     const [lop, setlop] = useState(true)
+	const [phoneerror, setPhoneError] = useState('')
+	const [fnameerror, setFnameError] = useState('')
+	const [lnameerror, setLnameError] = useState('')
 	
 	function onChange(e) {
 
@@ -27,6 +30,38 @@ function Profile(props) {
 				...User,
 				[e.target.name]: document.getElementById("image").files[0].name,
 			});
+		} else if(e.target.name === 'Phoneno') {
+			if(e.target.value === '') {
+				setPhoneError('Required')
+			} else if(e.target.value.length !== 10) {
+				setPhoneError('atleast 10 digit')
+			} else {
+				setPhoneError('')
+			}
+			setUser({
+				...User,
+				[e.target.name]: e.target.value,
+			});
+		} else if(e.target.name === 'FirstName') {
+			if(e.target.value === '') {
+				setFnameError('Required')
+			} else {
+				setFnameError('')
+			}
+			setUser({
+				...User,
+				[e.target.name]: e.target.value,
+			});
+		} else if(e.target.name === 'LastName') {
+			if(e.target.value === '') {
+				setLnameError('Required')
+			} else {
+				setLnameError('')
+			}
+			setUser({
+				...User,
+				[e.target.name]: e.target.value,
+			});
 		} else {
 			setUser({
 				...User,
@@ -37,7 +72,7 @@ function Profile(props) {
 
 	useEffect(() => {
 		settinguser(SingleUser)
-		axios.get('http://localhost:5000/delivery/all').then(res => {
+		axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
             if(Delivery.length !== 0) {
                 if(Delivery[Delivery.length - 1].Delivery_id !== res.data[res.data.length - 1].Delivery_id) {
                     setdelivery(res.data)
@@ -78,74 +113,76 @@ function Profile(props) {
 		// 	// address: User.Address,
 		// };
 		
-		if(val !== undefined) {
-			var address = JSON.parse(SingleUser[0].Address)
-			var Zip = JSON.parse(SingleUser[0].Zip)
-			var new_addr = val.Address.split(/, /g)
-			new_addr.push(val.zip)
-			address.push(new_addr)
-			Zip.push(val.zip)
-
-			var formdata = new FormData()
-			formdata.append('Address', JSON.stringify(address))
-			formdata.append('Email', SingleUser[0].Email)
-			formdata.append('FirstName', SingleUser[0].FirstName)
-			formdata.append('Gender', SingleUser[0].Gender)
-			formdata.append('Image', SingleUser[0].Image)
-			formdata.append('LastName', SingleUser[0].LastName)
-			formdata.append('Phoneno', SingleUser[0].Phoneno)
-			formdata.append('Users_id', SingleUser[0].Users_id) 
-			formdata.append('Zip', JSON.stringify(Zip)) 
-			formdata.append('Username', SingleUser[0].Username.toLowerCase())
-
-			await axios.put('http://localhost:5000/users/detailsupdate', formdata, {
-				headers: {
-					'x-auth-token': localStorage.getItem('token')
-				}
-			})
+		if(phoneerror === '' && fnameerror === '' && lnameerror === '') {
+			if(val !== undefined) {
+				var address = JSON.parse(SingleUser[0].Address)
+				var Zip = JSON.parse(SingleUser[0].Zip)
+				var new_addr = val.Address.split(/, /g)
+				new_addr.push(val.zip)
+				address.push(new_addr)
+				Zip.push(val.zip)
 	
-			localStorage.setItem('SingleUser', JSON.stringify([{
-				...SingleUser[0],
-				Address: JSON.stringify(address),
-				Zip: JSON.stringify(Zip),
-			}]))
-			setSingleUser([{
-				...SingleUser[0],
-				Address: JSON.stringify(address),
-				Zip: JSON.stringify(Zip),
-			}])
-			settinguser(JSON.parse(localStorage.getItem('SingleUser')))
-			// console.log(JSON.parse(localStorage.getItem('SingleUser')))
-		} else {
-			User.Address = SingleUser[0].Address
-			User.Image = document.getElementById("image").files.length === 0 ? User.Image : 'http://localhost:5000/'+document.getElementById("image").files[0].name
-			var formdata2 = new FormData()
-			formdata2.append('Address', SingleUser[0].Address)
-			formdata2.append('Email', User.Email)
-			formdata2.append('FirstName', User.FirstName)
-			formdata2.append('Gender', User.Gender)
-			formdata2.append('Image', document.getElementById("image").files.length === 0 ? User.Image : document.getElementById("image").files[0])
-			formdata2.append('LastName', User.LastName)
-			formdata2.append('Phoneno', User.Phoneno)
-			formdata2.append('Users_id', User.Users_id)
-			formdata2.append('Zip', User.Zip) 
-			formdata2.append('Username', User.Username.toLowerCase())
+				var formdata = new FormData()
+				formdata.append('Address', JSON.stringify(address))
+				formdata.append('Email', SingleUser[0].Email)
+				formdata.append('FirstName', SingleUser[0].FirstName)
+				formdata.append('Gender', SingleUser[0].Gender)
+				formdata.append('Image', SingleUser[0].Image)
+				formdata.append('LastName', SingleUser[0].LastName)
+				formdata.append('Phoneno', SingleUser[0].Phoneno)
+				formdata.append('Users_id', SingleUser[0].Users_id) 
+				formdata.append('Zip', JSON.stringify(Zip)) 
+				formdata.append('Username', SingleUser[0].Username.toLowerCase())
+	
+				await axios.put('https://dtodo-indumentaria-server.herokuapp.com/users/detailsupdate', formdata, {
+					headers: {
+						'x-auth-token': localStorage.getItem('token')
+					}
+				})
+		
+				localStorage.setItem('SingleUser', JSON.stringify([{
+					...SingleUser[0],
+					Address: JSON.stringify(address),
+					Zip: JSON.stringify(Zip),
+				}]))
+				setSingleUser([{
+					...SingleUser[0],
+					Address: JSON.stringify(address),
+					Zip: JSON.stringify(Zip),
+				}])
+				settinguser(JSON.parse(localStorage.getItem('SingleUser')))
+				// console.log(JSON.parse(localStorage.getItem('SingleUser')))
+			} else {
+				User.Address = SingleUser[0].Address
+				User.Image = document.getElementById("image").files.length === 0 ? User.Image : 'https://dtodo-indumentaria-server.herokuapp.com/'+document.getElementById("image").files[0].name
+				var formdata2 = new FormData()
+				formdata2.append('Address', SingleUser[0].Address)
+				formdata2.append('Email', User.Email)
+				formdata2.append('FirstName', User.FirstName)
+				formdata2.append('Gender', User.Gender)
+				formdata2.append('Image', document.getElementById("image").files.length === 0 ? User.Image : document.getElementById("image").files[0])
+				formdata2.append('LastName', User.LastName)
+				formdata2.append('Phoneno', User.Phoneno)
+				formdata2.append('Users_id', User.Users_id)
+				formdata2.append('Zip', User.Zip) 
+				formdata2.append('Username', User.Username.toLowerCase())
+				
+				await axios.put('https://dtodo-indumentaria-server.herokuapp.com/users/detailsupdate', formdata2, {
+					headers: {
+						'x-auth-token': localStorage.getItem('token')
+					}
+				}).then((res) => User.Image = res.data)
+				localStorage.setItem('SingleUser', JSON.stringify([User]))
+				setSingleUser([User])
+			}
+			props.settinguser(JSON.parse(localStorage.getItem('SingleUser')))
 			
-			await axios.put('http://localhost:5000/users/detailsupdate', formdata2, {
-				headers: {
-					'x-auth-token': localStorage.getItem('token')
-				}
-			}).then((res) => User.Image = res.data)
-			localStorage.setItem('SingleUser', JSON.stringify([User]))
-			setSingleUser([User])
+			// localStorage.removeItem('SingleUser')
+			
+			// props.settinguser(val);//what do "settinguser"?
+			
+			setLgShow(false);
 		}
-		props.settinguser(JSON.parse(localStorage.getItem('SingleUser')))
-		
-		// localStorage.removeItem('SingleUser')
-		
-		// props.settinguser(val);//what do "settinguser"?
-		
-		setLgShow(false);
 	}
 
 	const removeAddress = async (val) => {
@@ -159,7 +196,7 @@ function Profile(props) {
 			Email: SingleUser[0].Email,
 			FirstName: SingleUser[0].FirstName,
 			Gender: SingleUser[0].Gender,
-			// Image: "http://localhost:5000/57c4a76e1040e_thumb900.jpg",
+			// Image: "https://dtodo-indumentaria-server.herokuapp.com/57c4a76e1040e_thumb900.jpg",
 			LastName: SingleUser[0].LastName,
 			Phoneno: SingleUser[0].Phoneno,
 			// Status: "Inactive",
@@ -168,7 +205,7 @@ function Profile(props) {
 			Username: SingleUser[0].Username,
 		}
 
-		await axios.put('http://localhost:5000/users/detailsupdate', details, {
+		await axios.put('https://dtodo-indumentaria-server.herokuapp.com/users/detailsupdate', details, {
 			headers: {
 				'x-auth-token': localStorage.getItem('token')
 			}
@@ -274,6 +311,9 @@ function Profile(props) {
 					show={lgShow}
 					onHide={() => setLgShow(false)}
 					showornot={showornot}
+					phoneerror={phoneerror}
+					fnameerror={fnameerror}
+					lnameerror={lnameerror}
 				/>
 
 
@@ -308,9 +348,13 @@ function Profile(props) {
 															))
 														}
 														{/* ZIP: {JSON.parse(SingleUser[0].Zip)[i]} */}
-														<div className="btn_adj">
-															<button className="btn-remove" onClick={() => removeAddress(i)}>Remove</button>
-														</div>
+														{
+															JSON.parse(SingleUser[0].Address).length !== 1
+															? <div className="btn_adj">
+																<button className="btn-remove" onClick={() => removeAddress(i)}>Remove</button>
+															</div>
+															: null
+														}
 													</div>
 												</div>
 											{/* </label>

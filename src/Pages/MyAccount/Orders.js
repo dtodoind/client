@@ -43,7 +43,7 @@ function AccountOrders(props) {
     }, [Orders, orderload])
 
 	useEffect(() => {
-        axios.get('http://localhost:5000/order/all/'+JSON.parse(localStorage.getItem('SingleUser'))[0].Users_id, 
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all/'+JSON.parse(localStorage.getItem('SingleUser'))[0].Users_id, 
         {
             headers: {
                 'x-auth-token': localStorage.getItem('token')
@@ -102,15 +102,52 @@ function AccountOrders(props) {
         var OverallPay = []
         for(var q=0; q<Orders.length; q++) {
             var Overall = 0
+            var total_price = 0
+            var len_orderitem = 0
+            var qty = 0
+            var discount = 0
+            var delivery_charges = 0
+            var final_delivery = 0
+            var final_discount = 0
+            var final_refund_amount = []
+            var price = []
             for(var e=0; e<Orders[q].OrderItems.length; e++) {
+                total_price = total_price + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
+                len_orderitem = Orders[q].OrderItems[e].Quantity + len_orderitem
+                qty = Orders[q].OrderItems[e].Quantity
+                discount = parseInt(Orders[q].Discount)
+                delivery_charges = parseInt(Orders[q].Delivery_charges)
                 if(Orders[q].OrderItems[e].Status !== 'Return' && Orders[q].OrderItems[e].Status !== 'Refunded') {
                     Overall = Overall + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
+                } else {
+                    price.push(Orders[q].OrderItems[e].Price)
                 }
             }
-            if(Orders[q].Discount !== 0) {
-                Overall = Overall - (parseInt(Orders[q].Discount) * Overall / 100)
+
+            final_delivery = parseFloat(((delivery_charges/len_orderitem) * qty).toFixed(2))
+            final_discount = parseFloat((((total_price * discount / 100) / len_orderitem) * qty).toFixed(2))
+            // delivery.push(delivery_charges - parseFloat(((delivery_charges/len_orderitem) * price.length).toFixed(2)))
+            if(price.length !== 0) {
+                for(var l = 0; l < price.length; l++) {
+                    if(Orders[q].Status !== 'Return' && Orders[q].Status !== 'Refunded') {
+                        final_refund_amount.push((price[l] - final_discount) + final_delivery)
+                        // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+                        // console.log(final_refund_amount)
+                    }
+                }
             }
-            OverallPay.push(Overall)
+            var amount = 0
+            var t = 0
+            if(Orders[q].Status !== 'Return' && Orders[q].Status !== 'Refunded') {
+                amount = final_refund_amount.reduce((a,b) => a + b, 0)
+                t = parseFloat((total_price - (total_price * discount / 100) + delivery_charges).toFixed(2)) - amount
+                // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+                // console.log(t)
+            } else {
+                // console.log(`-> Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+                // console.log(t)
+            }
+            OverallPay.push(t)
         }
 
         return OverallPay[i]
@@ -121,9 +158,9 @@ function AccountOrders(props) {
             OrderItem_id: parseInt(orderitem_id),
             Status: 'Return'
         }
-        await axios.put('http://localhost:5000/orderitem/status', order_val).then(async (res) => {
+        await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val).then(async (res) => {
             if(res.data === 'successfully Updated') {
-                await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
+                await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
             }
             // document.getElementById('change_text'+parseInt(orderitem_id)).innerHTML = `<p>You have Return this Product. Refund will be done after the product reaches to our store.</p>`
             // document.getElementById('btn_change'+parseInt(orderitem_id)).innerHTML = `
@@ -157,8 +194,8 @@ function AccountOrders(props) {
                                 Status: 'Return'
                             }
                             // console.log(order_val)
-                            await axios.put('http://localhost:5000/order/status', order_val)
-                            await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
+                            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val)
+                            await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
                         }
                     }
                 }
@@ -181,7 +218,7 @@ function AccountOrders(props) {
                 new Date(),
             Notify_cate: "Return",
         }
-        await axios.post('http://localhost:5000/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
+        await axios.post('https://dtodo-indumentaria-server.herokuapp.com/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
     }
 
 	return (
@@ -239,7 +276,7 @@ function AccountOrders(props) {
                                                         <div className='row'>
                                                             <div className='col-md-6'>
                                                                 <div className="order_img">
-                                                                    <img src={'http://localhost:5000/'+p.Image} alt='' className="order_img_inner" />
+                                                                    <img src={p.Image} alt='' className="order_img_inner" />
                                                                 </div>
                                                             </div>
                                                             <div className='col-md-6 d-flex align-items-center'>
@@ -398,6 +435,21 @@ function AccountOrders(props) {
                                                         </div>
                                                     </div>
                                                 }
+                                                {/* {
+                                                    o.Delivery_charges === "0"
+                                                    ? null
+                                                    : <div className='row'>
+                                                        <div className='col-md-6'></div>
+                                                        <div className='col-md-6 d-flex align-items-center'>
+                                                            <div className="container-fluid">
+                                                                <div className='row'>
+                                                                    <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>Delivery Charges</div>
+                                                                    <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>${o.Delivery_charges}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                } */}
                                                 <div className='row'>
                                                     <div className='col-md-6'></div>
                                                     <div className='col-md-6 d-flex align-items-center'>

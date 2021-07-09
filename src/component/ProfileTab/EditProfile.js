@@ -4,7 +4,7 @@ import "./EditProfile.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ImCross, ImCamera } from "react-icons/im";
 
-function EditProfile({ User, showornot, EditUser, ...props }) {
+function EditProfile({ User, showornot, EditUser, phoneerror, fnameerror, lnameerror, ...props }) {
 
 	return (
 		<Modal
@@ -69,6 +69,7 @@ function EditProfile({ User, showornot, EditUser, ...props }) {
 										name="FirstName"
 										value={User.FirstName}
 									/>
+									<div style={{color: 'red'}}>{fnameerror}</div>
 								</div>
 								<div className="col-md-6">
 									<input
@@ -79,6 +80,7 @@ function EditProfile({ User, showornot, EditUser, ...props }) {
 										name="LastName"
 										value={User.LastName}
 									/>
+									<div style={{color: 'red'}}>{lnameerror}</div>
 								</div>
 							</div>
 							<div className="row mt-3">
@@ -89,9 +91,12 @@ function EditProfile({ User, showornot, EditUser, ...props }) {
 										className="form-control"
 										placeholder="Phone"
 										name="Phoneno"
+										maxLength="10"
+										minLength="10"
 										required
 										value={User.Phoneno}
 									/>
+									<div style={{color: 'red'}}>{phoneerror}</div>
 								</div>
 							</div>
 							<div className="row mt-3">

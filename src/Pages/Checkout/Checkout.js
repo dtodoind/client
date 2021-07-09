@@ -29,6 +29,7 @@ function Checkout(props) {
     const [delivery_charges, setDeliverycharges] = useState(0)
     const [payment_addr, setPaymentaddr] = useState(0)
     const [lop, setlop] = useState(true)
+    const [promocode, setPromocode] = useState('')
 
     const { Delivery, setdelivery } = props
 
@@ -39,6 +40,9 @@ function Checkout(props) {
                 return
             }
         }
+    }
+    const promo = (val) => {
+        setPromocode(val)
     }
 
     var subtotal = 0
@@ -54,10 +58,10 @@ function Checkout(props) {
     // }
     useEffect(() => {
         if(Offer.length === 0) {
-            axios.get('http://localhost:5000/offer/all').then(res => alloffer(res.data))
+            axios.get('https://dtodo-indumentaria-server.herokuapp.com/offer/all').then(res => alloffer(res.data))
         }
         if(Delivery.length === 0) {
-            axios.get('http://localhost:5000/delivery/all').then(res => {
+            axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
                 if(Delivery.length !== 0) {
                     if(Delivery[Delivery.length - 1].Delivery_id !== res.data[res.data.length - 1].Delivery_id) {
                         setdelivery(res.data)
@@ -71,7 +75,7 @@ function Checkout(props) {
                 }
             })
         }
-    }, [Offer, alloffer, Delivery, lop, setdelivery, radioval])
+    }, [Offer.length, alloffer, Delivery, lop, setdelivery, radioval])
     
     var discount = 0
     var final_subtotal = 0
@@ -83,9 +87,16 @@ function Checkout(props) {
             } else {
                 final_subtotal = subtotal
             }
-        } else {
-            final_subtotal = subtotal
+        } else if(Offer.length !== '') {
+            if(promocode === Offer[0].Promocode) {
+                discount = Offer[0].Discount
+                final_subtotal = subtotal - (discount*subtotal/100)
+            } else {
+                final_subtotal = subtotal
+            }
         }
+    } else {
+        final_subtotal = subtotal
     }
     
     var total = final_subtotal
@@ -134,9 +145,15 @@ function Checkout(props) {
         var discount = 0
         basket.map(item => subtotal = subtotal + item.totalprice);
 
-        if(Offer[0].Price !== 0) {
-            if(Offer[0].Price <= subtotal) {
-                discount = Offer[0].Discount
+        if(Offer.length !== 0) {
+            if(Offer[0].Price !== 0) {
+                if(Offer[0].Price <= subtotal) {
+                    discount = Offer[0].Discount
+                }
+            } else if(Offer.length !== '') {
+                if(promocode === Offer[0].Promocode) {
+                    discount = Offer[0].Discount
+                }
             }
         }
         var order_val
@@ -170,9 +187,11 @@ function Checkout(props) {
         if(rad === "1") {
             order_val = {
                 Status: 'Pickup',
+                PaymentSuccess: payment_id,
                 Discount: discount,
-                Address: SingleUser[0].Address[0],
+                Address: JSON.stringify(JSON.parse(SingleUser[0].Address)[0]),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
+                Delivery_charges: "0",
                 ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 Email: SingleUser[0].Email,
                 Phone: SingleUser[0].Phoneno,
@@ -189,6 +208,7 @@ function Checkout(props) {
                 Discount: discount,
                 Address: JSON.stringify(address),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
+                Delivery_charges: JSON.stringify(delivery_charges),
                 Email: billing_details.email,
                 Phone: billing_details.phone,
                 ClientName: billing_details.name,
@@ -209,6 +229,7 @@ function Checkout(props) {
                 Discount: discount,
                 Address: JSON.stringify(addr),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
+                Delivery_charges: JSON.stringify(delivery_charges),
                 ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 Email: SingleUser[0].Email,
                 Phone: SingleUser[0].Phoneno,
@@ -228,8 +249,8 @@ function Checkout(props) {
                 Message: 'Purchase on '+ new Date() +' from '+JSON.parse(order_val.Address).join(', '),
                 Notify_cate: 'Sales'
             }
-            await axios.post('http://localhost:5000/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
-            await axios.post('http://localhost:5000/order/new', order_val).then(res => 
+            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
+            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/new', order_val).then(res => 
                 basket?.map(async (item) => {
                     var order_item = {
                         Quantity: item.qty,
@@ -243,8 +264,8 @@ function Checkout(props) {
                         Image: item.img,
                         Status: res.data.Status === 'Pickup' ? "Pickup" : "Pending"
                     }
-                    await axios.post('http://localhost:5000/orderitem/new', order_item)
-                    await axios.put('http://localhost:5000/product/quantity', 
+                    await axios.post('https://dtodo-indumentaria-server.herokuapp.com/orderitem/new', order_item)
+                    await axios.put('https://dtodo-indumentaria-server.herokuapp.com/product/quantity', 
                     {
                         Stock: item.allStock,
                         Product_id: item.Product_id
@@ -269,6 +290,10 @@ function Checkout(props) {
                                 <h2>No Iniciaste sesión todavía</h2>
                                 <Link to='/loginregister' className="logincheckout">Login</Link>
                             </>
+                            : basket.length === 0
+                            ? <>
+                                <h3 style={{backgroundColor: '#E63946', textAlign: 'center', padding: '10px', color: 'white', borderRadius: '5px'}}>Please add some product</h3>
+                            </>
                             : <>
                                 <Billing address={address} />
                                     <Elements stripe={stripePromise}>
@@ -280,7 +305,7 @@ function Checkout(props) {
                     <div className="col-lg-4">
                         <div className="row">
                             <div className="col">
-                                <CartTotal radioval={radioval} delivery_charges={delivery_charges} subtotal={subtotal} total={total} after_total={after_total} place_order={place_order} />
+                                <CartTotal radioval={radioval} delivery_charges={delivery_charges} subtotal={subtotal} total={total} after_total={after_total} place_order={place_order} promo={promo} />
                             </div>
                         </div>
                         <div className="row">

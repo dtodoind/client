@@ -22,7 +22,7 @@ function AboutUs(props) {
 	const { About, aboutus } = props;
 
 	useEffect(() => {
-		axios.get("http://localhost:5000/aboutus/all").then(res => {
+		axios.get("https://dtodo-indumentaria-server.herokuapp.com/aboutus/all").then(res => {
 			if(res.data.length !== 0) {
 				aboutus(res.data[0].Content)
 			}
@@ -99,7 +99,7 @@ function AboutUs(props) {
 						<div className="col-lg py-3 d-flex justify-content-center about-text-container">
 							<div className="about-text">
 								<h5 className="title-text">
-								Bienvenido a DTODO un eCommerce online 
+								Bienvenido a DTODO una tienda online 
 								</h5>
 								<p>
 									{/* Somos una tienda de ropa donde nos gusta dejar satisfechos a
