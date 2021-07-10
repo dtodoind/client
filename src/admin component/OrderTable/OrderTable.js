@@ -69,8 +69,8 @@ function OrderTable(props) {
                 for(var l = 0; l < price.length; l++) {
                     if(Orders[q].Status !== 'Return' && Orders[q].Status !== 'Refunded') {
                         final_refund_amount.push(((price[l] * single_qty[l]) - final_discount) + (final_delivery * single_qty[l]))
-                        console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
-                        console.log(price[l], single_qty[l], final_refund_amount)
+                        // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
+                        // console.log(price[l], single_qty[l], final_refund_amount)
                     }
                 }
             }
@@ -242,7 +242,6 @@ function OrderTable(props) {
     }
 
     const Refund = async (e, id, refund_amount, OrderItem_id) => {
-        console.log(refund_amount)
         var len_orderitem = 0
         var qty = 0
         var delivery_charges = 0

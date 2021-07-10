@@ -104,35 +104,37 @@ function AccountOrders(props) {
             var Overall = 0
             var total_price = 0
             var len_orderitem = 0
-            var qty = 0
+            // var qty = 0
             var discount = 0
             var delivery_charges = 0
             var final_delivery = 0
             var final_discount = 0
             var final_refund_amount = []
             var price = []
+            var single_qty = []
             for(var e=0; e<Orders[q].OrderItems.length; e++) {
                 total_price = total_price + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
                 len_orderitem = Orders[q].OrderItems[e].Quantity + len_orderitem
-                qty = Orders[q].OrderItems[e].Quantity
+                // qty = Orders[q].OrderItems[e].Quantity
                 discount = parseInt(Orders[q].Discount)
                 delivery_charges = parseInt(Orders[q].Delivery_charges)
                 if(Orders[q].OrderItems[e].Status !== 'Return' && Orders[q].OrderItems[e].Status !== 'Refunded') {
                     Overall = Overall + (Orders[q].OrderItems[e].Price * Orders[q].OrderItems[e].Quantity)
                 } else {
                     price.push(Orders[q].OrderItems[e].Price)
+                    single_qty.push(Orders[q].OrderItems[e].Quantity)
                 }
             }
 
-            final_delivery = parseFloat(((delivery_charges/len_orderitem) * qty).toFixed(2))
-            final_discount = parseFloat((((total_price * discount / 100) / len_orderitem) * qty).toFixed(2))
+            final_delivery = delivery_charges/len_orderitem
+            final_discount = parseFloat(((total_price * discount / 100) / len_orderitem).toFixed(2))
             // delivery.push(delivery_charges - parseFloat(((delivery_charges/len_orderitem) * price.length).toFixed(2)))
             if(price.length !== 0) {
                 for(var l = 0; l < price.length; l++) {
                     if(Orders[q].Status !== 'Return' && Orders[q].Status !== 'Refunded') {
-                        final_refund_amount.push((price[l] - final_discount) + final_delivery)
+                        final_refund_amount.push(((price[l] * single_qty[l]) - final_discount) + (final_delivery * single_qty[l]))
                         // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
-                        // console.log(final_refund_amount)
+                        // console.log(price[l], single_qty[l], final_refund_amount)
                     }
                 }
             }
@@ -142,7 +144,7 @@ function AccountOrders(props) {
                 amount = final_refund_amount.reduce((a,b) => a + b, 0)
                 t = parseFloat((total_price - (total_price * discount / 100) + delivery_charges).toFixed(2)) - amount
                 // console.log(`Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
-                // console.log(t)
+                // console.log(parseFloat((total_price - (total_price * discount / 100) + delivery_charges).toFixed(2)), amount)
             } else {
                 // console.log(`-> Order ${Orders[q].Orders_id} ${Orders[q].Status}`)
                 // console.log(t)
@@ -452,7 +454,7 @@ function AccountOrders(props) {
                                                         <div className="container-fluid">
                                                             <div className='row'>
                                                                 <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>Overall Payment</div>
-                                                                <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>${tot(i)}</div>
+                                                                <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>${tot(i).toFixed(2)}</div>
                                                             </div>
                                                         </div>
                                                     </div>
