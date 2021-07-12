@@ -41,8 +41,8 @@ function ForgotPassword() {
         <div className="forgotpassword">
             <div className="inner_box">
                 <div className="top_text">
-                    <h3>Forgot Password</h3>
-                    <p>You can reset your password by providing your registered email address</p>
+                    <h3>Olvide mi contraseña</h3>
+                    <p>Podes recuperar tu contraseña, ingresando el email con el que te registraste</p>
                 </div>
                 <div className="emailerr" style={{display: 'none'}}>{emailerr}</div>
                 <div className="input_box">
@@ -87,8 +87,8 @@ function ForgotPassword() {
 
                                     <div className="butt">
                                         <input type="submit" className="btn" value="Submit" disabled={isSubmitting} />
-                                        <p style={{margin: '0'}}>or</p>
-                                        <Link to="/loginregister">Return to Login</Link>
+                                        <p style={{margin: '0'}}>o</p>
+                                        <Link to="/loginregister">ir a Login</Link>
                                     </div>
                                     
                                 </form>
