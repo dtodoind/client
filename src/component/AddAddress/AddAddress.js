@@ -86,11 +86,11 @@ function AddAddress({ EditUser, addaddress, ...props }) {
                                             type="text"
                                             className="input"
                                             name="zip"
-                                            maxLength="6"
+                                            maxLength="4"
                                             value={values.zip}
                                             onChange={(e) => {
                                                 handleChange(e)
-                                                if(e.target.value.length === 6) {
+                                                if(e.target.value.length === 4) {
                                                     for(var i=0; i<Delivery.length; i++) {
                                                         if(Delivery[i].Region === parseInt(e.target.value)) {
                                                             setZiperror("")
@@ -100,7 +100,7 @@ function AddAddress({ EditUser, addaddress, ...props }) {
                                                         }
                                                     }
                                                 } else {
-                                                    setZiperror("altleast 6 digit")
+                                                    setZiperror("altleast 4 digit")
                                                 }
                                             }}
                                             onBlur={handleBlur}

@@ -31,7 +31,7 @@ function TopSale(props) {
 										<div className="row">	
 											<div className="col-1 p-0">
 												<div className="img_resize">
-													<img src={'https://dtodo-indumentaria-server.herokuapp.com/'+JSON.parse(data.Image)[j][0]} alt="clothes" />
+													<img src={JSON.parse(data.Image)[j][0]} alt="clothes" />
 												</div>
 											</div>
 											<div className='col sale-col-one' size="6">
