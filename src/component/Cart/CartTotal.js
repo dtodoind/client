@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 
 function CartTotal(props) {
     const { Offer, delivery_charges, total, subtotal, after_total, promo } = props
+    console.log(delivery_charges)
     // console.log(total)
     const [promocode, setPromocode] = useState('')
     // var subtotal = 0
