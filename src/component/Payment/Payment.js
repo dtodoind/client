@@ -340,7 +340,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 							placeholder="Codigo Postal"
 							required
 							onKeyPress={(event) => onlyNumberKey(event)}
-							maxLength='6'
+							maxLength='4'
 							autoComplete="zip"
 							value={billingDetails.address.postal_code}
 							onChange={(e) => {
@@ -352,7 +352,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 									if(e.target.value === '') {
 										setZiperror("Requerido")
 										setErrorzip(true)
-									} else if(e.target.value.length === 6) {
+									} else if(e.target.value.length === 4) {
 										for(var i=0; i<Delivery.length; i++) {
 											if(Delivery[i].Region === parseInt(e.target.value)) {
 												setZiperror("")
@@ -365,7 +365,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 											}
 										}
 									} else {
-										setZiperror("atleast 6 digit")
+										setZiperror("atleast 4 digit")
 										setErrorzip(true)
 									}
 								}

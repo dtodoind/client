@@ -33,6 +33,7 @@ function DeliveryCharges(props) {
     
     const region = (e) => {
         const re = /^[0-9\b]+$/;
+        console.log('2')
 
         if (e.target.value === '' || re.test(e.target.value)) {
             if(e.target.name === "zip") {
@@ -50,7 +51,7 @@ function DeliveryCharges(props) {
         if(e.key === "Enter") {
             if(e.target.name === "zip") {
                 if(e.target.value !== ""){
-                    if(e.target.value.length === 6) {
+                    if(e.target.value.length === 4) {
                         for(var i=0; i<Delivery.length; i++) {
                             if(Delivery[i].Region === parseInt(zip)) {
                                 setInsert(false)
@@ -63,7 +64,7 @@ function DeliveryCharges(props) {
                         document.getElementsByName("charges")[0].focus()
                         setZiperror("")
                     } else {
-                        setZiperror("Zip should be atleast 6 digits long")
+                        setZiperror("Zip should be atleast 4 digits long")
                     }
                 } else {
                     setZiperror("Required")
@@ -71,19 +72,23 @@ function DeliveryCharges(props) {
             }
             if(e.target.name === "charges") {
                 if(e.target.value !== "") {
-                    setChargeserror("")
-                    var val = {
-                        Zip: zip,
-                        Charges: charges
-                    }
-                    if(insert) {
-                        await axios.post('https://dtodo-indumentaria-server.herokuapp.com/delivery/new', val)
-                        await axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
-                            setdelivery(res.data)
-                        })
-                        setZip('')
-                        setCharges('')
-                        document.getElementsByName('zip')[0].focus()
+                    if(zip.length === 4) {
+                        setChargeserror("")
+                        var val = {
+                            Zip: zip,
+                            Charges: charges
+                        }
+                        if(insert) {
+                            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/delivery/new', val)
+                            await axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
+                                setdelivery(res.data)
+                            })
+                            setZip('')
+                            setCharges('')
+                            document.getElementsByName('zip')[0].focus()
+                        }
+                    } else {
+                        setZiperror("Zip should be atleast 4 digits long")
                     }
                 } else {
                     setChargeserror("Required")
@@ -125,7 +130,7 @@ function DeliveryCharges(props) {
                     }
                     <tr>
                         <td>
-                            <input type="text" value={zip} name="zip" onChange={region} onKeyUp={different_rec} maxLength="6" />
+                            <input type="text" value={zip} name="zip" onChange={region} onKeyUp={different_rec} maxLength="4" />
                             <p style={{margin: '0', color: 'red'}}>{ziperror}</p>
                         </td>
                         <td>
