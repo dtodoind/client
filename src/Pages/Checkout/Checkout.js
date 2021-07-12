@@ -105,9 +105,9 @@ function Checkout(props) {
 
     const address = (e) => {
         setRadioval(e.target.value)
-        console.log(e.target.value)
         if(Delivery[e.target.value-2] !== undefined) {
             setDeliverycharges(Delivery[e.target.value-2].Charges)
+            console.log(Delivery[e.target.value-2].Charges)
         }
         if(e.target.value === "1") {
             setDeliverycharges(0)
