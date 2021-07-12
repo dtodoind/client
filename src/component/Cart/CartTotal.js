@@ -125,7 +125,6 @@ function CartTotal(props) {
                                 </div>
                                 <div className="col">
                                     <FaDollarSign/>
-                                    {console.log(delivery_charges)}
                                     {delivery_charges}
                                 </div>
                             </div>
