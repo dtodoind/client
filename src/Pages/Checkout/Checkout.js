@@ -105,10 +105,12 @@ function Checkout(props) {
 
     const address = (e) => {
         setRadioval(e.target.value)
+        console.log(e.target.value)
         if(Delivery[e.target.value-2] !== undefined) {
             setDeliverycharges(Delivery[e.target.value-2].Charges)
         }
         if(e.target.value === "1") {
+            setDeliverycharges(0)
             setPaymentaddr({
                 email: SingleUser[0].Email,
                 phone: SingleUser[0].Phoneno,
@@ -119,7 +121,7 @@ function Checkout(props) {
                 }
             })
         } else if(e.target.value === "payment"){
-
+            setDeliverycharges(0)
         } else {
             setPaymentaddr({
                 email: SingleUser[0].Email,
