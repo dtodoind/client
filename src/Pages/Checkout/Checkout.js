@@ -105,8 +105,14 @@ function Checkout(props) {
 
     const address = (e) => {
         setRadioval(e.target.value)
-        if(Delivery[e.target.value-2] !== undefined) {
-            setDeliverycharges(Delivery[e.target.value-2].Charges)
+        if(JSON.parse(SingleUser[0].Address)[e.target.value-2] !== undefined) {
+            var zip = JSON.parse(SingleUser[0].Address)[e.target.value-2][JSON.parse(SingleUser[0].Address)[e.target.value-2].length - 1]
+            for(var i=0; i<Delivery.length; i++) {
+                if(Delivery[i].Region === parseInt(zip)) {
+                    setDeliverycharges(Delivery[i].Charges)
+                    return
+                }
+            }
         }
         if(e.target.value === "1") {
             setDeliverycharges(0)
