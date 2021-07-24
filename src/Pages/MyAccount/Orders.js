@@ -455,6 +455,7 @@ function AccountOrders(props) {
                                                             <div className='row'>
                                                                 <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>Overall Payment</div>
                                                                 <div className='col-6 text-left py-2' style={{fontWeight: '500', fontSize: '20px'}}>${tot(i).toFixed(2)}</div>
+                                                                {console.log(tot(i), 'TOT I')}
                                                             </div>
                                                         </div>
                                                     </div>
