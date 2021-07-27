@@ -8,7 +8,7 @@ function ShippingInfo() {
       </div>
       <div className="shipping-text">
         <h6>¿Cuándo voy a recibir mi pedido?</h6>
-        Los pedidos son entregados a través del correo Andreani en toda la
+        Los pedidos son entregados a través del correo Argentino en toda la
         República Argentina.
         <br></br>
         <p>
@@ -16,11 +16,11 @@ function ShippingInfo() {
           posteriores a tu compra, de lunes a viernes entre las 9 y 18 hs.
         </p>
         <br></br>
-        <h6> Envío a Sucursal Andreani:</h6>
+        <h6> Envío a Sucursal Correo Argentino :</h6>
         <p>
           El pedido estará listo en la sucursal del correo de tu preferencia en
           los próximos 8 días hábiles. En lo que refiere a envíos a sucursal de
-          Andreani, deberás retirar tu pedido dentro de los siguientes 7 días
+          correo argentino, deberás retirar tu pedido dentro de los siguientes 7 días
           corridos desde el día que llegó a destino. En caso que el paquete no
           sea retirado dentro de ese plazo, Andreani lo devolverá al remitente.
           Para que te volvamos a reenviar el pedido deberás volver a abonar el
@@ -36,7 +36,7 @@ function ShippingInfo() {
         <p>
           Podés elegir retirar tu pedido de manera gratuita por diferentes
           locales DTODO tanto en CABA como en GBA. Tu pedido estará listo en el
-          local dentro de los próximos 3 a 5 días hábiles. Te enviaremos un
+          local dentro de los próximos 3 a 5 días hábiles. Te enviaremos uč
           whatsapp avisándote, ¡es muy importante que aguardes este whatsapp
           antes de acercarte al local!. El retiro del pedido está a cargo del
           titular o de un tercero con autorización firmada por el titular y
@@ -47,7 +47,7 @@ function ShippingInfo() {
         <p>
           El valor de la entrega será indicado durante tu compra, antes de que
           el pedido sea finalizado. Este costo corre por cuenta de nuestros
-          clientes, excepto en los casos en que Kosiuko esté haciendo una acción
+          clientes, excepto en los casos en que Dtodo esté haciendo una acción
           promocional.
         </p>
         <br></br>
