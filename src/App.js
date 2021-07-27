@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react'
+import React, { lazy, Suspense, useEffect } from 'react'
 import "./App.scss";
 import { Switch, Route } from "react-router-dom";
 import loader from './assets/Infinity-1s-200px.gif'
@@ -27,6 +27,7 @@ import "bootstrap/dist/css/bootstrap.css";
 //import AdminLogin from "./admin Pages/AdminLogin/AdminLogin";
 // import "@fortawesome/fontawesome-free/css/all.min.css";
 import "mdbreact/dist/css/mdb.css";
+import ReactGa from 'react-ga'
 
 // const Home = lazy(() => import('./Pages/Home/Home'))
 const LoginRegister = lazy(() => import('./Pages/Login_Register/Login_Register'));
@@ -49,6 +50,13 @@ const ResetPassword = lazy(() => import('./Pages/Reset Password/ResetPassword'))
 const Welcome = lazy(() => import('./component/Login/Confirmation'))
 
 function App() {
+
+	useEffect(() => {
+		ReactGa.initialize('G-P8EVSKJD4B')
+
+		// To report page views
+		ReactGa.pageview('/')
+	}, [])
 
 	return (
 		<div className="App">
