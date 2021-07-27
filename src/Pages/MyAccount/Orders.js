@@ -276,7 +276,7 @@ function AccountOrders(props) {
                                                 : o.OrderItems.map((p,j) => 
                                                     <div className='container-fluid my-2 border-top border-bottom' key={j}>
                                                         <div className='row'>
-                                                            <div className='col-md-6'>
+                                                            <div className='col-md-6 d-flex align-items-center'>
                                                                 <div className="order_img">
                                                                     <img src={p.Image} alt='' className="order_img_inner" />
                                                                 </div>
@@ -287,7 +287,7 @@ function AccountOrders(props) {
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Date</div>
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center'>{o.createdAt.substr(0,10)}</div>
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Product Name</div>
-                                                                        <div className='col-6 text-left py-2 d-flex align-items-center'>{p.Product.Name}</div>
+                                                                        <div className='col-6 text-left py-2 d-flex align-items-center'>{p.ProdcutName}</div>
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Color</div>
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center'>{p.Color}</div>
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Size</div>

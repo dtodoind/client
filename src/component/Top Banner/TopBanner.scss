@@ -12,10 +12,12 @@
         // transform: scaleX(-1);
 
         @include respond(tab-land) {
-            transform: translateX(-300px) scaleX(-1);
+            // transform: translateX(-300px) scaleX(-1);
+            height: 100%;
         }
         @include respond(tab-port) {
-            transform: translateX(-500px) scaleX(-1);
+            // transform: translateX(-500px) scaleX(-1);
+            height: 100%;
         }
     }
 
