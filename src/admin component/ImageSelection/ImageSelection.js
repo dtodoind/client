@@ -7,7 +7,7 @@ import axios from "axios";
 function ImageSelection({imgid, colap, mainedit, ...props}) {
 
 	const Products = props.Products
-    const [error,] = useState("File size should be less than 50 KB")
+    const [error,] = useState("File size should be less than 200 KB")
 
 	let slideIndex = useRef(1);
 
@@ -169,7 +169,7 @@ function ImageSelection({imgid, colap, mainedit, ...props}) {
 		if(e.target.files[0]) {
 			var size= bytesToSize(e.target.files[0].size)
             if(size[1] === "KB") {
-                if(size[0] <= 50.00) {
+                if(size[0] <= 200.00) {
                     updateImg(e.target.files)
                     document.getElementById("error"+String(colap) + String(imgid)).style.display = "none"
                 } else {

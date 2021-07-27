@@ -18,7 +18,7 @@ function Content(props) {
     const [about, setabout] = useState(Aboutus)
     const [len, setlen] = useState()
     const [aboutid, setAboutid] = useState()
-    const [error,] = useState("File size should be less than 1 MB")
+    const [error,] = useState("File size should be less than 2 MB")
     const [lop, setlop] = useState(true)
     const [lop2, setlop2] = useState(true)
  
@@ -92,7 +92,7 @@ function Content(props) {
             if(Hero_img.length !== 3) {
                 var size= bytesToSize(document.getElementsByName(e.target.name)[0].files[0].size)
                 if(size[1] === "MB") {
-                    if(size[0] <= 1.00) {
+                    if(size[0] <= 2.00) {
                         insertImage(document.getElementsByName(e.target.name)[0].files[0])
                         document.getElementById("error").style.display = "none"
                     } else {
