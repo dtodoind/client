@@ -13,7 +13,7 @@ function Banner(props) {
     }, [offer])
 
     if(Offer.length === 0 || Offer[0]?.Price === 0) {
-        return 0;
+        return
     } else {
         return (
             <div className="banner">
