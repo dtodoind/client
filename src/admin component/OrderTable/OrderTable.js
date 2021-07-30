@@ -442,11 +442,11 @@ function OrderTable(props) {
                                         <div style={{backgroundColor: o.Status === 'Delivered' ? 'green' : o.Status === 'Pending' ? '#F77F00' : o.Status === 'Shipping' ? '#5BC0BE' : o.Status === 'Pickup' ? '#281a91' : o.Status === 'Refunded' ? 'black' : '#E63946', fontWeight: '500', color: 'white'}} className="p-2 rounded">
                                             {o.Status}
                                         </div>
-                                        {
+                                        {/* {
                                             o.Status === "Return"
                                             ? <button className="p-2 w-100 rounded refund_btn" name={o.Orders_id} onClick={(e) => Refund(e, o.PaymentSuccess_id)}>Refund</button>
                                             : null
-                                        }
+                                        } */}
                                     </td>
                                 </tr>,
                                 <tr key={'inner'+i} className="hide-table-padding">

@@ -119,6 +119,7 @@ function Mercadopagopay({place_order, price, subtotal, radioval, deliv, payment_
 	});
 
 	useEffect(() => {
+		parseURLParams(window.location.href)
 		if(subtotal === 0) {
 			setErrorzip(true)
 		} else {
@@ -126,17 +127,29 @@ function Mercadopagopay({place_order, price, subtotal, radioval, deliv, payment_
 		}
 	}, [subtotal])
 
-    function createCheckoutButton(preference) {
-        var script = document.createElement("script");
-        
-        // The source domain must be completed according to the site for which you are integrating.
-        // For example: for Argentina ".com.ar" or for Brazil ".com.br".
-        script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
-        script.type = "text/javascript";
-        script.dataset.preferenceId = preference;
-        document.getElementById("button-checkout").innerHTML = "";
-        document.querySelector("#button-checkout").appendChild(script);
-    }
+	function parseURLParams(url) {
+		var queryStart = url.indexOf("?") + 1,
+			queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+			query = url.slice(queryStart, queryEnd - 1),
+			pairs = query.replace(/\+/g, " ").split("&"),
+			parms = {}, i, n, v, nv;
+	
+		if (query === url || query === "") return;
+	
+		for (i = 0; i < pairs.length; i++) {
+			nv = pairs[i].split("=", 2);
+			n = decodeURIComponent(nv[0]);
+			v = decodeURIComponent(nv[1]);
+	
+			if (!parms.hasOwnProperty(n)) parms[n] = [];
+			parms[n] = nv.length === 2 ? v : null;
+		}
+		// console.log(parms)
+		if(parms.status === "approved") {
+			place_order(JSON.parse(localStorage.getItem('billingDetails')))
+		}
+		// return window.location.replace('/account/Order');
+	}
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -176,7 +189,8 @@ function Mercadopagopay({place_order, price, subtotal, radioval, deliv, payment_
 				// const {data: clientSecret} = await axios.post("http://localhost:5000/order/payment", {
 				// 	amount: parseInt(price * 100)
 				// });
-				console.log(basket)
+				console.log('mercado pago')
+
 				var item = []
 				for(var i=0; i<basket.length; i++) {
 					item.push({
@@ -207,11 +221,11 @@ function Mercadopagopay({place_order, price, subtotal, radioval, deliv, payment_
 					item: item,
 					payer: payer,
 				}
-                await axios.post("http://localhost:5000/order/payment", all_data)
-                .then(function(preference) {
-                    createCheckoutButton(preference.data.body.id)
-					console.log(preference)
-                })
+				await axios.post("http://localhost:5000/order/payment", all_data)
+				.then(function(preference) {
+					localStorage.setItem("billingDetails", JSON.stringify(billingDetails))
+					window.location.replace(preference.data.body.init_point)
+				})
 			
 				// var payment_details
 				// if(radioval === 'payment') {
@@ -278,10 +292,10 @@ function Mercadopagopay({place_order, price, subtotal, radioval, deliv, payment_
 		<div className="payment">
 			<div className="title">Método de pago</div>
 			<form className="Form" onSubmit={handleSubmit}>
-				{/* {
+				{
 					radioval === undefined || radioval === 'payment'
 					? <fieldset className="FormGroup">
-						<Field
+						{/* <Field
 							label="Name"
 							id="name"
 							type="text"
@@ -304,7 +318,7 @@ function Mercadopagopay({place_order, price, subtotal, radioval, deliv, payment_
 							onChange={(e) => {
 								setBillingDetails({ ...billingDetails, email: e.target.value });
 							}}
-						/>
+						/> */}
 						<Field
 							label="Celular"
 							id="phone"
@@ -423,7 +437,7 @@ function Mercadopagopay({place_order, price, subtotal, radioval, deliv, payment_
 						)}
 					</fieldset>
 					: null
-				} */}
+				}
 				{/* <fieldset className="FormGroup">
 					<CardField
 						onChange={(e) => {

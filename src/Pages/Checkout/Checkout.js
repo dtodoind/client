@@ -144,7 +144,7 @@ function Checkout(props) {
 
     // address from stripe payment success
 
-    const place_order = async (billing_details, payment_id) => {
+    const place_order = async (billing_details) => {
         var rad = radioval
         // if(billing_details.email !== '') {
         //     rad = 'payment'
@@ -195,7 +195,7 @@ function Checkout(props) {
         if(rad === "1") {
             order_val = {
                 Status: 'Pickup',
-                PaymentSuccess: payment_id,
+                // PaymentSuccess: payment_id,
                 Discount: discount,
                 Address: JSON.stringify(JSON.parse(SingleUser[0].Address)[0]),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
@@ -212,7 +212,7 @@ function Checkout(props) {
             address = ad.split(/, /g)
             order_val = {
                 Status: 'Pending',
-                PaymentSuccess: payment_id,
+                // PaymentSuccess: payment_id,
                 Discount: discount,
                 Address: JSON.stringify(address),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
@@ -233,7 +233,7 @@ function Checkout(props) {
             var addr = JSON.parse(SingleUser[0].Address)[parseInt(rad-2)]
             order_val = {
                 Status: 'Pending',
-                PaymentSuccess: payment_id,
+                // PaymentSuccess: payment_id,
                 Discount: discount,
                 Address: JSON.stringify(addr),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
@@ -279,6 +279,7 @@ function Checkout(props) {
                         Product_id: item.Product_id
                     })
                     localStorage.removeItem('basket')
+                    localStorage.removeItem('billingDetails')
                     return window.location.replace('/account/Order')
                 })
             )
