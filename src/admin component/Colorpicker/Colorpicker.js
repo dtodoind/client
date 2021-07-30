@@ -37,11 +37,11 @@ function Colorpicker({colap, ...props}) {
             Stock: JSON.stringify(Products[colap].qty),
             Price: JSON.stringify(Products[colap].price),
         }
-        await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/product/edit`, edit_val)
+        await axios.put(`http://localhost:5000/product/edit`, edit_val)
 
         // console.log(val)
         if(val === 'update') {
-            await axios.get('https://dtodo-indumentaria-server.herokuapp.com/product/all').then(res => allproduct(res.data))
+            await axios.get('http://localhost:5000/product/all').then(res => allproduct(res.data))
         }
     }, [Products, allproduct, colap])
 

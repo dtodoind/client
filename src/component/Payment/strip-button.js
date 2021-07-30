@@ -22,7 +22,7 @@ const StripeCheckoutButton = ({ place_order, price, radioval }) => {
         document.getElementById('payment_btn').innerHTML = `<div class="load"><div style="height: 100%"><img src=${loader} alt="loader" style="height: 50px;" /></div></div>`
         document.getElementById('payment_btn').style.backgroundColor = 'white'
         document.getElementById('payment_btn').disabled = true
-        axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/payment', {
+        axios.post('http://localhost:5000/order/payment', {
             amount: priceForStripe,
             token
         }).then(res => {
@@ -41,7 +41,7 @@ const StripeCheckoutButton = ({ place_order, price, radioval }) => {
             billingAddress={shipbill}
             shippingAddress={shipbill}
             currency='INR'
-            image={'https://dtodo-indumentaria-server.herokuapp.com/New_logo_edit.png'}
+            image={'http://localhost:5000/New_logo_edit.png'}
             description={`Your Total is $${price}`}
             amount={priceForStripe}
             panelLabel='Place Order'

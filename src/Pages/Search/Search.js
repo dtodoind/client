@@ -19,7 +19,7 @@ function Search(props) {
     // console.log(search.searchitem.split(' '))
 
 	useEffect(() => {
-        axios.get('https://dtodo-indumentaria-server.herokuapp.com/product/all').then(res => {
+        axios.get('http://localhost:5000/product/all').then(res => {
             if(Products.length === 0) {
                 insertProductAll(res.data)
                 setProductCount(Products.length)
@@ -37,7 +37,7 @@ function Search(props) {
         //             id={product.Product_id} 
         //             index={i}
         //             key={i}
-        //             img={JSON.parse(product.Image)[i] !== undefined ? `https://dtodo-indumentaria-server.herokuapp.com/${JSON.parse(product.Image)[i][0]}`: null} 
+        //             img={JSON.parse(product.Image)[i] !== undefined ? `http://localhost:5000/${JSON.parse(product.Image)[i][0]}`: null} 
         //             name={product.Name} 
         //             category={product.Category.Name} 
         //             price={JSON.parse(product.Price)[i] !== undefined ? JSON.parse(product.Price)[i][0]: null}
@@ -58,7 +58,7 @@ function Search(props) {
                     id={product.Product_id} 
                     index={i}
                     key={i}
-                    img={JSON.parse(product.Image)[i] !== undefined ? `https://dtodo-indumentaria-server.herokuapp.com/${JSON.parse(product.Image)[i][0]}`: null} 
+                    img={JSON.parse(product.Image)[i] !== undefined ? `http://localhost:5000/${JSON.parse(product.Image)[i][0]}`: null} 
                     name={product.Name} 
                     category={product.Category.Name} 
                     price={JSON.parse(product.Price)[i] !== undefined ? JSON.parse(product.Price)[i][0]: null}

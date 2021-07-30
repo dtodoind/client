@@ -12,8 +12,8 @@ function CardReview({review, index, ...props}) {
 		// rev.splice(index, 1)
 		// props.editReview(rev)
 		// console.log(rev)
-		await axios.delete(`https://dtodo-indumentaria-server.herokuapp.com/review/delete/${index}`)
-		await axios.get('https://dtodo-indumentaria-server.herokuapp.com/review/all').then(res => props.editReview(res.data))
+		await axios.delete(`http://localhost:5000/review/delete/${index}`)
+		await axios.get('http://localhost:5000/review/all').then(res => props.editReview(res.data))
 		// console.log(props.reviews)
 	}
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import TopBanner from '../../component/Top Banner/TopBanner'
 import CartTotal from '../../component/Cart/CartTotal'
 import Payment from '../../component/Payment/Payment'
+import Mercadopagopay from '../../component/Payment/Mercadopagopay'
 import Billing from '../../component/Billing/Billing'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
@@ -58,10 +59,10 @@ function Checkout(props) {
     // }
     useEffect(() => {
         if(Offer.length === 0) {
-            axios.get('https://dtodo-indumentaria-server.herokuapp.com/offer/all').then(res => alloffer(res.data))
+            axios.get('http://localhost:5000/offer/all').then(res => alloffer(res.data))
         }
         if(Delivery.length === 0) {
-            axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
+            axios.get('http://localhost:5000/delivery/all').then(res => {
                 if(Delivery.length !== 0) {
                     if(Delivery[Delivery.length - 1].Delivery_id !== res.data[res.data.length - 1].Delivery_id) {
                         setdelivery(res.data)
@@ -256,8 +257,8 @@ function Checkout(props) {
                 Message: 'Purchase on '+ new Date() +' from '+JSON.parse(order_val.Address).join(', '),
                 Notify_cate: 'Sales'
             }
-            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
-            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/new', order_val).then(res => 
+            await axios.post('http://localhost:5000/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
+            await axios.post('http://localhost:5000/order/new', order_val).then(res => 
                 basket?.map(async (item) => {
                     var order_item = {
                         Quantity: item.qty,
@@ -271,8 +272,8 @@ function Checkout(props) {
                         Image: item.img,
                         Status: res.data.Status === 'Pickup' ? "Pickup" : "Pending"
                     }
-                    await axios.post('https://dtodo-indumentaria-server.herokuapp.com/orderitem/new', order_item)
-                    await axios.put('https://dtodo-indumentaria-server.herokuapp.com/product/quantity', 
+                    await axios.post('http://localhost:5000/orderitem/new', order_item)
+                    await axios.put('http://localhost:5000/product/quantity', 
                     {
                         Stock: item.allStock,
                         Product_id: item.Product_id
@@ -303,8 +304,9 @@ function Checkout(props) {
                             </>
                             : <>
                                 <Billing address={address} />
-                                    <Elements stripe={stripePromise}>
-                                    <Payment place_order={place_order} radioval={radioval} price={after_total.toFixed(2)} subtotal={subtotal} payment_addr={payment_addr} deliv={deliv} addresserr={addresserr} />
+                                <Elements stripe={stripePromise}>
+                                    {/* <Payment place_order={place_order} radioval={radioval} price={after_total.toFixed(2)} subtotal={subtotal} payment_addr={payment_addr} deliv={deliv} addresserr={addresserr} /> */}
+                                    <Mercadopagopay place_order={place_order} radioval={radioval} price={after_total.toFixed(2)} subtotal={subtotal} payment_addr={payment_addr} deliv={deliv} addresserr={addresserr} />
                                 </Elements>
                             </>
                         }

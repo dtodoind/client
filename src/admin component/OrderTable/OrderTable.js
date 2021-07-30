@@ -159,13 +159,13 @@ function OrderTable(props) {
         //                     Orders_id: order.Orders_id,
         //                     Status: 'Return'
         //                 }
-        //                 await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val)
+        //                 await axios.put('http://localhost:5000/order/status', order_val)
         //             } else {
         //                 var order_val2 = {
         //                     Orders_id: order.Orders_id,
         //                     Status: 'Refunded'
         //                 }
-        //                 await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val2)
+        //                 await axios.put('http://localhost:5000/order/status', order_val2)
         //             }
         //         }
         //     }
@@ -220,9 +220,9 @@ function OrderTable(props) {
             Delivery_date: change_delivery
         }
 
-        await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val).then(async (res) => {
+        await axios.put('http://localhost:5000/order/status', order_val).then(async (res) => {
             if(res.data === 'successfully Updated') {
-                await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
+                await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
             }
         })
         Orders.map((order, i) => {
@@ -233,7 +233,7 @@ function OrderTable(props) {
                         Status: e.target.value,
                         Delivery_date: change_delivery
                     }
-                    await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val1)
+                    await axios.put('http://localhost:5000/orderitem/status', order_val1)
                     return 0
                 })
             }
@@ -281,12 +281,12 @@ function OrderTable(props) {
                 Status: 'Refunded'
             }
     
-            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val).then(async (res) => {
+            await axios.put('http://localhost:5000/order/status', order_val).then(async (res) => {
                 if(res.data === 'successfully Updated') {
-                    await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
+                    await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
                 }
             })
-            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/refund', {payment_id: id}).then(res => {
+            await axios.post('http://localhost:5000/order/refund', {payment_id: id}).then(res => {
                 if(res.data.status === "succeeded") {
                     Orders.map((order, i) => {
                         if(order.Orders_id === parseInt(e.target.name)) {
@@ -295,9 +295,9 @@ function OrderTable(props) {
                                     OrderItem_id: item.OrderItem_id,
                                     Status: 'Refunded'
                                 }
-                                await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val1).then(async (res) => {
+                                await axios.put('http://localhost:5000/orderitem/status', order_val1).then(async (res) => {
                                     if(res.data === 'successfully Updated') {
-                                        await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
+                                        await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
                                     }
                                 })
                                 return 0
@@ -313,12 +313,12 @@ function OrderTable(props) {
             //     Status: 'Refunded'
             // }
     
-            // await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val).then(async (res) => {
+            // await axios.put('http://localhost:5000/order/status', order_val).then(async (res) => {
             //     if(res.data === 'successfully Updated') {
-            //         await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
+            //         await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
             //     }
             // })
-            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/refund', {payment_id: id, refund_amount: parseInt(final_refund_amount*100)}).then(res => {
+            await axios.post('http://localhost:5000/order/refund', {payment_id: id, refund_amount: parseInt(final_refund_amount*100)}).then(res => {
                 if(res.data.status === "succeeded") {
                     Orders.map((order, i) => {
                         if(order.Orders_id === parseInt(e.target.name)) {
@@ -331,9 +331,9 @@ function OrderTable(props) {
                                         OrderItem_id: OrderItem_id,
                                         Status: 'Refunded'
                                     }
-                                    await axios.put('https://dtodo-indumentaria-server.herokuapp.com/orderitem/status', order_val1).then(async (res) => {
+                                    await axios.put('http://localhost:5000/orderitem/status', order_val1).then(async (res) => {
                                         if(res.data === 'successfully Updated') {
-                                            await axios.get('https://dtodo-indumentaria-server.herokuapp.com/order/all').then(res1 => allorders(res1.data))
+                                            await axios.get('http://localhost:5000/order/all').then(res1 => allorders(res1.data))
                                         }
                                     })
                                 }
@@ -360,14 +360,14 @@ function OrderTable(props) {
                                                 Orders_id: order.Orders_id,
                                                 Status: 'Return'
                                             }
-                                            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val)
+                                            await axios.put('http://localhost:5000/order/status', order_val)
                                         } else {
                                             // console.log('Refunded')
                                             var order_val2 = {
                                                 Orders_id: order.Orders_id,
                                                 Status: 'Refunded'
                                             }
-                                            await axios.put('https://dtodo-indumentaria-server.herokuapp.com/order/status', order_val2)
+                                            await axios.put('http://localhost:5000/order/status', order_val2)
                                         }
                                     }
                                 }

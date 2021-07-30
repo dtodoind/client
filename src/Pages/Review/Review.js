@@ -42,7 +42,7 @@ function Review(props) {
 
     const { insertReviewAll } = props
     useEffect(() => {
-        axios.get('https://dtodo-indumentaria-server.herokuapp.com/review/all').then(res => {
+        axios.get('http://localhost:5000/review/all').then(res => {
             if(reviews.length === 0) {
                 insertReviewAll(res.data)
                 setReviewCount(reviews.length)

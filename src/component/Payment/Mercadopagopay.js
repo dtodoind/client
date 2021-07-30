@@ -3,39 +3,39 @@ import React, {useEffect, useState} from 'react'
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from 'axios'
 
-import './Payment.scss'
+import './Mercadopagopay.scss'
 import { connect } from 'react-redux';
 
-const CARD_OPTIONS = {
-	iconStyle: "solid",
-	hidePostalCode: true,
-	style: {
-		base: {
-			// iconColor: "#c4f0ff",
-			// color: "#fff",
-			fontWeight: 500,
-			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
-			fontSize: "16px",
-			fontSmoothing: "antialiased",
-			// ":-webkit-autofill": {
-			// color: "#fce883"
-			// },
-			// "::placeholder": {
-			// color: "#87bbfd"
-			// }
-		},
-		invalid: {
-			iconColor: "#ffc7ee",
-			color: "#ffc7ee"
-		}
-	}
-};
+// const CARD_OPTIONS = {
+// 	iconStyle: "solid",
+// 	hidePostalCode: true,
+// 	style: {
+// 		base: {
+// 			// iconColor: "#c4f0ff",
+// 			// color: "#fff",
+// 			fontWeight: 500,
+// 			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
+// 			fontSize: "16px",
+// 			fontSmoothing: "antialiased",
+// 			// ":-webkit-autofill": {
+// 			// color: "#fce883"
+// 			// },
+// 			// "::placeholder": {
+// 			// color: "#87bbfd"
+// 			// }
+// 		},
+// 		invalid: {
+// 			iconColor: "#ffc7ee",
+// 			color: "#ffc7ee"
+// 		}
+// 	}
+// };
 
-const CardField = ({ onChange }) => (
-	<div className="FormRow">
-		<CardElement options={CARD_OPTIONS} onChange={onChange} />
-	</div>
-);
+// const CardField = ({ onChange }) => (
+// 	<div className="FormRow">
+// 		<CardElement options={CARD_OPTIONS} onChange={onChange} />
+// 	</div>
+// );
 
 const Field = ({
 	label,
@@ -94,9 +94,8 @@ const ErrorMessage = ({ children }) => (
 	</div>
 );
 
-function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, addresserr, ...props }) {
-
-	const { Delivery } = props
+function Mercadopagopay({place_order, price, subtotal, radioval, deliv, payment_addr, addresserr, ...props }) {
+    const { Delivery, basket } = props
     const SingleUser = JSON.parse(localStorage.getItem('SingleUser'))
 
 	const stripe = useStripe();
@@ -126,6 +125,18 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 			setErrorzip(false)
 		}
 	}, [subtotal])
+
+    function createCheckoutButton(preference) {
+        var script = document.createElement("script");
+        
+        // The source domain must be completed according to the site for which you are integrating.
+        // For example: for Argentina ".com.ar" or for Brazil ".com.br".
+        script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
+        script.type = "text/javascript";
+        script.dataset.preferenceId = preference;
+        document.getElementById("button-checkout").innerHTML = "";
+        document.querySelector("#button-checkout").appendChild(script);
+    }
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -162,41 +173,77 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 			setProcessingTo(true);
 	
 			try {
-				const {data: clientSecret} = await axios.post("http://localhost:5000/order/payment", {
-					amount: parseInt(price * 100)
-				});
+				// const {data: clientSecret} = await axios.post("http://localhost:5000/order/payment", {
+				// 	amount: parseInt(price * 100)
+				// });
+				console.log(basket)
+				var item = []
+				for(var i=0; i<basket.length; i++) {
+					item.push({
+						title: basket[i].title,
+						unit_price: basket[i].price,
+						quantity: basket[i].qty,
+					})
+				}
+				var payer = {
+					name: "Test",
+					surname: "User",
+					email: "test_user_2502054@testuser.com",
+					phone: {
+						area_code: "",
+						number: 9909027254
+					},
+					identification: {
+						type: "DNI",
+						number: "12345678"
+					},
+					address: {
+						street_name: "Cuesta Miguel Armendáriz",
+						street_number: 1004,
+						zip_code: "1714"
+					}
+				}
+				var all_data = {
+					item: item,
+					payer: payer,
+				}
+                await axios.post("http://localhost:5000/order/payment", all_data)
+                .then(function(preference) {
+                    createCheckoutButton(preference.data.body.id)
+					console.log(preference)
+                })
 			
-				var payment_details
-				if(radioval === 'payment') {
-					payment_details = {
-						type: "card",
-						card: elements.getElement(CardElement),
-						billing_details: billingDetails
-					}
-				} else {
-					payment_details = {
-						type: "card",
-						card: elements.getElement(CardElement),
-						billing_details: payment_addr
-					}
-				}
-				const paymentMethodReq = await stripe.createPaymentMethod(payment_details);
+				// var payment_details
+				// if(radioval === 'payment') {
+				// 	payment_details = {
+				// 		type: "card",
+				// 		card: elements.getElement(CardElement),
+				// 		billing_details: billingDetails
+				// 	}
+				// } else {
+				// 	payment_details = {
+				// 		type: "card",
+				// 		card: elements.getElement(CardElement),
+				// 		billing_details: payment_addr
+				// 	}
+				// }
+				// const paymentMethodReq = await stripe.createPaymentMethod(payment_details);
 	
-				if (paymentMethodReq.error) {
-					setCheckoutError(paymentMethodReq.error.message);
-					setProcessingTo(false);
-					return;
-				}
-				const confirmPayment = await stripe.confirmCardPayment(clientSecret, {
-					payment_method: paymentMethodReq.paymentMethod.id
-				});
+				// if (paymentMethodReq.error) {
+				// 	setCheckoutError(paymentMethodReq.error.message);
+				// 	setProcessingTo(false);
+				// 	return;
+				// }
+				// const confirmPayment = await stripe.confirmCardPayment(clientSecret, {
+				// 	payment_method: paymentMethodReq.paymentMethod.id
+				// });
 	
-				if (confirmPayment.error) {
-					setCheckoutError(confirmPayment.error.message);
-					setProcessingTo(false);
-					return;
-				}
-				place_order(billingDetails, confirmPayment.paymentIntent.id)
+				// if (confirmPayment.error) {
+				// 	setCheckoutError(confirmPayment.error.message);
+				// 	setProcessingTo(false);
+				// 	return;
+				// }
+				// place_order(billingDetails, confirmPayment.paymentIntent.id)
 				// setProcessingTo(false)
 			} catch (error) {
 				if(price === '0.00') {
@@ -231,10 +278,10 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 		<div className="payment">
 			<div className="title">Método de pago</div>
 			<form className="Form" onSubmit={handleSubmit}>
-				{
+				{/* {
 					radioval === undefined || radioval === 'payment'
 					? <fieldset className="FormGroup">
-						{/* <Field
+						<Field
 							label="Name"
 							id="name"
 							type="text"
@@ -257,7 +304,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 							onChange={(e) => {
 								setBillingDetails({ ...billingDetails, email: e.target.value });
 							}}
-						/> */}
+						/>
 						<Field
 							label="Celular"
 							id="phone"
@@ -376,8 +423,8 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 						)}
 					</fieldset>
 					: null
-				}
-				<fieldset className="FormGroup">
+				} */}
+				{/* <fieldset className="FormGroup">
 					<CardField
 						onChange={(e) => {
 							if(e.error) {
@@ -385,16 +432,17 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 							}
 						}}
 					/>
-				</fieldset>
+				</fieldset> */}
 				{checkoutError && <ErrorMessage>{checkoutError}</ErrorMessage>}
-				<SubmitButton disabled={errorzip || isProcessing || !stripe || errorphone}>
+				{/* <SubmitButton disabled={errorzip || isProcessing || !stripe || errorphone}>
 					{isProcessing ? "Procesando..." : `Pagar $${price}`}
-				</SubmitButton>
-				<h3 style={{textAlign: 'center', marginTop: '40px', fontSize: '24px', color: 'red'}}>
+				</SubmitButton> */}
+                <button id="button-checkout" onClick={handleSubmit}>Handle Submit</button>
+				{/* <h3 style={{textAlign: 'center', marginTop: '40px', fontSize: '24px', color: 'red'}}>
 					*Please use the following test credit card for payments*
 					<br />
 					4242 4242 4242 4242 - Exp: 04/24 - CVV: 242
-				</h3>
+				</h3> */}
 			</form>
 			{/* <Link className="btn">Place Order</Link> */}
 			{/* <button id="payment_btn" className="btn" onClick={place_order}>Place Order</button> */}
@@ -406,8 +454,9 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 
 const mapStateToProps = (state) => {
     return {
-        Delivery: state.Delivery
+        Delivery: state.Delivery,
+		basket: state.basket
     }
 }
 
-export default connect(mapStateToProps)(Payment)
+export default connect(mapStateToProps)(Mercadopagopay)
