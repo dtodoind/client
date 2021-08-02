@@ -10,7 +10,7 @@ import profile from '../../assets/profile_pic.svg'
 import axios from 'axios';
 import { connect } from 'react-redux'
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
-import googleIcon from '../../assets/google.svg'
+// import googleIcon from '../../assets/google.svg'
 import GoogleLogin from 'react-google-login';
 import io from 'socket.io-client'
 
@@ -23,6 +23,7 @@ function Login(props) {
     const [error, seterror] = useState()
     const [verify, setverify] = useState()
     const [hide, setHide] = useState(true)
+    const [google_dis, setGoogle_dis] = useState(false)
     // const [message, setMessage] = useState('Inactive');
     useEffect(() => {
         const inputs = document.querySelectorAll(".input");
@@ -65,6 +66,7 @@ function Login(props) {
 
     const responseGoogle = async (response) => {
         // console.log(response.profileObj)
+        setGoogle_dis(true)
         const formdata = new FormData();
         formdata.append("FirstName", response.profileObj.givenName);
         formdata.append("LastName", response.profileObj.familyName);
@@ -112,6 +114,7 @@ function Login(props) {
                     } else {
                         document.getElementById('error').classList.add('py-2')
                         seterror(res.data.error)
+                        setGoogle_dis(false)
                     }
                     return 0
                 })
@@ -127,6 +130,7 @@ function Login(props) {
                 initialValues={{ email: "", password: "" }}
                 onSubmit={(values, { setSubmitting }) => {
                     setTimeout( async() => {
+                        setGoogle_dis(true)
                         var logindetails = {
                             Email: values.email.toLowerCase(),
                             Password: values.password
@@ -160,6 +164,7 @@ function Login(props) {
                             } else {
                                 document.getElementById('error').classList.add('py-2')
                                 seterror(res.data.error)
+                                setGoogle_dis(false)
                             }
                             return 0
                         })
@@ -188,6 +193,7 @@ function Login(props) {
                                 onSuccess={responseGoogle}
                                 onFailure={responseGoogle}
                                 cookiePolicy={"single_host_origin"}
+                                disabled={google_dis}
                             />
                             { 
                                 error !== '' 
@@ -224,7 +230,7 @@ function Login(props) {
                                 </div>
                             </div>
                             {errors.password && touched.password && (<div className="input-feedback">{errors.password}</div>)}
-                            <input type="submit" className="btn text-capitalize" value="Login" disabled={isSubmitting} />
+                            <input type="submit" className="btn text-capitalize" value="Login" disabled={isSubmitting || google_dis} />
                             <Link to="/forgotpassword">Forgot Password?</Link>
                             
                             {/* <div style={{width: '100%', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>

@@ -300,6 +300,7 @@ function Navigation(props) {
 											}
 										}
 									})
+									document.getElementsByClassName('accountdetails')[0].style.display = 'none'
 									props.loginchange('true')
 								}}>Logout</button>
 							</div>
