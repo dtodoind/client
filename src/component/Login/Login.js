@@ -10,11 +10,15 @@ import profile from '../../assets/profile_pic.svg'
 import axios from 'axios';
 import { connect } from 'react-redux'
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
+import googleIcon from '../../assets/google.svg'
+import GoogleLogin from 'react-google-login';
 import io from 'socket.io-client'
 
 const socket = io('https://dtodo-indumentaria-server.herokuapp.com')
 
 function Login(props) {
+
+    const { show } = props
 
     const [error, seterror] = useState()
     const [verify, setverify] = useState()
@@ -57,6 +61,64 @@ function Login(props) {
             document.getElementsByClassName('hide')[0].style.display = 'inherit'
         }
         setHide(!hide)
+    }
+
+    const responseGoogle = async (response) => {
+        // console.log(response.profileObj)
+        const formdata = new FormData();
+        formdata.append("FirstName", response.profileObj.givenName);
+        formdata.append("LastName", response.profileObj.familyName);
+        formdata.append("Email", response.profileObj.email);
+        formdata.append("Image", response.profileObj.imageUrl);
+        formdata.append("confirmationCode", response.tokenId)
+        formdata.append("Status", "Inactive");
+        await axios
+        .post("http://localhost:5000/users/new", formdata, {
+            header: { "Content-Type": "multipart/form-data" },
+        })
+        .then(async (res) => {
+            if (res.data.Users_id !== undefined) {
+                localStorage.setItem('verify', 'true')
+                window.location.href = '/loginregister'
+            } else if (res.data === "Email is already registered") {            
+                // seterror(res.data);
+                var logindetails = {
+                    Email: response.profileObj.email,
+                    Password: null,
+                    confirmationCode: response.tokenId
+                }
+                await axios.post(`http://localhost:5000/users/login`, logindetails).then(async (res) => {
+                    // console.log(res.data)
+                    if(res.data.loggedIn) {
+                        var result = JSON.parse(res.data.result)
+                        props.login(res.data)
+                    
+                        var db_val = {
+                            Users_id: result[0].Users_id,
+                            Status: 'Active',
+                        }
+                        await axios.put(`http://localhost:5000/users/status`, db_val)
+                        socket.emit("toast", {
+                            cat: "Status",
+                        })
+                        
+                        if(localStorage.getItem('history') === '/resetpassword') {
+                            localStorage.removeItem('history')
+                            window.location.href = '/'
+                        } else {
+                            window.location.href = '/'
+                            console.log('you are loggedIn , great work')
+                        }
+                    } else {
+                        document.getElementById('error').classList.add('py-2')
+                        seterror(res.data.error)
+                    }
+                    return 0
+                })
+            }
+        });
+        // localStorage.setItem('SingleUser', JSON.stringify(val))
+        // console.log(JSON.parse(localStorage.getItem('SingleUser')))
     }
 
     return (
@@ -120,7 +182,13 @@ function Login(props) {
                         <form onSubmit={handleSubmit}>
                             <img src={profile} alt="profile" />
                             <h2 className="title">Welcome</h2>
-                            
+                            <GoogleLogin className="btn google_btn"
+                                clientId="131686820820-o2n7o0hssp8m13kqjvl91iujoq4kf3c0.apps.googleusercontent.com"
+                                buttonText="Continue with Google"
+                                onSuccess={responseGoogle}
+                                onFailure={responseGoogle}
+                                cookiePolicy={"single_host_origin"}
+                            />
                             { 
                                 error !== '' 
                                 ? <div className='bg-danger my-2' id="error"><p className="m-0" style={{color: 'white'}}>{error}</p></div> 
@@ -156,15 +224,21 @@ function Login(props) {
                                 </div>
                             </div>
                             {errors.password && touched.password && (<div className="input-feedback">{errors.password}</div>)}
+                            <input type="submit" className="btn text-capitalize" value="Login" disabled={isSubmitting} />
                             <Link to="/forgotpassword">Forgot Password?</Link>
-                            <input type="submit" className="btn" value="Login" disabled={isSubmitting} />
                             
+                            {/* <div style={{width: '100%', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                <hr style={{height: '10px', width: '100%'}} />
+                                <p style={{margin: '0', position: 'absolute', top: '0', backgroundColor: 'white', padding: '5px 10px'}}>OR</p>
+                            </div> */}
+                            {/* <button className="btn google_btn"><img src={googleIcon} alt="" className="google_icon" />Google Sign In</button> */}
+                            {/* <button className="btn m-0 text-capitalize" onClick={() => show('Register')}>Sign up</button> */}
                         </form>
                     )
                 }
             }
             </Formik>
-            <p>No estas registrado? <button onClick={() => props.show('Register')}>Sign up</button></p>
+            <p style={{marginTop: '20px'}}>No estas registrado? <button onClick={() => props.show('Register')}>Sign up</button></p>
         </div>
     )
 }
@@ -172,6 +246,8 @@ function Login(props) {
 const mapDispatchToProps = (dispatch) => {
     return{
         login: (val) => { 
+            console.log('Login')
+            console.log(val)
             dispatch({
                 type: 'LOGGEDIN',
                 item: val

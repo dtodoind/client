@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 // import { Link } from 'react-router-dom'import {
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+// import { useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from 'axios'
 
 import './Mercadopagopay.scss'
@@ -68,15 +68,15 @@ const Field = ({
 	</div>
 );
 
-const SubmitButton = ({ processing, error, children, disabled }) => (
-	<button
-		className={`SubmitButton ${error ? "SubmitButton--error" : ""}`}
-		type="submit"
-		disabled={processing || disabled}
-	>
-	  	{processing ? "Processing..." : children}
-	</button>
-);
+// const SubmitButton = ({ processing, error, children, disabled }) => (
+// 	<button
+// 		className={`SubmitButton ${error ? "SubmitButton--error" : ""}`}
+// 		type="submit"
+// 		disabled={processing || disabled}
+// 	>
+// 	  	{processing ? "Processing..." : children}
+// 	</button>
+// );
   
 const ErrorMessage = ({ children }) => (
 	<div className="ErrorMessage bg-danger" role="alert">
@@ -98,11 +98,11 @@ function Mercadopagopay({place_order, price, subtotal, radioval, deliv, payment_
     const { Delivery, basket } = props
     const SingleUser = JSON.parse(localStorage.getItem('SingleUser'))
 
-	const stripe = useStripe();
-	const elements = useElements();
-	const [isProcessing, setProcessingTo] = useState(false);
-	const [errorzip, setErrorzip] = useState(false)
-	const [errorphone, setErrorPhone] = useState(false)
+	// const stripe = useStripe();
+	// const elements = useElements();
+	const [, setProcessingTo] = useState(false);
+	const [, setErrorzip] = useState(false)
+	const [, setErrorPhone] = useState(false)
 	const [checkoutError, setCheckoutError] = useState();
 	const [ziperror, setZiperror] = useState("");
 	const [phoneerror, setPhoneError] = useState("");
@@ -118,16 +118,7 @@ function Mercadopagopay({place_order, price, subtotal, radioval, deliv, payment_
 		}
 	});
 
-	useEffect(() => {
-		parseURLParams(window.location.href)
-		if(subtotal === 0) {
-			setErrorzip(true)
-		} else {
-			setErrorzip(false)
-		}
-	}, [subtotal])
-
-	function parseURLParams(url) {
+	const parseURLParams = (url) => {
 		var queryStart = url.indexOf("?") + 1,
 			queryEnd   = url.indexOf("#") + 1 || url.length + 1,
 			query = url.slice(queryStart, queryEnd - 1),
@@ -146,10 +137,28 @@ function Mercadopagopay({place_order, price, subtotal, radioval, deliv, payment_
 		}
 		// console.log(parms)
 		if(parms.status === "approved") {
-			place_order(JSON.parse(localStorage.getItem('billingDetails')))
+			console.log(JSON.parse(localStorage.getItem('billingDetails')))
 		}
 		// return window.location.replace('/account/Order');
 	}
+	if(JSON.parse(localStorage.getItem('billingDetails')) !== null) {
+		console.log('its here')
+		place_order(JSON.parse(localStorage.getItem('billingDetails')))
+		localStorage.removeItem('billingDetails')
+		// window.location.replace('/account/Order')
+	}
+	
+	useEffect(() => {
+		if(JSON.parse(localStorage.getItem('billingDetails')) !== null) {
+			console.log('its here')
+			parseURLParams(window.location.href)
+		}
+		if(subtotal === 0) {
+			setErrorzip(true)
+		} else {
+			setErrorzip(false)
+		}
+	}, [subtotal])
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();

@@ -80,32 +80,32 @@ function Register({ show, ...props }) {
 				initialValues={{
 					fname: "",
 					lname: "",
-					uname: "",
+					// uname: "",
 					email: "",
 					password: "",
 					conpassword: "",
-					address: "",
-					gender: "",
-					phno: 0,
-					zip: 0,
+					// address: "",
+					// gender: "",
+					// phno: 0,
+					// zip: 0,
 					image: null,
 				}}
 				onSubmit={(values, { setSubmitting }) => {
 					setTimeout(async () => {
 						if(ziperror === "") {
-							var addr = values.address + ', ' + values.zip
+							// var addr = values.address + ', ' + values.zip
 
 							const formdata = new FormData();
 							formdata.append("FirstName", values.fname);
 							formdata.append("LastName", values.lname);
-							formdata.append("Username", values.uname.toLowerCase());
+							// formdata.append("Username", values.uname.toLowerCase());
 							formdata.append("Email", values.email.toLowerCase());
 							formdata.append("Password", values.password);
-							formdata.append("Address", [addr]);
-							formdata.append("Gender", values.gender);
-							formdata.append("Phoneno", parseInt(values.phno));
+							// formdata.append("Address", [addr]);
+							// formdata.append("Gender", values.gender);
+							// formdata.append("Phoneno", parseInt(values.phno));
 							formdata.append("Image", document.getElementById("image").files[0]);
-							formdata.append("Zip", [values.zip]);
+							// formdata.append("Zip", [values.zip]);
 							formdata.append("Status", "Not Activated");
 	
 							setcount(count + 1);
@@ -166,9 +166,9 @@ function Register({ show, ...props }) {
 				validationSchema={Yup.object().shape({
 					fname: Yup.string().required("Required"),
 					lname: Yup.string().required("Required"),
-					uname: Yup.string()
-						.required("Required")
-						.matches(/(?=.*[0-9])/, "Should contain atleast one number"),
+					// uname: Yup.string()
+					// 	.required("Required")
+					// 	.matches(/(?=.*[0-9])/, "Should contain atleast one number"),
 					email: Yup.string().email().required("Required"),
 					password: Yup.string()
 						.required("Required")
@@ -177,16 +177,16 @@ function Register({ show, ...props }) {
 					conpassword: Yup.string()
 						.required("Required")
 						.oneOf([Yup.ref("password"), null], "Passwords must match"),
-					address: Yup.string().required("Required"),
-					gender: Yup.string().required("Required"),
-					phno: Yup.string()
-						.min(10, "Atleast 10 digits")
-						.max(10, "Only 10 digits")
-						.required("Required"),
+					// address: Yup.string().required("Required"),
+					// gender: Yup.string().required("Required"),
+					// phno: Yup.string()
+					// 	.min(10, "Atleast 10 digits")
+					// 	.max(10, "Only 10 digits")
+					// 	.required("Required"),
 					image: Yup.mixed().required("Required"),
-					zip: Yup.string()
-						.required("Required")
-						.matches(/(?=.*[0-9])/, "Zip must contain a number."),
+					// zip: Yup.string()
+					// 	.required("Required")
+					// 	.matches(/(?=.*[0-9])/, "Zip must contain a number."),
 				})}
 			>
 				{(props) => {
@@ -238,7 +238,7 @@ function Register({ show, ...props }) {
 							{errors.lname && touched.lname && (
 								<div className="input-feedback">{errors.lname}</div>
 							)}
-							<div className="input-div one">
+							{/* <div className="input-div one">
 								<div className="div">
 									<h5>Username</h5>
 									<input
@@ -259,7 +259,7 @@ function Register({ show, ...props }) {
 							)}
 							{errors.uname && touched.uname && (
 								<div className="input-feedback">{errors.uname}</div>
-							)}
+							)} */}
 							<div className="input-div one">
 								<div className="div">
 									<h5>Email</h5>
@@ -318,7 +318,7 @@ function Register({ show, ...props }) {
 							{errors.conpassword && touched.conpassword && (
 								<div className="input-feedback">{errors.conpassword}</div>
 							)}
-							<div className="input-div one">
+							{/* <div className="input-div one">
 								<div className="div">
 									<h5>Celular</h5>
 									<input
@@ -343,11 +343,11 @@ function Register({ show, ...props }) {
 							</div>
 							{errors.phno && touched.phno && (
 								<div className="input-feedback">{errors.phno}</div>
-							)}
+							)} */}
 							{/* {phoneerror === "" ? null : (
 								<div className="input-feedback">{phoneerror}</div>
 							)} */}
-							<div className="input-div one">
+							{/* <div className="input-div one">
 								<div className="div">
 									<h5>Dirección</h5>
 									<input
@@ -438,7 +438,7 @@ function Register({ show, ...props }) {
 							</div>
 							{errors.gender && touched.gender && (
 								<div className="input-feedback">{errors.gender}</div>
-							)}
+							)} */}
 							<input
 								type="file"
 								name="image"

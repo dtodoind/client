@@ -36,19 +36,25 @@ function Billing(props) {
         <div className="billing">
             <div className="main_title">Detalles de Factura</div>
 
-            <div className="form-check">
-                <label className="form-check-label" style={{width: "100%"}}>
-                    <input type="radio" style={{marginLeft: '-25px'}} value="1" className="form-check-input" name="address" onChange={props.address} />
-                    Retirar en la sucursal
-                </label>
-            </div>
+            {
+                SingleUser !== null
+                ? JSON.parse(SingleUser[0].Address) !== null
+                    ? <div className="form-check">
+                        <label className="form-check-label" style={{width: "100%"}}>
+                            <input type="radio" style={{marginLeft: '-25px'}} value="1" className="form-check-input" name="address" onChange={props.address} />
+                            Retirar en la sucursal
+                        </label>
+                    </div>
+                    : null
+                : null
+            }
 
             {
                 SingleUser !== null
                 ? <div className='container-fluid direction'>
                     <div className="row">
                         {
-                            JSON.parse(SingleUser[0].Address).map((alladd, i) => 
+                            JSON.parse(SingleUser[0].Address)?.map((alladd, i) => 
                                 <div className="col-sm-4 p-1" key={i}>
                                     <div className="form-check">
                                         <label className="form-check-label" style={{width: "100%"}}>

@@ -47,7 +47,7 @@ function EditProfile({ User, showornot, EditUser, phoneerror, fnameerror, lnamee
 								</div>
 							</div>
 						</Col>
-						<Col sm={8}>
+						<Col sm={8} className="d-flex flex-column justify-content-center">
 							{" "}
 							<div className="row mt-2">
 								{/* <div className="col-md-6">
@@ -83,7 +83,7 @@ function EditProfile({ User, showornot, EditUser, phoneerror, fnameerror, lnamee
 									<div style={{color: 'red'}}>{lnameerror}</div>
 								</div>
 							</div>
-							<div className="row mt-3">
+							{/* <div className="row mt-3">
 								<div className="col-md-6">
 									<input
 										onChange={props.onChange}
@@ -101,7 +101,7 @@ function EditProfile({ User, showornot, EditUser, phoneerror, fnameerror, lnamee
 							</div>
 							<div className="row mt-3">
 								<div className="col">
-									{/* <input
+									<input
 										onChange={props.onChange}
 										type="text"
 										className="form-control"
@@ -109,7 +109,7 @@ function EditProfile({ User, showornot, EditUser, phoneerror, fnameerror, lnamee
 										name="Gender"
 										required
 										value={User.Gender}
-									/> */}
+									/>
 									<div className="container-fluid">
 										<div className="row d-flex align-items-center">
 											<div className="col-3">
@@ -146,7 +146,7 @@ function EditProfile({ User, showornot, EditUser, phoneerror, fnameerror, lnamee
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> */}
 							<div className="row mt-3">
 								<div className="col">
 									<input

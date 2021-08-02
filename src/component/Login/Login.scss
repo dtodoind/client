@@ -167,6 +167,31 @@
 		background-color: $color6;
 	}
 
+	.google_btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: rgb(64, 134, 244);
+		border-color: rgb(64, 134, 244);
+		text-transform: unset;
+		position: relative;
+		font-size: 18px !important;
+
+		// .google_icon {
+		// 	position: absolute;
+		// 	left: 0;
+		// 	height: 90%;
+		// 	margin: 0px 2px;
+		// 	padding: 6px;
+		// 	border-radius: 5px;
+		// 	background-color: white;
+		// }
+
+		// &:hover {
+		// 	border-color: $color1;
+		// }
+	}
+
 	a {
 		color: gray;
 

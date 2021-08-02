@@ -52,9 +52,11 @@ function AccountOrders(props) {
         ).then(res => {
             if(Orders.length === 0) {
                 if(repeat === 0) {
-                    allorders(res.data)
-                    setOrderCount(Orders.length)
-                    setRepeat(1)
+                    if(res.data) {
+                        allorders(res.data)
+                        setOrderCount(Orders.length)
+                        setRepeat(1)
+                    }
                 }
             } else {
                 if(Orders.length !== ordercount) {
@@ -245,9 +247,9 @@ function AccountOrders(props) {
                     </thead>
                     <tbody style={{textAlign: 'center'}}>
                         {
-                            orders.length === 0
+                            orders === 0
                             ? null
-                            : orders.map((o,i) => 
+                            : orders?.map((o,i) => 
                                 [<tr key={i}>
                                     <td className="accordion-toggle collapsed" id={"accordion"+i} data-toggle="collapse" data-parent={"#accordion"+i} href={"#collap"+i}>
                                         <div style={{position: 'relative'}}>
@@ -275,7 +277,7 @@ function AccountOrders(props) {
                                             {
                                                 Orders.length === 0
                                                 ? null
-                                                : o.OrderItems.map((p,j) => 
+                                                : o.OrderItems?.map((p,j) => 
                                                     <div className='container-fluid my-2 border-top border-bottom' key={j}>
                                                         <div className='row'>
                                                             <div className='col-md-6 d-flex align-items-center'>

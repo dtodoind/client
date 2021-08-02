@@ -41,13 +41,13 @@ function TableUsers(props){
 							<tr>
 								<th>Id</th>
 								<th>Image</th>
-								<th>Username</th>
+								{/* <th>Username</th> */}
 								<th>FirsName</th>
 								<th>LastName</th>
 								<th>Email</th>
 								{/* <th>Password</th> */}
 								<th>Adress</th>
-								<th>Gender</th>
+								{/* <th>Gender</th> */}
 								<th>Status</th>
 							</tr>
 						</thead>
@@ -58,13 +58,13 @@ function TableUsers(props){
 									<tr key={i} style={{textAlign: 'center'}}>
 										<td>{u.Users_id}</td>
 										<td><img src={u.Image} alt='user' className='img'/></td>
-										<td>{u.Username}</td>
+										{/* <td>{u.Username}</td> */}
 										<td>{u.FirstName}</td>
 										<td>{u.LastName}</td>
 										<td>{u.Email}</td>
 										{/* <td>{u.Password}</td> */}
-										<td><div style={{textAlign: 'left'}}>{JSON.parse(u.Address)[0].map((a, i) => <p key={i} style={{margin: '0'}}>{a}<br /></p>)}</div></td>
-										<td>{u.Gender}</td>
+										<td><div style={{textAlign: 'left'}}>{JSON.parse(u.Address) !== null ? JSON.parse(u.Address)[0].map((a, i) => <p key={i} style={{margin: '0'}}>{a}<br /></p>) : null}</div></td>
+										{/* <td>{u.Gender}</td> */}
 										<td className='last-td-a'> <div className='color-active' style={{backgroundColor: u.Status === 'Active' ? 'green' : '#dc3545'}}><p className="py-2">{u.Status}</p></div> </td>
 									</tr>
 								))
