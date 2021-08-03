@@ -201,6 +201,8 @@ function AccountOrders(props) {
                         }
                     }
                 }
+                
+                window.open('https://api.whatsapp.com/send?phone=541125152015')
                 return 0
             })
         })
@@ -336,7 +338,7 @@ function AccountOrders(props) {
                                                                                                             onClick={(e) => {
                                                                                                                 changestatus(e)
                                                                                                                 setPopshow(false)
-                                                                                                            }} 
+                                                                                                            }}
                                                                                                         >
                                                                                                             OK
                                                                                                         </button>
