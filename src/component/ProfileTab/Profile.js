@@ -279,7 +279,7 @@ function Profile(props) {
 										<p className="col-data">{SingleUser[0].Email}</p>
 									</div>
 
-									<div className="col-4">
+									{/* <div className="col-4">
 										<p className="font-weight-bold">Celular: </p>
 									</div>
 
@@ -291,7 +291,7 @@ function Profile(props) {
 									</div>
 									<div className="col-8">
 										<p className="col-data">{SingleUser[0].Gender}</p>
-									</div>
+									</div> */}
 								</div>
 							</div>
 						</div>
@@ -326,7 +326,7 @@ function Profile(props) {
 					<div className="container-fluid">
 						<div className="row rowp-2">
 							{
-								JSON.parse(SingleUser[0].Address).map((alladdress, i) => 
+								JSON.parse(SingleUser[0].Address)?.map((alladdress, i) => 
 									<div className="col-sm-4 mb-3" key={i}>
 										{/* <div className="input-label">
 											<label> */}

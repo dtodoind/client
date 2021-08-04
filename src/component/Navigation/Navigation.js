@@ -289,11 +289,7 @@ function Navigation(props) {
 										Users_id: result[0].Users_id,
 										Status: 'Inactive'
 									}
-									await axios.put(`http://localhost:5000/users/status`, db_val, {
-										headers: {
-											'x-auth-token': localStorage.getItem('token')
-										}
-									}).then(res => {
+									await axios.put(`http://localhost:5000/users/status`, db_val).then(res => {
 										if(res.data === 'success') {
 											socket.emit("toast", {
 												cat: "Status",
@@ -304,6 +300,7 @@ function Navigation(props) {
 											}
 										}
 									})
+									document.getElementsByClassName('accountdetails')[0].style.display = 'none'
 									props.loginchange('true')
 								}}>Logout</button>
 							</div>

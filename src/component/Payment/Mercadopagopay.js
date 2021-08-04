@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import { Link } from 'react-router-dom'import {
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+// import { useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 import Select from "react-select";
 import "./Mercadopagopay.scss";
@@ -68,15 +68,15 @@ const Field = ({
   </div>
 );
 
-const SubmitButton = ({ processing, error, children, disabled }) => (
-  <button
-    className={`SubmitButton ${error ? "SubmitButton--error" : ""}`}
-    type="submit"
-    disabled={processing || disabled}
-  >
-    {processing ? "Processing..." : children}
-  </button>
-);
+// const SubmitButton = ({ processing, error, children, disabled }) => (
+// 	<button
+// 		className={`SubmitButton ${error ? "SubmitButton--error" : ""}`}
+// 		type="submit"
+// 		disabled={processing || disabled}
+// 	>
+// 	  	{processing ? "Processing..." : children}
+// 	</button>
+// );
 
 const ErrorMessage = ({ children }) => (
   <div className="ErrorMessage bg-danger" role="alert">
@@ -107,11 +107,11 @@ function Mercadopagopay({
   const { Delivery, basket } = props;
   const SingleUser = JSON.parse(localStorage.getItem("SingleUser"));
 
-  const stripe = useStripe();
-  const elements = useElements();
-  const [isProcessing, setProcessingTo] = useState(false);
-  const [errorzip, setErrorzip] = useState(false);
-  const [errorphone, setErrorPhone] = useState(false);
+  // const stripe = useStripe();
+  // const elements = useElements();
+  const [, setProcessingTo] = useState(false);
+  const [, setErrorzip] = useState(false);
+  const [, setErrorPhone] = useState(false);
   const [checkoutError, setCheckoutError] = useState();
   const [ziperror, setZiperror] = useState("");
   const [phoneerror, setPhoneError] = useState("");
@@ -120,14 +120,19 @@ function Mercadopagopay({
     phone: "",
     name: SingleUser[0].FirstName + " " + SingleUser[0].LastName,
     address: {
-      city: "",
       line1: "",
-      state: "",
       postal_code: "",
+      state: "",
+	  state2:"",
+      city: "",
     },
   });
+
+  console.log(billingDetails.address, "DATA");
+
   const [province, setProvince] = useState();
   const [dep, setDep] = useState();
+  const [locality, setLocality] = useState();
 
   useEffect(() => {
     axios
@@ -136,44 +141,52 @@ function Mercadopagopay({
       )
       .then((response) => {
         setProvince(response.data);
-        cargarDepartamentos();
       })
       .catch((err) => console.log(err));
   }, []);
 
-  const cargarDepartamentos = (provincia) => {
-    // if (!province){ return }
+  const GetCities = (prov) => {
+    // if (!prov){ return }
+	console.log(prov, 'PROV')
     axios
       .get(
-        `https://apis.datos.gob.ar/georef/api/departamentos?provincia=${provincia}&orden=nombre&aplanar=true&campos=basico&max=5000&exacto=true&formato=json`
+        `https://apis.datos.gob.ar/georef/api/departamentos?provincia=${prov}&orden=nombre&aplanar=true&campos=basico&max=5000&exacto=true&formato=json`
       )
       .then((response) => {
+		console.log(response.data)
         setDep(response.data);
       })
       .catch((err) => console.log(err));
   };
+    console.log(dep, 'DEPARTAMENTO')
+/* 
+  const GetLocality = (provincia, departamento) => {
+	if (!departamento){ return }
+	axios.get(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${provincia}&departamento=${departamento}&aplanar=true&campos=basico&max=5000&exacto=true&formato=json
+	`)
+	.then( response => {
+		setLocality(response.data.localidades);
+		}
+	).catch( err => console.log(err))
+}
+ */
 
-  console.log(dep, "Data deptooo");
 
   const options = province?.provincias.map((i) => ({
     label: i.nombre,
     value: i.nombre,
   }));
-  const options2 = province?.provincias.map((i) => ({
+/*   const options2 = province?.departamentos.map((i) => ({
+    label: i.nombre,
+    value: i.nombre,
+  })); */
+
+  const options3 = province?.provincias.map((i) => ({
     label: i.nombre,
     value: i.nombre,
   }));
 
-  useEffect(() => {
-    parseURLParams(window.location.href);
-    if (subtotal === 0) {
-      setErrorzip(true);
-    } else {
-      setErrorzip(false);
-    }
-  }, [subtotal]);
-
-  function parseURLParams(url) {
+  const parseURLParams = (url) => {
     var queryStart = url.indexOf("?") + 1,
       queryEnd = url.indexOf("#") + 1 || url.length + 1,
       query = url.slice(queryStart, queryEnd - 1),
@@ -196,41 +209,32 @@ function Mercadopagopay({
     }
     // console.log(parms)
     if (parms.status === "approved") {
-      place_order(JSON.parse(localStorage.getItem("billingDetails")));
+      console.log(JSON.parse(localStorage.getItem("billingDetails")));
     }
     // return window.location.replace('/account/Order');
+  };
+  if (JSON.parse(localStorage.getItem("billingDetails")) !== null) {
+    console.log("its here");
+    place_order(JSON.parse(localStorage.getItem("billingDetails")));
+    localStorage.removeItem("billingDetails");
+    // window.location.replace('/account/Order')
   }
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("billingDetails")) !== null) {
+      console.log("its here");
+      parseURLParams(window.location.href);
+    }
+    if (subtotal === 0) {
+      setErrorzip(true);
+    } else {
+      setErrorzip(false);
+    }
+  }, [subtotal]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // if (!stripe || !elements) {
-    //   // Stripe.js has not loaded yet. Make sure to disable
-    //   // form submission until Stripe.js has loaded.
-    //   return;
-    // }
-
-    // if (error) {
-    //   	elements.getElement("card").focus();
-    //   	return;
-    // }
-
-    // if (cardComplete) {
-    //   setProcessing(true);
-    // }
-
-    // axios.post('http://localhost:5000/order/payment', {
-    // 	amount: price * 100,
-    //     token: payload,
-    // }).then(res => {
-    // 	console.log(res.data)
-    //     // place_order(res.data)
-    //     return
-    // })
-    // .catch(error => {
-    //     console.log('Payment Error: ', JSON.parse(error))
-    //     alert('There was an issue with your payment. Please make sure you have enter the correct details.')
-    // })
 
     if (ziperror === "" && phoneerror === "") {
       setProcessingTo(true);
@@ -281,38 +285,7 @@ function Mercadopagopay({
             window.location.replace(preference.data.body.init_point);
           });
 
-        // var payment_details
-        // if(radioval === 'payment') {
-        // 	payment_details = {
-        // 		type: "card",
-        // 		card: elements.getElement(CardElement),
-        // 		billing_details: billingDetails
-        // 	}
-        // } else {
-        // 	payment_details = {
-        // 		type: "card",
-        // 		card: elements.getElement(CardElement),
-        // 		billing_details: payment_addr
-        // 	}
-        // }
-        // const paymentMethodReq = await stripe.createPaymentMethod(payment_details);
-
-        // if (paymentMethodReq.error) {
-        // 	setCheckoutError(paymentMethodReq.error.message);
-        // 	setProcessingTo(false);
-        // 	return;
-        // }
-        // const confirmPayment = await stripe.confirmCardPayment(clientSecret, {
-        // 	payment_method: paymentMethodReq.paymentMethod.id
-        // });
-
-        // if (confirmPayment.error) {
-        // 	setCheckoutError(confirmPayment.error.message);
-        // 	setProcessingTo(false);
-        // 	return;
-        // }
-        // place_order(billingDetails, confirmPayment.paymentIntent.id)
-        // setProcessingTo(false)
+ 
       } catch (error) {
         if (price === "0.00") {
           setCheckoutError("Please add some Product in the cart");
@@ -343,47 +316,10 @@ function Mercadopagopay({
   return (
     <div className="payment">
       <div className="title">Método de pago</div>
-      <div style={{ padding: "2%" }}>
-        <a
-          href="https://www.correoargentino.com.ar/formularios/cpa"
-          target="_blank"
-          style={{
-            color: "black",
-            textDecoration: "underline",
-            fontWeight: "300",
-          }}
-        >
-          No conozco mi Código Postal
-        </a>
-      </div>
       <form className="Form" onSubmit={handleSubmit}>
         {radioval === undefined || radioval === "payment" ? (
           <fieldset className="FormGroup">
-            {/* <Field
-							label="Name"
-							id="name"
-							type="text"
-							placeholder="Enter Full Name"
-							required
-							autoComplete="name"
-							value={billingDetails.name}
-							onChange={(e) => {
-								setBillingDetails({ ...billingDetails, name: e.target.value });
-							}}
-						/>
-						<Field
-							label="Email"
-							id="email"
-							type="email"
-							placeholder="Enter Email"
-							required
-							autoComplete="email"
-							value={billingDetails.email}
-							onChange={(e) => {
-								setBillingDetails({ ...billingDetails, email: e.target.value });
-							}}
-						/> */}
-
+      
             <Field
               label="Celular"
               id="phone"
@@ -411,6 +347,24 @@ function Mercadopagopay({
             {phoneerror === "" ? null : (
               <div className="input-feedback">{phoneerror}</div>
             )}
+            <Field
+              label="Dirección 1"
+              id="address"
+              type="text"
+              placeholder="Enter Address"
+              required
+              autoComplete="address"
+              value={billingDetails.address.line1}
+              onChange={(e) => {
+                setBillingDetails({
+                  ...billingDetails,
+                  address: {
+                    ...billingDetails.address,
+                    line1: e.target.value,
+                  },
+                });
+              }}
+            />
             <Field
               label="Postal"
               id="zip"
@@ -458,15 +412,15 @@ function Mercadopagopay({
                 <Select
                   options={options}
                   onChange={(val) =>
-                    setBillingDetails(
-                      setBillingDetails({
-                        ...billingDetails,
-                        address: {
-                          ...billingDetails.address,
-                          city: val.value,
-                        },
-                      })
-                    )
+                    setBillingDetails({
+                      ...billingDetails,
+					
+                      address: {
+						...billingDetails.address.state,
+                        state: val.value,
+                      },
+                    })
+					// GetCities(billingDetails.address.state)
                   }
                 />
               </div>
@@ -475,149 +429,54 @@ function Mercadopagopay({
               <p>Ciudad</p>
 
               <div className="div-select-only2">
-                <Select />
+                <Select 
+				  options={options}
+                  onChange={(val) =>
+                    setBillingDetails({
+                      ...billingDetails,
+                      address: {
+                        state2: val.value,
+                      },
+                    })
+                  }
+				
+				/>
+				  
               </div>
             </div>
-            <Field
-              label="Dirección 1"
-              id="address"
-              type="text"
-              placeholder="Enter Address"
-              required
-              autoComplete="address"
-              value={billingDetails.address.line1}
-              onChange={(e) => {
-                setBillingDetails({
-                  ...billingDetails,
-                  address: {
-                    ...billingDetails.address,
-                    line1: e.target.value,
-                  },
-                });
-              }}
-            />
-            {/* <Field
-              label="Celular"
-              id="phone"
-              type="tel"
-              placeholder="Enter Phone number"
-              required
-              onKeyPress={(event) => onlyNumberKey(event)}
-              maxLength="10"
-              autoComplete="tel"
-              value={billingDetails.phone}
-              onChange={(e) => {
-                setBillingDetails({ ...billingDetails, phone: e.target.value });
-                if (e.target.value === "") {
-                  setErrorPhone(true);
-                  setPhoneError("Required");
-                } else if (e.target.value.length !== 10) {
-                  setErrorPhone(true);
-                  setPhoneError("atleast 10 digit");
-                } else {
-                  setErrorPhone(false);
-                  setPhoneError("");
-                }
-              }}
-            />
-            {phoneerror === "" ? null : (
-              <div className="input-feedback">{phoneerror}</div>
-            )}
-            <Field
-              label="Dirección 1"
-              id="address"
-              type="text"
-              placeholder="Enter Address"
-              required
-              autoComplete="address"
-              value={billingDetails.address.line1}
-              onChange={(e) => {
-                setBillingDetails({
-                  ...billingDetails,
-                  address: {
-                    ...billingDetails.address,
-                    line1: e.target.value,
-                  },
-                });
-              }}
-            />
-            <Field
-              label="Ciudad"
-              id="city"
-              type="text"
-              placeholder="Enter City"
-              required
-              autoComplete="city"
-              value={billingDetails.address.city}
-              onChange={(e) => {
-                setBillingDetails({
-                  ...billingDetails,
-                  address: {
-                    ...billingDetails.address,
-                    city: e.target.value,
-                  },
-                });
-              }}
-            />
-            <Field
-              label="Estado"
-              id="state"
-              type="text"
-              placeholder="Enter State"
-              required
-              autoComplete="state"
-              value={billingDetails.address.state}
-              onChange={(e) => {
-                setBillingDetails({
-                  ...billingDetails,
-                  address: {
-                    ...billingDetails.address,
-                    state: e.target.value,
-                  },
-                });
-              }}
-            />
-            <Field
-              label="Postal"
-              id="zip"
-              type="text"
-              placeholder="Codigo Postal"
-              required
-              onKeyPress={(event) => onlyNumberKey(event)}
-              maxLength="4"
-              autoComplete="zip"
-              value={billingDetails.address.postal_code}
-              onChange={(e) => {
-                setBillingDetails({
-                  ...billingDetails,
-                  address: {
-                    ...billingDetails.address,
-                    postal_code: e.target.value,
-                  },
-                });
-                if (e.target.value === "") {
-                  setZiperror("Requerido");
-                  setErrorzip(true);
-                } else if (e.target.value.length === 4) {
-                  for (var i = 0; i < Delivery.length; i++) {
-                    if (Delivery[i].Region === parseInt(e.target.value)) {
-                      setZiperror("");
-                      deliv(e.target.value);
-                      setErrorzip(false);
-                      return;
-                    } else {
-                      setZiperror(
-                        "Nosotros no estamos entregando en esta region"
-                      );
-                      setErrorzip(true);
-                    }
-                  }
-                } else {
-                  setZiperror("atleast 4 digit");
-                  setErrorzip(true);
-                }
-              }}
-            /> */}
+
+            {/* 			<Field
+								label="Ciudad"
+								id="city"
+								type="text"
+								placeholder="Enter City"
+								required
+								autoComplete="city"
+								value={billingDetails.address.city}
+								onChange={(e) => {
+									setBillingDetails({ ...billingDetails, address: {
+											...billingDetails.address,
+											city: e.target.value
+										}
+									});
+								}}
+							/>
+						<Field
+							label="Estado"
+							id="state"
+							type="text"
+							placeholder="Enter State"
+							required
+							autoComplete="state"
+							value={billingDetails.address.state}
+							onChange={(e) => {
+								setBillingDetails({ ...billingDetails, address: {
+										...billingDetails.address,
+										state: e.target.value
+									}
+								});
+							}}
+						/> */}
 
             {ziperror === "" ? null : (
               <div className="input-feedback">{ziperror}</div>

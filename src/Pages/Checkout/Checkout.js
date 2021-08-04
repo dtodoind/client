@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import TopBanner from '../../component/Top Banner/TopBanner'
 import CartTotal from '../../component/Cart/CartTotal'
-import Payment from '../../component/Payment/Payment'
+// import Payment from '../../component/Payment/Payment'
 import Mercadopagopay from '../../component/Payment/Mercadopagopay'
 import Billing from '../../component/Billing/Billing'
 import axios from 'axios'

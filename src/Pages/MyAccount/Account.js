@@ -42,7 +42,7 @@ function Account(props) {
 							<div className="col-8 py-3 d-flex align-items-center">
 								<p className="m-0">{user[0].Email}</p>
 							</div>
-							<div className="col-4 py-3 d-flex align-items-center col-color" style={{fontWeight: '400'}}>
+							{/* <div className="col-4 py-3 d-flex align-items-center col-color" style={{fontWeight: '400'}}>
 								Celular
 							</div>
 							<div className="col-8 py-3 d-flex align-items-center col-color">
@@ -59,7 +59,7 @@ function Account(props) {
 							</div>
 							<div className="col-8 py-3 col-color">
 								{JSON.parse(user[0].Address)[0].map((a, i) => <p key={i} style={{margin: '0'}}>{a}<br /></p>)}
-							</div>
+							</div> */}
 						</div>
 					</div>
 				</div>
