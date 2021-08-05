@@ -123,14 +123,15 @@ function Mercadopagopay({
 			line1: "",
 			postal_code: "",
 			state: "",
-		state2:"",
+			state2:"",
 			city: "",
 		},
 	});
 
-	// console.log(billingDetails.address, "DATA");
+	console.log(billingDetails.address, "DATA");
 
 	const [province, setProvince] = useState();
+	const [dep, setDep] = useState()
 	const [locality, setLocality] = useState();
 	const [lop, setLop] = useState(true)
 
@@ -155,7 +156,7 @@ function Mercadopagopay({
 						`https://apis.datos.gob.ar/georef/api/departamentos?provincia=${prov}&orden=nombre&aplanar=true&campos=basico&max=5000&exacto=true&formato=json`
 					)
 					.then((response) => {
-						setLocality(response.data)
+						setDep(response.data)
 					})
 					.catch((err) => console.log(err));
 					setLop(false)
@@ -181,15 +182,15 @@ function Mercadopagopay({
 		label: i.nombre,
 		value: i.nombre,
 	}));
-/*   const options2 = province?.departamentos.map((i) => ({
-		label: i.nombre,
-		value: i.nombre,
-	})); */
-
-	const options3 = locality?.departamentos.map((i) => ({
+	const options2 = dep?.departamentos.map((i) => ({
 		label: i.nombre,
 		value: i.nombre,
 	}));
+
+	// const options3 = locality?.departamentos.map((i) => ({
+	// 	label: i.nombre,
+	// 	value: i.nombre,
+	// }));
 
 	const parseURLParams = (url) => {
 		var queryStart = url.indexOf("?") + 1,
@@ -411,6 +412,9 @@ function Mercadopagopay({
 								}
 							}}
 						/>
+						{ziperror === "" ? null : (
+							<div className="input-feedback">{ziperror}</div>
+						)}
 						<div className="div-select-direction">
 							<p>Provincia</p>
 							<div className="div-select-only">
@@ -436,11 +440,12 @@ function Mercadopagopay({
 
 							<div className="div-select-only2">
 								<Select 
-									options={options3}
+									options={options2}
 									onChange={(val) =>
 										setBillingDetails({
 											...billingDetails,
 											address: {
+												...billingDetails.address,
 												state2: val.value,
 											},
 										})
@@ -482,10 +487,6 @@ function Mercadopagopay({
 								});
 							}}
 						/> */}
-
-						{ziperror === "" ? null : (
-							<div className="input-feedback">{ziperror}</div>
-						)}
 					</fieldset>
 				) : null}
 				{/* <fieldset className="FormGroup">
