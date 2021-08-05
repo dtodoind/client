@@ -128,7 +128,6 @@ function Mercadopagopay({
 		},
 	});
 
-	console.log(billingDetails.address, "DATA");
 
 	const [province, setProvince] = useState();
 	const [dep, setDep] = useState()
@@ -162,19 +161,20 @@ function Mercadopagopay({
 					setLop(false)
 			}
 		}
-		// console.log(dep, 'DEPARTAMENTO')
+	
 	};
-/* 
-	const GetLocality = (provincia, departamento) => {
-	if (!departamento){ return }
-	axios.get(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${provincia}&departamento=${departamento}&aplanar=true&campos=basico&max=5000&exacto=true&formato=json
+ 
+	const GetLocality = (pr, dep) => {
+	if (!dep){ return }
+	axios.get(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${pr}&departamento=${dep}&aplanar=true&campos=basico&max=5000&exacto=true&formato=json
 	`)
 	.then( response => {
-		setLocality(response.data.localidades);
+		setLocality(response.data);
+
 		}
 	).catch( err => console.log(err))
 }
- */
+ 
 
 
 	// console.log(province)
@@ -186,11 +186,12 @@ function Mercadopagopay({
 		label: i.nombre,
 		value: i.nombre,
 	}));
+	const options3 = locality?.localidades.map((i) => ({
+		label: i.nombre,
+		value: i.nombre,
+	}));
 
-	// const options3 = locality?.departamentos.map((i) => ({
-	// 	label: i.nombre,
-	// 	value: i.nombre,
-	// }));
+
 
 	const parseURLParams = (url) => {
 		var queryStart = url.indexOf("?") + 1,
@@ -447,6 +448,25 @@ function Mercadopagopay({
 											address: {
 												...billingDetails.address,
 												state2: val.value,
+											},
+										})
+									}
+								/>
+					{GetLocality(billingDetails.address.state, billingDetails.address.state2)}
+							</div>
+						</div>
+						<div className="div-select-direction">
+							<p>Localidad</p>
+
+							<div className="div-select-only3">
+								<Select 
+									options={options3}
+									onChange={(val) =>
+										setBillingDetails({
+											...billingDetails,
+											address: {
+												...billingDetails.address,
+												city: val.value,
 											},
 										})
 									}

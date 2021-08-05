@@ -253,10 +253,18 @@
     .div-select-only2{
 		@include respond(phone) {
 		    width: 70%;
-			margin-left: 7%;
+			margin-left: 9%;
 		}
       width: 50%;
       margin-left: 5%;
+    }
+	.div-select-only3{
+		@include respond(phone) {
+		    width: 70%;
+			margin-left: 3%;
+		}
+      width: 50%;
+      margin-left: 2%;
     }
   }
 }

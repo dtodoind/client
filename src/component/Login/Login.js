@@ -65,7 +65,7 @@ function Login(props) {
     }
 
     const responseGoogle = async (response) => {
-        // console.log(response.profileObj)
+     console.log(response.profileObj)
         setGoogle_dis(true)
         const formdata = new FormData();
         formdata.append("FirstName", response.profileObj.givenName);
