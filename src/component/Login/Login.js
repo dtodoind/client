@@ -18,7 +18,7 @@ const socket = io('https://dtodo-indumentaria-server.herokuapp.com')
 
 function Login(props) {
 
-    const { show } = props
+    // const { show } = props
 
     const [error, seterror] = useState()
     const [verify, setverify] = useState()

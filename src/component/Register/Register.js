@@ -15,13 +15,13 @@ const socket = io("https://dtodo-indumentaria-server.herokuapp.com");
 
 function Register({ show, ...props }) {
 	const [emailerror, setEmailerror] = useState("");
-	const [usererror, setUsererror] = useState("");
-	const [ziperror, setZiperror] = useState("");
+	// const [usererror, setUsererror] = useState("");
+	// const [ziperror, setZiperror] = useState("");
 	const [count, setcount] = useState(0);
 	// const [phoneerror, setPhoneError] = useState("");
 	const [hide, setHide] = useState(true)
 
-	const { Delivery } = props
+	// const { Delivery } = props
 
 	useEffect(() => {
 		const inputs = document.querySelectorAll(".input");
@@ -52,16 +52,16 @@ function Register({ show, ...props }) {
 		reader.readAsDataURL(img);
 	};
 
-	const checkdigit = (e) => {
-		var a = [];
-		var k = e.which;
+	// const checkdigit = (e) => {
+	// 	var a = [];
+	// 	var k = e.which;
 
-		for (let i = 48; i < 58; i++)
-			a.push(i);
+	// 	for (let i = 48; i < 58; i++)
+	// 		a.push(i);
 
-		if (!(a.indexOf(k)>=0))
-			e.preventDefault();
-	}
+	// 	if (!(a.indexOf(k)>=0))
+	// 		e.preventDefault();
+	// }
 
 	const passhide = () => {
         if(!hide) {
@@ -92,7 +92,7 @@ function Register({ show, ...props }) {
 				}}
 				onSubmit={(values, { setSubmitting }) => {
 					setTimeout(async () => {
-						if(ziperror === "") {
+						// if(ziperror === "") {
 							// var addr = values.address + ', ' + values.zip
 
 							const formdata = new FormData();
@@ -149,17 +149,17 @@ function Register({ show, ...props }) {
 										localStorage.setItem('verify', 'true')
 										window.location.href = '/loginregister'
 									} else if (res.data === "Email is already registered") {
-									
 										setEmailerror(res.data);
-									} else if (res.data === "Username is already registered") {
-										setUsererror(res.data);
-									}
+									} 
+									// else if (res.data === "Username is already registered") {
+									// 	// setUsererror(res.data);
+									// }
 			 
 								});
 	
 	
 	
-						}
+						// }
 						setSubmitting(false);
 					}, 500);
 				}}
