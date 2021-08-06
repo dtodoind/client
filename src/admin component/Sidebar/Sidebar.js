@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 
 function Sidebar({ selected, act, ...props }) {
 
-    const [preactive, setPreActive] = useState(0)
+    const [preactive, setPreActive] = useState(4)
     // const Notification = props.Notification
     // const [tos, settos] = useState(false)
     // const [notlen, setnotlen] = useState()
