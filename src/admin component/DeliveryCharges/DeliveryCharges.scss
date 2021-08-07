@@ -1,2 +1,10 @@
 @import '../../responsive/mixin';
 @import '../../responsive/variables';
+.td-select{
+    width:30%;
+    height:30vh;
+    @include respond(phone) {
+        width: 100%;
+ 
+    }
+}
