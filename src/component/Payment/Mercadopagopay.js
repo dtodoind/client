@@ -127,13 +127,17 @@ function Mercadopagopay({
 			city: "",
 		},
 	});
-	console.log(billingDetails.address)
 
 
 	const [province, setProvince] = useState();
 	const [dep, setDep] = useState()
 	const [locality, setLocality] = useState();
 	const [lop, setLop] = useState(true)
+	const [lop2, setLop2] = useState(true)
+
+	const [pro_selected, setPro_selected] = useState()
+	const [dep_selected, setDep_selected] = useState()
+	const [loc_selected, setLoc_selected] = useState()
 
 	useEffect(() => {
 		axios
@@ -166,14 +170,16 @@ function Mercadopagopay({
 	};
  
 	const GetLocality = (pr, dep) => {
-	if (!dep){ return }
-	axios.get(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${pr}&departamento=${dep}&aplanar=true&campos=basico&max=5000&exacto=true&formato=json
-	`)
-	.then( response => {
-		setLocality(response.data);
+		if (!dep){ return }
+		if(lop2) {
+			axios.get(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${pr}&departamento=${dep}&aplanar=true&campos=basico&max=5000&exacto=true&formato=json`)
+			.then( response => {
+				setLocality(response.data);
+			}
+			).catch( err => console.log(err))
+			setLop2(false)
 		}
-	).catch( err => console.log(err))
-}
+	}
  
 
 
@@ -294,21 +300,41 @@ function Mercadopagopay({
 						"billingDetails",
 						JSON.stringify(billingDetails)
 					);
-						
-					var addr = billingDetails.address.line1 + ', ' + billingDetails.address.city + ', ' + billingDetails.address.state2 + ', ' + billingDetails.address.state
+					
+					var address1 = []
+					var phoneno1 = []
+					var addr = []
+					addr.push(billingDetails.address.line1)
+					addr.push(billingDetails.address.city)
+					addr.push(billingDetails.address.state2)
+					addr.push(billingDetails.address.state)
 					var phone = billingDetails.phone
-
+					if(SingleUser[0].Address !== null) {
+						address1 = JSON.parse(SingleUser[0].Address)
+						phoneno1 = JSON.parse(SingleUser[0].Phoneno)
+						address1.push(addr)
+						phoneno1.push(phone)
+					} else {
+						address1.push(addr)
+						phoneno1.push(phone)
+					}
+	
 					var details = {
 						Users_id: SingleUser[0].Users_id,
-						Address: [addr],
+						Address: JSON.stringify(address1),
 						Email: SingleUser[0].Email,
 						FirstName: SingleUser[0].FirstName,
 						Image: SingleUser[0].Image,
 						LastName: SingleUser[0].LastName,
-						Phoneno: phone,
+						Phoneno: JSON.stringify(phoneno1),
 					}
-					axios.post('http://localhost:5000/users/detailsupdate', details).then(res => console.log(res.data))
-					window.location.replace(preference.data.body.init_point);
+					axios.put('http://localhost:5000/users/detailsupdate', details).then(res => console.log(res.data))
+					localStorage.setItem('SingleUser', JSON.stringify([{
+						...SingleUser[0],
+						Address: JSON.stringify(address1),
+						Phoneno: JSON.stringify(phoneno1)
+					}]))
+					// window.location.replace(preference.data.body.init_point);
 				})
 				.catch(err => console.log(err))
 
@@ -450,8 +476,10 @@ function Mercadopagopay({
 							<p>Provincia</p>
 							<div className="div-select-only">
 								<Select
+									value={pro_selected}
 									options={options}
 									onChange={(val) => {
+										console.log(val)
 										setBillingDetails({
 											...billingDetails,
 					
@@ -460,6 +488,20 @@ function Mercadopagopay({
 												state: val.value,
 											},
 										})
+										setPro_selected(val)
+										setDep_selected(null)
+										setLoc_selected(null)
+										// if(document.getElementsByClassName('css-1uccc91-singleValue').length !== 0) {
+										// 	console.log(document.getElementsByClassName('css-1uccc91-singleValue')[1])
+										// 	if(document.getElementsByClassName('css-1uccc91-singleValue')[1] !== undefined) {
+										// 		document.getElementsByClassName('css-1uccc91-singleValue')[1].innerHTML = 'Select...'
+										// 		document.getElementsByClassName('css-1uccc91-singleValue')[1].classList.add('css-1wa3eu0-placeholder')
+										// 		document.getElementsByClassName('css-1uccc91-singleValue')[1].classList.remove('css-1uccc91-singleValue')
+										// 	} else {
+										// 		document.getElementsByClassName('css-1wa3eu0-placeholder')[0].classList.add('css-1uccc91-singleValue')
+										// 		document.getElementsByClassName('css-1wa3eu0-placeholder')[0].classList.remove('css-1wa3eu0-placeholder')
+										// 	}
+										// } 
 										setLop(true)
 									}}
 								/>
@@ -471,8 +513,9 @@ function Mercadopagopay({
 
 							<div className="div-select-only2">
 								<Select 
+									value={dep_selected}
 									options={options2}
-									onChange={(val) =>
+									onChange={(val) => {
 										setBillingDetails({
 											...billingDetails,
 											address: {
@@ -480,7 +523,10 @@ function Mercadopagopay({
 												state2: val.value,
 											},
 										})
-									}
+										setDep_selected(val)
+										setLoc_selected(null)
+										setLop2(true)
+									}}
 								/>
 									{GetLocality(billingDetails.address.state, billingDetails.address.state2)}
 							</div>
@@ -490,8 +536,9 @@ function Mercadopagopay({
 
 							<div className="div-select-only3">
 								<Select 
+									value={loc_selected}
 									options={options3}
-									onChange={(val) =>
+									onChange={(val) => {
 										setBillingDetails({
 											...billingDetails,
 											address: {
@@ -499,7 +546,8 @@ function Mercadopagopay({
 												city: val.value,
 											},
 										})
-									}
+										setLoc_selected(val)
+									}}
 								/>
 					
 							</div>
@@ -552,7 +600,7 @@ function Mercadopagopay({
 				{/* <SubmitButton disabled={errorzip || isProcessing || !stripe || errorphone}>
 					{isProcessing ? "Procesando..." : `Pagar $${price}`}
 				</SubmitButton> */}
-				<button id="button-checkout" onClick={handleSubmit}>
+				<button className="SubmitButton" onClick={handleSubmit}>
 					Handle Submit
 				</button>
 				{/* <h3 style={{textAlign: 'center', marginTop: '40px', fontSize: '24px', color: 'red'}}>

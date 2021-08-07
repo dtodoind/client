@@ -187,34 +187,30 @@ function Profile(props) {
 
 	const removeAddress = async (val) => {
 		var address = JSON.parse(SingleUser[0].Address)
-		var Zip = JSON.parse(SingleUser[0].Zip)
+		var Phoneno = JSON.parse(SingleUser[0].Phoneno)
 		address.splice(val, 1)
-		Zip.splice(val, 1)
+		Phoneno.splice(val, 1)
 
 		var details = {
 			Address: JSON.stringify(address),
 			Email: SingleUser[0].Email,
 			FirstName: SingleUser[0].FirstName,
-			Gender: SingleUser[0].Gender,
+			// Gender: SingleUser[0].Gender,
 			// Image: "http://localhost:5000/57c4a76e1040e_thumb900.jpg",
 			LastName: SingleUser[0].LastName,
-			Phoneno: SingleUser[0].Phoneno,
+			Phoneno: JSON.stringify(Phoneno),
 			// Status: "Inactive",
 			Users_id: SingleUser[0].Users_id, 
-			Zip: JSON.stringify(Zip), 
-			Username: SingleUser[0].Username,
+			// Zip: JSON.stringify(Zip), 
+			// Username: SingleUser[0].Username,
 		}
 
-		await axios.put('http://localhost:5000/users/detailsupdate', details, {
-			headers: {
-				'x-auth-token': localStorage.getItem('token')
-			}
-		})
+		await axios.put('http://localhost:5000/users/detailsupdate', details)
 
 		localStorage.setItem('SingleUser', JSON.stringify([{
 			...SingleUser[0],
 			Address: JSON.stringify(address),
-			Zip: JSON.stringify(Zip)
+			Phoneno: JSON.stringify(Phoneno)
 		}]))
 		setSingleUser(JSON.parse(localStorage.getItem('SingleUser')))
 	}
@@ -336,6 +332,7 @@ function Profile(props) {
 													name="selector"
 													className="input-r"
 												/> */}
+												{console.log(alladdress)}
 												<div className="colp-1">
 													<span style={{margin: '5px 20px', fontSize: '21px', fontWeight: '500'}}>Dirección {i+1}</span>
 													<div className="ad_dis">
@@ -347,7 +344,7 @@ function Profile(props) {
 																</p>
 															))
 														}
-														{/* ZIP: {JSON.parse(SingleUser[0].Zip)[i]} */}
+														Phone No: {JSON.parse(SingleUser[0].Phoneno)[i]}
 														{
 															JSON.parse(SingleUser[0].Address).length !== 1
 															? <div className="btn_adj">
