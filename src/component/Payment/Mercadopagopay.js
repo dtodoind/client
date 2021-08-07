@@ -104,16 +104,16 @@ function Mercadopagopay({
 	addresserr,
 	...props
 }) {
-	const { Delivery, basket } = props;
+	const { basket } = props;
 	const SingleUser = JSON.parse(localStorage.getItem("SingleUser"));
 
 	// const stripe = useStripe();
 	// const elements = useElements();
 	const [, setProcessingTo] = useState(false);
-	const [, setErrorzip] = useState(false);
+	const [, setErrorline1] = useState(false);
 	const [, setErrorPhone] = useState(false);
 	const [checkoutError, setCheckoutError] = useState();
-	const [ziperror, setZiperror] = useState("");
+	const [line1error, setLine1error] = useState("");
 	const [phoneerror, setPhoneError] = useState("");
 	const [billingDetails, setBillingDetails] = useState({
 		email: SingleUser[0].Email,
@@ -121,12 +121,13 @@ function Mercadopagopay({
 		name: SingleUser[0].FirstName + " " + SingleUser[0].LastName,
 		address: {
 			line1: "",
-			postal_code: "",
+			// postal_code: "",
 			state: "",
 			state2:"",
 			city: "",
 		},
 	});
+	console.log(billingDetails.address)
 
 
 	const [province, setProvince] = useState();
@@ -170,7 +171,6 @@ function Mercadopagopay({
 	`)
 	.then( response => {
 		setLocality(response.data);
-
 		}
 	).catch( err => console.log(err))
 }
@@ -233,17 +233,21 @@ function Mercadopagopay({
 			parseURLParams(window.location.href);
 		}
 		if (subtotal === 0) {
-			setErrorzip(true);
+			setErrorline1(true);
 		} else {
-			setErrorzip(false);
+			setErrorline1(false);
 		}
 	}, [subtotal]);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
+		var phone = document.getElementById('phone').value
+		var line1 = document.getElementById('address').value
 
-		if (ziperror === "" && phoneerror === "") {
+		if(phone === '') setPhoneError('Requerido')
+		if(line1 === '') setLine1error('Requerido')
+		if (phone !== "" && line1 !== "") {
 			setProcessingTo(true);
 
 			try {
@@ -282,15 +286,31 @@ function Mercadopagopay({
 					item: item,
 					payer: payer,
 				};
+
 				await axios
-					.post("http://localhost:5000/order/payment", all_data)
-					.then(function (preference) {
-						localStorage.setItem(
-							"billingDetails",
-							JSON.stringify(billingDetails)
-						);
-						window.location.replace(preference.data.body.init_point);
-					});
+				.post("http://localhost:5000/order/payment", all_data)
+				.then(function (preference) {
+					localStorage.setItem(
+						"billingDetails",
+						JSON.stringify(billingDetails)
+					);
+						
+					var addr = billingDetails.address.line1 + ', ' + billingDetails.address.city + ', ' + billingDetails.address.state2 + ', ' + billingDetails.address.state
+					var phone = billingDetails.phone
+
+					var details = {
+						Users_id: SingleUser[0].Users_id,
+						Address: [addr],
+						Email: SingleUser[0].Email,
+						FirstName: SingleUser[0].FirstName,
+						Image: SingleUser[0].Image,
+						LastName: SingleUser[0].LastName,
+						Phoneno: phone,
+					}
+					axios.post('http://localhost:5000/users/detailsupdate', details).then(res => console.log(res.data))
+					window.location.replace(preference.data.body.init_point);
+				})
+				.catch(err => console.log(err))
 
  
 			} catch (error) {
@@ -341,7 +361,7 @@ function Mercadopagopay({
 								setBillingDetails({ ...billingDetails, phone: e.target.value });
 								if (e.target.value === "") {
 									setErrorPhone(true);
-									setPhoneError("Required");
+									setPhoneError("Requerido");
 								} else if (e.target.value.length !== 10) {
 									setErrorPhone(true);
 									setPhoneError("atleast 10 digit");
@@ -370,9 +390,19 @@ function Mercadopagopay({
 										line1: e.target.value,
 									},
 								});
+								if (e.target.value === "") {
+									setLine1error("Requerido");
+									setErrorline1(true);
+								} else {
+									setLine1error("");
+									setErrorline1(false);
+								}
 							}}
 						/>
-						<Field
+						{line1error === "" ? null : (
+							<div className="input-feedback">{line1error}</div>
+						)}
+						{/* <Field
 							label="Postal"
 							id="zip"
 							type="text"
@@ -415,7 +445,7 @@ function Mercadopagopay({
 						/>
 						{ziperror === "" ? null : (
 							<div className="input-feedback">{ziperror}</div>
-						)}
+						)} */}
 						<div className="div-select-direction">
 							<p>Provincia</p>
 							<div className="div-select-only">
@@ -452,7 +482,7 @@ function Mercadopagopay({
 										})
 									}
 								/>
-					{GetLocality(billingDetails.address.state, billingDetails.address.state2)}
+									{GetLocality(billingDetails.address.state, billingDetails.address.state2)}
 							</div>
 						</div>
 						<div className="div-select-direction">
