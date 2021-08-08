@@ -287,7 +287,7 @@ function Mercadopagopay({
 			if(dep_selected === null) setState2error('Requerido')
 			if(loc_selected === null) setCityerror('Requerido')
 	
-			if (phone !== "" && line1 !== "" && pro_selected !== null && dep_selected !== null && loc_selected !== null) {
+			if (phone !== "" && line1 !== "" && pro_selected !== null && dep_selected !== null && loc_selected !== null && stateerror === "" && state2error === "" && cityerror === "") {
 				setProcessingTo(true);
 	
 				try {
@@ -520,6 +520,21 @@ function Mercadopagopay({
 										setDep_selected(null)
 										setLoc_selected(null)
 										setStateerror("")
+										setLop(true)
+										
+										for (var i = 0; i < props.Delivery.length; i++) {
+											if (props.Delivery[i].State === val.value) {
+												setStateerror("");
+												deliv(val.value, null)
+												// setErrorzip(false);
+												return;
+											} else {
+												setStateerror(
+													"Nosotros no estamos entregando en esta Provincia"
+												);
+												// setErrorzip(true);
+											}
+										}
 										// if(document.getElementsByClassName('css-1uccc91-singleValue').length !== 0) {
 										// 	console.log(document.getElementsByClassName('css-1uccc91-singleValue')[1])
 										// 	if(document.getElementsByClassName('css-1uccc91-singleValue')[1] !== undefined) {
@@ -531,7 +546,6 @@ function Mercadopagopay({
 										// 		document.getElementsByClassName('css-1wa3eu0-placeholder')[0].classList.remove('css-1wa3eu0-placeholder')
 										// 	}
 										// } 
-										setLop(true)
 									}}
 								/>
 									{GetCities(billingDetails.address.state)}
@@ -557,8 +571,22 @@ function Mercadopagopay({
 										})
 										setDep_selected(val)
 										setLoc_selected(null)
-										setLop2(true)
 										setState2error("")
+										setLop2(true)
+										
+										for (var i = 0; i < props.Delivery.length; i++) {
+											if (props.Delivery[i].State2 === val.value) {
+												setState2error("");
+												deliv(pro_selected.value, val.value)
+												// setErrorzip(false);
+												return;
+											} else {
+												setState2error(
+													"Nosotros no estamos entregando en esta Ciudad"
+												);
+												// setErrorzip(true);
+											}
+										}
 									}}
 								/>
 									{GetLocality(billingDetails.address.state, billingDetails.address.state2)}
