@@ -43,13 +43,7 @@ function AccountOrders(props) {
     }, [Orders, orderload])
 
 	useEffect(() => {
-        axios.get('http://localhost:5000/order/all/'+JSON.parse(localStorage.getItem('SingleUser'))[0].Users_id, 
-        {
-            headers: {
-                'x-auth-token': localStorage.getItem('token')
-            }
-        }
-        ).then(res => {
+        axios.get('http://localhost:5000/order/all/'+JSON.parse(localStorage.getItem('SingleUser'))[0].Users_id).then(res => {
             if(Orders.length === 0) {
                 if(repeat === 0) {
                     if(res.data) {

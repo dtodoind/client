@@ -332,7 +332,6 @@ function Profile(props) {
 													name="selector"
 													className="input-r"
 												/> */}
-												{console.log(alladdress)}
 												<div className="colp-1">
 													<span style={{margin: '5px 20px', fontSize: '21px', fontWeight: '500'}}>Dirección {i+1}</span>
 													<div className="ad_dis">

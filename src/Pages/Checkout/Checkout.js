@@ -123,7 +123,6 @@ function Checkout(props) {
                 name: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 address: {
                     line1: JSON.parse(SingleUser[0].Address)[0].join(', '),
-                    postal_code: JSON.parse(SingleUser[0].Zip)[0]
                 }
             })
         } else if(e.target.value === "payment"){
@@ -131,11 +130,14 @@ function Checkout(props) {
         } else {
             setPaymentaddr({
                 email: SingleUser[0].Email,
-                phone: SingleUser[0].Phoneno,
+                phone: JSON.parse(SingleUser[0].Phoneno)[parseInt(e.target.value)-2],
                 name: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 address: {
-                    line1: JSON.parse(SingleUser[0].Address)[parseInt(e.target.value-2)].join(', '),
-                    postal_code: JSON.parse(SingleUser[0].Zip)[parseInt(e.target.value)-2]
+                    line1: JSON.parse(SingleUser[0].Address)[parseInt(e.target.value-2)][0],
+                    city: JSON.parse(SingleUser[0].Address)[parseInt(e.target.value-2)][1],
+                    state2: JSON.parse(SingleUser[0].Address)[parseInt(e.target.value-2)][2],
+                    state: JSON.parse(SingleUser[0].Address)[parseInt(e.target.value-2)][3],
+                    // postal_code: JSON.parse(SingleUser[0].Zip)[parseInt(e.target.value)-2]
                 }
             })
         }
@@ -207,7 +209,7 @@ function Checkout(props) {
             }
             setaddresserr('')
         } else if(rad === "payment") {
-            var ad = billing_details.address.line1 + ', ' + billing_details.address.city + ', ' + billing_details.address.state + ', ' + billing_details.address.postal_code
+            var ad = billing_details.address.line1 + ', ' + billing_details.address.city + ', ' + billing_details.address.state2 + ', ' + billing_details.address.state
             var address = []
             address = ad.split(/, /g)
             order_val = {

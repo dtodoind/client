@@ -109,12 +109,15 @@ function Mercadopagopay({
 
 	// const stripe = useStripe();
 	// const elements = useElements();
-	const [, setProcessingTo] = useState(false);
+	const [isProcessing, setProcessingTo] = useState(false);
 	const [, setErrorline1] = useState(false);
 	const [, setErrorPhone] = useState(false);
 	const [checkoutError, setCheckoutError] = useState();
 	const [line1error, setLine1error] = useState("");
 	const [phoneerror, setPhoneError] = useState("");
+	const [stateerror, setStateerror] = useState("")
+	const [state2error, setState2error] = useState("")
+	const [cityerror, setCityerror] = useState("")
 	const [billingDetails, setBillingDetails] = useState({
 		email: SingleUser[0].Email,
 		phone: "",
@@ -135,9 +138,9 @@ function Mercadopagopay({
 	const [lop, setLop] = useState(true)
 	const [lop2, setLop2] = useState(true)
 
-	const [pro_selected, setPro_selected] = useState()
-	const [dep_selected, setDep_selected] = useState()
-	const [loc_selected, setLoc_selected] = useState()
+	const [pro_selected, setPro_selected] = useState(null)
+	const [dep_selected, setDep_selected] = useState(null)
+	const [loc_selected, setLoc_selected] = useState(null)
 
 	useEffect(() => {
 		axios
@@ -222,12 +225,11 @@ function Mercadopagopay({
 		}
 		// console.log(parms)
 		if (parms.status === "approved") {
-			console.log(JSON.parse(localStorage.getItem("billingDetails")));
+			// console.log(JSON.parse(localStorage.getItem("billingDetails")));
 		}
 		// return window.location.replace('/account/Order');
 	};
 	if (JSON.parse(localStorage.getItem("billingDetails")) !== null) {
-		console.log("its here");
 		place_order(JSON.parse(localStorage.getItem("billingDetails")));
 		localStorage.removeItem("billingDetails");
 		// window.location.replace('/account/Order')
@@ -235,7 +237,6 @@ function Mercadopagopay({
 
 	useEffect(() => {
 		if (JSON.parse(localStorage.getItem("billingDetails")) !== null) {
-			console.log("its here");
 			parseURLParams(window.location.href);
 		}
 		if (subtotal === 0) {
@@ -248,97 +249,132 @@ function Mercadopagopay({
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		var phone = document.getElementById('phone').value
-		var line1 = document.getElementById('address').value
+		var item = [];
+		for (var i = 0; i < basket.length; i++) {
+			item.push({
+				title: basket[i].title,
+				unit_price: basket[i].price,
+				quantity: basket[i].qty,
+			});
+		}
+		var payer = {
+			name: "Test",
+			surname: "User",
+			email: "test_user_2502054@testuser.com",
+			// phone: {
+			// 	area_code: "",
+			// 	number: 9909027254,
+			// },
+			// address: {
+			// 	street_name: "Cuesta Miguel Armendáriz",
+			// 	street_number: 1004,
+			// 	zip_code: "1714",
+			// },
+		};
+		var all_data = {
+			item: item,
+			payer: payer,
+		};
 
-		if(phone === '') setPhoneError('Requerido')
-		if(line1 === '') setLine1error('Requerido')
-		if (phone !== "" && line1 !== "") {
+		if(radioval === 'payment') {
+
+			var phone = document.getElementById('phone').value
+			var line1 = document.getElementById('address').value
+			
+			if(phone === '') setPhoneError('Requerido')
+			if(line1 === '') setLine1error('Requerido')
+			if(pro_selected === null) setStateerror('Requerido')
+			if(dep_selected === null) setState2error('Requerido')
+			if(loc_selected === null) setCityerror('Requerido')
+	
+			if (phone !== "" && line1 !== "" && pro_selected !== null && dep_selected !== null && loc_selected !== null) {
+				setProcessingTo(true);
+	
+				try {
+					// const {data: clientSecret} = await axios.post("http://localhost:5000/order/payment", {
+					// 	amount: parseInt(price * 100)
+					// });
+
+					await axios
+						.post("http://localhost:5000/order/payment", all_data)
+						.then(function (preference) {
+							localStorage.setItem(
+								"billingDetails",
+								JSON.stringify(billingDetails)
+							);
+							// console.log(localStorage.getItem('billingDetails'))
+							var address1 = []
+							var phoneno1 = []
+							var addr = []
+							addr.push(billingDetails.address.line1)
+							addr.push(billingDetails.address.city)
+							addr.push(billingDetails.address.state2)
+							addr.push(billingDetails.address.state)
+							var phone = billingDetails.phone
+							if(SingleUser[0].Address !== null) {
+								address1 = JSON.parse(SingleUser[0].Address)
+								phoneno1 = JSON.parse(SingleUser[0].Phoneno)
+								address1.push(addr)
+								phoneno1.push(phone)
+							} else {
+								address1.push(addr)
+								phoneno1.push(phone)
+							}
+			
+							var details = {
+								Users_id: SingleUser[0].Users_id,
+								Address: JSON.stringify(address1),
+								Email: SingleUser[0].Email,
+								FirstName: SingleUser[0].FirstName,
+								Image: SingleUser[0].Image,
+								LastName: SingleUser[0].LastName,
+								Phoneno: JSON.stringify(phoneno1),
+							}
+							axios.put('http://localhost:5000/users/detailsupdate', details).then(res => console.log(res.data))
+							localStorage.setItem('SingleUser', JSON.stringify([{
+								...SingleUser[0],
+								Address: JSON.stringify(address1),
+								Phoneno: JSON.stringify(phoneno1)
+							}]))
+							window.location.replace(preference.data.body.init_point);
+						})
+						.catch(err => console.log(err))
+				} catch (error) {
+					if (price === "0.00") {
+						setCheckoutError("Please add some Product in the cart");
+					} else {
+						setCheckoutError(error.message);
+					}
+				}
+	
+				// setProcessing(false);
+	
+				// if (payload.error) {
+				//   	setError(payload.error);
+				// } else {
+				//   	setPaymentMethod(payload.paymentMethod);
+				// }
+			}
+		} else {
 			setProcessingTo(true);
-
+	
 			try {
 				// const {data: clientSecret} = await axios.post("http://localhost:5000/order/payment", {
 				// 	amount: parseInt(price * 100)
 				// });
-				console.log("mercado pago");
-
-				var item = [];
-				for (var i = 0; i < basket.length; i++) {
-					item.push({
-						title: basket[i].title,
-						unit_price: basket[i].price,
-						quantity: basket[i].qty,
-					});
-				}
-				var payer = {
-					name: "Test",
-					surname: "User",
-					email: "test_user_2502054@testuser.com",
-					phone: {
-						area_code: "",
-						number: 9909027254,
-					},
-					identification: {
-						type: "DNI",
-						number: "12345678",
-					},
-					address: {
-						street_name: "Cuesta Miguel Armendáriz",
-						street_number: 1004,
-						zip_code: "1714",
-					},
-				};
-				var all_data = {
-					item: item,
-					payer: payer,
-				};
+				// console.log("mercado pago else");
 
 				await axios
 				.post("http://localhost:5000/order/payment", all_data)
 				.then(function (preference) {
-					localStorage.setItem(
-						"billingDetails",
-						JSON.stringify(billingDetails)
-					);
-					
-					var address1 = []
-					var phoneno1 = []
-					var addr = []
-					addr.push(billingDetails.address.line1)
-					addr.push(billingDetails.address.city)
-					addr.push(billingDetails.address.state2)
-					addr.push(billingDetails.address.state)
-					var phone = billingDetails.phone
-					if(SingleUser[0].Address !== null) {
-						address1 = JSON.parse(SingleUser[0].Address)
-						phoneno1 = JSON.parse(SingleUser[0].Phoneno)
-						address1.push(addr)
-						phoneno1.push(phone)
-					} else {
-						address1.push(addr)
-						phoneno1.push(phone)
-					}
-	
-					var details = {
-						Users_id: SingleUser[0].Users_id,
-						Address: JSON.stringify(address1),
-						Email: SingleUser[0].Email,
-						FirstName: SingleUser[0].FirstName,
-						Image: SingleUser[0].Image,
-						LastName: SingleUser[0].LastName,
-						Phoneno: JSON.stringify(phoneno1),
-					}
-					axios.put('http://localhost:5000/users/detailsupdate', details).then(res => console.log(res.data))
-					localStorage.setItem('SingleUser', JSON.stringify([{
-						...SingleUser[0],
-						Address: JSON.stringify(address1),
-						Phoneno: JSON.stringify(phoneno1)
-					}]))
-					// window.location.replace(preference.data.body.init_point);
-				})
-				.catch(err => console.log(err))
-
- 
+						localStorage.setItem(
+							"billingDetails",
+							JSON.stringify(payment_addr)
+						);
+						// console.log(localStorage.getItem('billingDetails'))
+						window.location.replace(preference.data.body.init_point);
+					})
+					.catch(err => console.log(err))
 			} catch (error) {
 				if (price === "0.00") {
 					setCheckoutError("Please add some Product in the cart");
@@ -346,14 +382,6 @@ function Mercadopagopay({
 					setCheckoutError(error.message);
 				}
 			}
-
-			// setProcessing(false);
-
-			// if (payload.error) {
-			//   	setError(payload.error);
-			// } else {
-			//   	setPaymentMethod(payload.paymentMethod);
-			// }
 		}
 	};
 
@@ -477,9 +505,9 @@ function Mercadopagopay({
 							<div className="div-select-only">
 								<Select
 									value={pro_selected}
+									id="state"
 									options={options}
 									onChange={(val) => {
-										console.log(val)
 										setBillingDetails({
 											...billingDetails,
 					
@@ -491,6 +519,7 @@ function Mercadopagopay({
 										setPro_selected(val)
 										setDep_selected(null)
 										setLoc_selected(null)
+										setStateerror("")
 										// if(document.getElementsByClassName('css-1uccc91-singleValue').length !== 0) {
 										// 	console.log(document.getElementsByClassName('css-1uccc91-singleValue')[1])
 										// 	if(document.getElementsByClassName('css-1uccc91-singleValue')[1] !== undefined) {
@@ -508,6 +537,9 @@ function Mercadopagopay({
 									{GetCities(billingDetails.address.state)}
 							</div>
 						</div>
+						{stateerror === "" ? null : (
+							<div className="input-feedback">{stateerror}</div>
+						)}
 						<div className="div-select-direction">
 							<p>Ciudad</p>
 
@@ -526,11 +558,15 @@ function Mercadopagopay({
 										setDep_selected(val)
 										setLoc_selected(null)
 										setLop2(true)
+										setState2error("")
 									}}
 								/>
 									{GetLocality(billingDetails.address.state, billingDetails.address.state2)}
 							</div>
 						</div>
+						{state2error === "" ? null : (
+							<div className="input-feedback">{state2error}</div>
+						)}
 						<div className="div-select-direction">
 							<p>Localidad</p>
 
@@ -547,12 +583,15 @@ function Mercadopagopay({
 											},
 										})
 										setLoc_selected(val)
+										setCityerror("")
 									}}
 								/>
 					
 							</div>
 						</div>
-
+						{cityerror === "" ? null : (
+							<div className="input-feedback">{cityerror}</div>
+						)}
 						{/* 			<Field
 								label="Ciudad"
 								id="city"
@@ -600,7 +639,7 @@ function Mercadopagopay({
 				{/* <SubmitButton disabled={errorzip || isProcessing || !stripe || errorphone}>
 					{isProcessing ? "Procesando..." : `Pagar $${price}`}
 				</SubmitButton> */}
-				<button className="SubmitButton" onClick={handleSubmit}>
+				<button className="SubmitButton" onClick={handleSubmit} disabled={isProcessing}>
 					Handle Submit
 				</button>
 				{/* <h3 style={{textAlign: 'center', marginTop: '40px', fontSize: '24px', color: 'red'}}>
