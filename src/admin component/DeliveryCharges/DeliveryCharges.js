@@ -6,13 +6,13 @@ import Select from "react-select";
 import "./DeliveryCharges.scss";
 
 function DeliveryCharges(props) {
-	const [zip, setZip] = useState("");
+	// const [zip, setZip] = useState("");
 	const [states, setStates] = useState({state:'', state2:''});
 	const [charges, setCharges] = useState("");
 	const [lop, setlop] = useState(true);
-	const [ziperror, setZiperror] = useState();
+	// const [ziperror, setZiperror] = useState();
 	const [chargeserror, setChargeserror] = useState();
-	const [insert, setInsert] = useState(true);
+	const [insert, ] = useState(true);
 	const { Delivery, setdelivery } = props;
 	const [lop2, setLop2] = useState(true);
 	const [prov, setProv] = useState();
@@ -83,10 +83,10 @@ function DeliveryCharges(props) {
 		console.log("2");
 
 		if (e.target.value === "" || re.test(e.target.value)) {
-			if (e.target.name === "zip") {
-				setZip(e.target.value);
-				setZiperror("");
-			}
+			// if (e.target.name === "zip") {
+			// 	setZip(e.target.value);
+			// 	setZiperror("");
+			// }
 			if (e.target.name === "charges") {
 				setCharges(e.target.value);
 				setChargeserror("");

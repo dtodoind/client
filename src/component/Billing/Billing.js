@@ -38,12 +38,14 @@ function Billing(props) {
 
             {
                 SingleUser !== null
-                ? <div className="form-check">
+                ? SingleUser[0].Address !== null
+                    ? <div className="form-check">
                         <label className="form-check-label" style={{width: "100%"}}>
                             <input type="radio" style={{marginLeft: '-25px'}} value="1" className="form-check-input" name="address" onChange={props.address} />
                             Retirar en la sucursal
                         </label>
                     </div>
+                    : null
                 : null
             }
 

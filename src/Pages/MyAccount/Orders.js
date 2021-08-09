@@ -43,13 +43,7 @@ function AccountOrders(props) {
     }, [Orders, orderload])
 
 	useEffect(() => {
-        axios.get('http://localhost:5000/order/all/'+JSON.parse(localStorage.getItem('SingleUser'))[0].Users_id, 
-        {
-            headers: {
-                'x-auth-token': localStorage.getItem('token')
-            }
-        }
-        ).then(res => {
+        axios.get('http://localhost:5000/order/all/'+JSON.parse(localStorage.getItem('SingleUser'))[0].Users_id).then(res => {
             if(Orders.length === 0) {
                 if(repeat === 0) {
                     if(res.data) {
@@ -294,11 +288,11 @@ function AccountOrders(props) {
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center'>{p.ProdcutName}</div>
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Color</div>
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center'>{p.Color}</div>
-                                                                        <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Size</div>
+                                                                        <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Talle</div>
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center'>{p.Size}</div>
-                                                                        <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Price</div>
+                                                                        <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Precio</div>
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center'>${p.Price}</div>
-                                                                        <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Quantity</div>
+                                                                        <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Cantidad</div>
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center'>{p.Quantity}</div>
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Status</div>
                                                                         <div className='col-6 text-left py-2 d-flex align-items-center'>
@@ -308,7 +302,7 @@ function AccountOrders(props) {
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Do you want to Return?</div>
+                                                                        <div className='col-6 text-left py-2 d-flex align-items-center' style={{fontWeight: '500'}}>Queres devovler el producto??</div>
                                                                         <div className='col-6 text-left py-2'>
                                                                             {
                                                                                 p.Status === "Return"
@@ -327,7 +321,7 @@ function AccountOrders(props) {
                                                                                                         setOrderitem_id(p.OrderItem_id)
                                                                                                         setPopshow(true)
                                                                                                     }} style={{backgroundColor: '#E63946', color: 'white'}}>
-                                                                                                    Return
+                                                                                                   Devolver
                                                                                                 </button>
                                                                                                 <Modal show={popshow}>
                                                                                                     <Modal.Header>Nota Importante</Modal.Header>
