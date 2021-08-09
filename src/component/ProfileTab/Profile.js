@@ -315,10 +315,10 @@ function Profile(props) {
 
 				<div className="divp-2">
 					<p className="title">Direcciones</p>
-					<AddAddress
+				{/* 	<AddAddress
 						EditUser={EditUser}
 						addaddress={addaddress}
-					/>
+					/> */}
 					<div className="container-fluid">
 						<div className="row rowp-2">
 							{
