@@ -67,61 +67,64 @@ function Login(props) {
     const responseGoogle = async (response) => {
     //  console.log(response.profileObj)
         setGoogle_dis(true)
-        const formdata = new FormData();
-        formdata.append("FirstName", response.profileObj.givenName);
-        formdata.append("LastName", response.profileObj.familyName);
-        formdata.append("Email", response.profileObj.email);
-        formdata.append("Image", response.profileObj.imageUrl);
-        formdata.append("confirmationCode", response.tokenId)
-        formdata.append("Status", "Inactive");
-        await axios
-        .post("https://dtodo-indumentaria-server.herokuapp.com/users/new", formdata, {
-            header: { "Content-Type": "multipart/form-data" },
-        })
-        .then(async (res) => {
-            if (res.data.Users_id !== undefined) {
-                localStorage.setItem('verify', 'true')
-                window.location.href = '/loginregister'
-            } else if (res.data === "Email is already registered") {            
-                // seterror(res.data);
-                var logindetails = {
-                    Email: response.profileObj.email,
-                    Password: null,
-                    confirmationCode: response.tokenId
-                }
-                await axios.post(`https://dtodo-indumentaria-server.herokuapp.com/users/login`, logindetails).then(async (res) => {
-                    // console.log(res.data)
-                    if(res.data.loggedIn) {
-                        var result = JSON.parse(res.data.result)
-                        props.login(res.data)
-                    
-                        var db_val = {
-                            Users_id: result[0].Users_id,
-                            Status: 'Active',
-                        }
-                        await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/users/status`, db_val)
-                        socket.emit("toast", {
-                            cat: "Status",
-                        })
-                        
-                        if(localStorage.getItem('history') === '/resetpassword') {
-                            localStorage.removeItem('history')
-                            window.location.href = '/'
-                        } else {
-                            window.location.href = '/'
-                            console.log('you are loggedIn , great work')
-                        }
-                    } else {
-                        document.getElementById('error').classList.add('py-2')
-                        seterror(res.data.error)
-                        setGoogle_dis(false)
+        if(response.error === 'popup_closed_by_user') {
+            setGoogle_dis(false)
+        } else {
+            const formdata = new FormData();
+            formdata.append("FirstName", response.profileObj.givenName);
+            formdata.append("LastName", response.profileObj.familyName);
+            formdata.append("Email", response.profileObj.email);
+            formdata.append("Image", response.profileObj.imageUrl);
+            formdata.append("confirmationCode", response.tokenId)
+            formdata.append("Status", "Inactive");
+            await axios
+            .post("https://dtodo-indumentaria-server.herokuapp.com/users/new", formdata, {
+                header: { "Content-Type": "multipart/form-data" },
+            })
+            .then(async (res) => {
+                if (res.data.Users_id !== undefined) {
+                    localStorage.setItem('verify', 'true')
+                    window.location.href = '/loginregister'
+                } else if (res.data === "Email is already registered") {            
+                    // seterror(res.data);
+                    var logindetails = {
+                        Email: response.profileObj.email,
+                        Password: null,
+                        confirmationCode: response.tokenId
                     }
-                    return 0
-                })
-            }
-        });
-        // localStorage.setItem('SingleUser', JSON.stringify(val))
-        // console.log(JSON.parse(localStorage.getItem('SingleUser')))
+                    await axios.post(`https://dtodo-indumentaria-server.herokuapp.com/users/login`, logindetails).then(async (res) => {
+                        if(res.data.loggedIn) {
+                            var result = JSON.parse(res.data.result)
+                            props.login(res.data)
+                        
+                            var db_val = {
+                                Users_id: result[0].Users_id,
+                                Status: 'Active',
+                            }
+                            await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/users/status`, db_val)
+                            socket.emit("toast", {
+                                cat: "Status",
+                            })
+                            
+                            if(localStorage.getItem('history') === '/resetpassword') {
+                                localStorage.removeItem('history')
+                                window.location.href = '/'
+                            } else {
+                                window.location.href = '/'
+                                // console.log('you are loggedIn , great work')
+                            }
+                        } else {
+                            document.getElementById('error').classList.add('py-2')
+                            seterror(res.data.error)
+                            setGoogle_dis(false)
+                        }
+                        return 0
+                    })
+                }
+            }).catch(err => console.log(err))
+            // localStorage.setItem('SingleUser', JSON.stringify(val))
+            // console.log(JSON.parse(localStorage.getItem('SingleUser')))
+        }
     }
 
     return (
