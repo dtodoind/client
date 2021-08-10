@@ -75,7 +75,7 @@ function Login(props) {
         formdata.append("confirmationCode", response.tokenId)
         formdata.append("Status", "Inactive");
         await axios
-        .post("http://localhost:5000/users/new", formdata, {
+        .post("https://dtodo-indumentaria-server.herokuapp.com/users/new", formdata, {
             header: { "Content-Type": "multipart/form-data" },
         })
         .then(async (res) => {
@@ -89,7 +89,7 @@ function Login(props) {
                     Password: null,
                     confirmationCode: response.tokenId
                 }
-                await axios.post(`http://localhost:5000/users/login`, logindetails).then(async (res) => {
+                await axios.post(`https://dtodo-indumentaria-server.herokuapp.com/users/login`, logindetails).then(async (res) => {
                     // console.log(res.data)
                     if(res.data.loggedIn) {
                         var result = JSON.parse(res.data.result)
@@ -99,7 +99,7 @@ function Login(props) {
                             Users_id: result[0].Users_id,
                             Status: 'Active',
                         }
-                        await axios.put(`http://localhost:5000/users/status`, db_val)
+                        await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/users/status`, db_val)
                         socket.emit("toast", {
                             cat: "Status",
                         })
@@ -136,7 +136,7 @@ function Login(props) {
                             Password: values.password
                         }
                         setverify('')
-                        await axios.post(`http://localhost:5000/users/login`, logindetails).then(async (res) => {
+                        await axios.post(`https://dtodo-indumentaria-server.herokuapp.com/users/login`, logindetails).then(async (res) => {
                             if(res.data.loggedIn) {
                                 var result = JSON.parse(res.data.result)
                                 props.login(res.data)
@@ -145,7 +145,7 @@ function Login(props) {
                                     Users_id: result[0].Users_id,
                                     Status: 'Active',
                                 }
-                                await axios.put(`http://localhost:5000/users/status`, db_val, {
+                                await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/users/status`, db_val, {
                                     headers: {
                                         'x-auth-token': localStorage.getItem('token')
                                     }

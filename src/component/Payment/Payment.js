@@ -145,7 +145,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 		//   setProcessing(true);
 		// }
 
-		// axios.post('http://localhost:5000/order/payment', {
+		// axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/payment', {
 		// 	amount: price * 100,
         //     token: payload,
 		// }).then(res => {
@@ -162,7 +162,7 @@ function Payment({place_order, price, subtotal, radioval, deliv, payment_addr, a
 			setProcessingTo(true);
 	
 			try {
-				const {data: clientSecret} = await axios.post("http://localhost:5000/order/payment", {
+				const {data: clientSecret} = await axios.post("https://dtodo-indumentaria-server.herokuapp.com/order/payment", {
 					amount: parseInt(price * 100)
 				});
 			
