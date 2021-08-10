@@ -3,7 +3,7 @@ import "./Profile.scss";
 import { AiOutlineEdit } from "react-icons/ai";
 import { connect } from "react-redux";
 import EditProfile from "./EditProfile";
-import AddAddress from '../AddAddress/AddAddress'
+// import AddAddress from '../AddAddress/AddAddress'
 import axios from 'axios'
 
 function Profile(props) {
@@ -11,7 +11,7 @@ function Profile(props) {
 	const [lgShow, setLgShow] = useState(false);
 	const [SingleUser, setSingleUser] = useState(JSON.parse(localStorage.getItem("SingleUser")));
 	const [User, setUser] = useState(savedUser);
-	const [addshow, setAddShow] = useState(true)
+	// const [addshow, setAddShow] = useState(true)
     const [lop, setlop] = useState(true)
 	const [phoneerror, setPhoneError] = useState('')
 	const [fnameerror, setFnameError] = useState('')
@@ -215,21 +215,21 @@ function Profile(props) {
 		setSingleUser(JSON.parse(localStorage.getItem('SingleUser')))
 	}
 
-	function addaddress() {
-        if(addshow) {
-            document.getElementsByClassName('drop_contain')[0].style.maxHeight = '5000px';
-            document.getElementsByClassName('drop_contain')[0].style.border = '1px solid rgba(0, 0, 0, 0.1)';
-            document.getElementsByClassName('drop_contain')[0].style.padding = '20px 15px';
-            document.getElementsByClassName('drop_contain')[0].style.transition = "max-height 0.3s ease-in"
-            setAddShow(false)
-        } else {
-            document.getElementsByClassName('drop_contain')[0].style.maxHeight = '0';
-            document.getElementsByClassName('drop_contain')[0].style.border = '0px solid rgba(0, 0, 0, 0.1)';
-            document.getElementsByClassName('drop_contain')[0].style.padding = '0px 15px';
-            document.getElementsByClassName('drop_contain')[0].style.transition = "max-height 0.3s ease-out"
-            setAddShow(true)
-        }
-    }
+	// function addaddress() {
+    //     if(addshow) {
+    //         document.getElementsByClassName('drop_contain')[0].style.maxHeight = '5000px';
+    //         document.getElementsByClassName('drop_contain')[0].style.border = '1px solid rgba(0, 0, 0, 0.1)';
+    //         document.getElementsByClassName('drop_contain')[0].style.padding = '20px 15px';
+    //         document.getElementsByClassName('drop_contain')[0].style.transition = "max-height 0.3s ease-in"
+    //         setAddShow(false)
+    //     } else {
+    //         document.getElementsByClassName('drop_contain')[0].style.maxHeight = '0';
+    //         document.getElementsByClassName('drop_contain')[0].style.border = '0px solid rgba(0, 0, 0, 0.1)';
+    //         document.getElementsByClassName('drop_contain')[0].style.padding = '0px 15px';
+    //         document.getElementsByClassName('drop_contain')[0].style.transition = "max-height 0.3s ease-out"
+    //         setAddShow(true)
+    //     }
+    // }
 
 	function showornot() {
 		setLgShow(false)
