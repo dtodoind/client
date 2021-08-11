@@ -257,23 +257,23 @@ function Mercadopagopay({
 				quantity: basket[i].qty,
 			});
 		}
-		var payer = {
-			name: "Test",
-			surname: "User",
-			email: "test_user_2502054@testuser.com",
-			// phone: {
-			// 	area_code: "",
-			// 	number: 9909027254,
-			// },
-			// address: {
-			// 	street_name: "Cuesta Miguel Armendáriz",
-			// 	street_number: 1004,
-			// 	zip_code: "1714",
-			// },
-		};
+		// var payer = {
+		// 	name: "Test",
+		// 	surname: "User",
+		// 	email: "test_user_2502054@testuser.com",
+		// 	// phone: {
+		// 	// 	area_code: "",
+		// 	// 	number: 9909027254,
+		// 	// },
+		// 	// address: {
+		// 	// 	street_name: "Cuesta Miguel Armendáriz",
+		// 	// 	street_number: 1004,
+		// 	// 	zip_code: "1714",
+		// 	// },
+		// };
 		var all_data = {
 			item: item,
-			payer: payer,
+			// payer: payer,
 		};
 
 		if(radioval === 'payment') {
