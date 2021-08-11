@@ -12,7 +12,7 @@ function Hero(props) {
     const { Hero_img, heroimg } = props
 
     useEffect(() => {
-        axios.get('https://dtodo-indumentaria-server.herokuapp.com/heroimages/all').then(res => heroimg(res.data))
+        axios.get('http://localhost:5000/heroimages/all').then(res => heroimg(res.data))
     }, [heroimg])
 
     return (

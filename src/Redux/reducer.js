@@ -180,8 +180,8 @@ export const initialState = {
 };
 
 export const test = async () => {
-    initialState['CategoryAdd'] = await axios.get('https://dtodo-indumentaria-server.herokuapp.com/category/all').then(res => res.data)
-    initialState['Products'] = await axios.get('https://dtodo-indumentaria-server.herokuapp.com/product/all').then(res => 
+    initialState['CategoryAdd'] = await axios.get('http://localhost:5000/category/all').then(res => res.data)
+    initialState['Products'] = await axios.get('http://localhost:5000/product/all').then(res => 
         res.data.map(r => {
             return {
                 Product_id: r.Product_id, 
@@ -197,7 +197,7 @@ export const test = async () => {
             }
         })
     )
-    initialState['user'] = await axios.get('https://dtodo-indumentaria-server.herokuapp.com/users/all').then(res => 
+    initialState['user'] = await axios.get('http://localhost:5000/users/all').then(res => 
         res.data.map(r => {
             return {
                 Users_id: r.Users_id,
@@ -214,7 +214,7 @@ export const test = async () => {
             }
         })
     )
-    // initialState['Review'] = await axios.get('https://dtodo-indumentaria-server.herokuapp.com/review/all').then(res => 
+    // initialState['Review'] = await axios.get('http://localhost:5000/review/all').then(res => 
     //     res.data.map(r => {
     //         return {
     //             Review_id: r.Review_id, 
@@ -229,7 +229,7 @@ export const test = async () => {
 
     if(localStorage.getItem('token') !== null) {
         initialState['SingleUser'] = JSON.parse(localStorage.getItem('SingleUser'))
-        // initialState["SingleUser"] =  await axios.get(`https://dtodo-indumentaria-server.herokuapp.com/users/singleuser/1`, {
+        // initialState["SingleUser"] =  await axios.get(`http://localhost:5000/users/singleuser/1`, {
         //     headers: {
         //         'x-auth-token': localStorage.getItem('token')
         //     }
@@ -241,7 +241,7 @@ export const test = async () => {
     }
 
     var new_val = []
-    await axios.get(`https://dtodo-indumentaria-server.herokuapp.com/order/all`)
+    await axios.get(`http://localhost:5000/order/all`)
     .then(res => 
         res.data?.map(async (order) => {
             var new_order = {}
@@ -254,7 +254,7 @@ export const test = async () => {
             new_order['Address'] = address.join(', ')
             new_order['Discount'] = order.Discount
             new_order['Status'] = order.Status
-            await axios.get(`https://dtodo-indumentaria-server.herokuapp.com/orderitem/find/${order.Orders_id}`)
+            await axios.get(`http://localhost:5000/orderitem/find/${order.Orders_id}`)
             .then(res1 => 
                 res1.data?.map(another => {
                     // Productname.push(another.Product.Name)
@@ -274,7 +274,7 @@ export const test = async () => {
     initialState['Orders'] = new_val
 
     var notify_val = []
-    await axios.get('https://dtodo-indumentaria-server.herokuapp.com/notification/all').then(res => 
+    await axios.get('http://localhost:5000/notification/all').then(res => 
         res.data.map(note => 
             notify_val.push({
                 name: note.FullName,

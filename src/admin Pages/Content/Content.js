@@ -23,7 +23,7 @@ function Content(props) {
     const [lop2, setlop2] = useState(true)
  
     useEffect(() => {
-        axios.get('https://dtodo-indumentaria-server.herokuapp.com/aboutus/all').then(async res => {
+        axios.get('http://localhost:5000/aboutus/all').then(async res => {
             if(res.data.length === 0) {
                 setlen(0)
                 setlop(false)
@@ -36,7 +36,7 @@ function Content(props) {
             } else {
                 if(lop) {
                     if(res.data.length === 0) {
-                        // await axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: ''}).then(result => {
+                        // await axios.post('http://localhost:5000/aboutus/new', {Content: ''}).then(result => {
                         //     console.log(result.data)
                         //     aboutus(result.data)
                         //     setAboutid(result.data[0])
@@ -49,7 +49,7 @@ function Content(props) {
                 }
             }
         })
-        axios.get('https://dtodo-indumentaria-server.herokuapp.com/heroimages/all').then(res => {
+        axios.get('http://localhost:5000/heroimages/all').then(res => {
             if(Hero_img.length === 0) {
                 if(lop2) {
                     heroimg(res.data)
@@ -77,8 +77,8 @@ function Content(props) {
         var formdata = new FormData()
         formdata.append('heroImage', val)
         // formdata.append('Image', val.name)
-        await axios.post('https://dtodo-indumentaria-server.herokuapp.com/heroimages/new',formdata)
-        await axios.get('https://dtodo-indumentaria-server.herokuapp.com/heroimages/all').then(res => heroimg(res.data))
+        await axios.post('http://localhost:5000/heroimages/new',formdata)
+        await axios.get('http://localhost:5000/heroimages/all').then(res => heroimg(res.data))
         // var h = Hero_img
         // if(h === '') {
         //     h = []
@@ -116,8 +116,8 @@ function Content(props) {
 
     const remove_hero = async (i) => {
         var keyimg = Hero_img[i].Image.split('/').pop()
-        await axios.delete(`https://dtodo-indumentaria-server.herokuapp.com/heroimages/delete/${Hero_img[i].HeroImages_id}/${keyimg}`)
-        await axios.get('https://dtodo-indumentaria-server.herokuapp.com/heroimages/all').then(res => heroimg(res.data))
+        await axios.delete(`http://localhost:5000/heroimages/delete/${Hero_img[i].HeroImages_id}/${keyimg}`)
+        await axios.get('http://localhost:5000/heroimages/all').then(res => heroimg(res.data))
     }
 
     const change_about = (e) => {
@@ -126,12 +126,12 @@ function Content(props) {
     
     const save_about = async () => {
         if(len === 0) {
-            await axios.post('https://dtodo-indumentaria-server.herokuapp.com/aboutus/new', {Content: about}).then(res => {
+            await axios.post('http://localhost:5000/aboutus/new', {Content: about}).then(res => {
                 setAboutid(res.data)
                 setlen(1)
             })
         } else {
-            await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/aboutus/edit/${aboutid.Aboutus_id}`, {Content: about})
+            await axios.put(`http://localhost:5000/aboutus/edit/${aboutid.Aboutus_id}`, {Content: about})
         }
         aboutus(about)
     }

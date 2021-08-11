@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 function Welcome() {
   const { token } = useParams();
 
-  axios.get(`https://dtodo-indumentaria-server.herokuapp.com/users/confirm/${token}`).then((response) => {
+  axios.get(`http://localhost:5000/users/confirm/${token}`).then((response) => {
     console.log("ok?", response.data);
     return response.data;
   });

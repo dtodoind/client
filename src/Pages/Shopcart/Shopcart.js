@@ -19,7 +19,7 @@ function Shopcart(props) {
 
     useEffect(() => {
         if(Delivery.length === 0) {
-            axios.get('https://dtodo-indumentaria-server.herokuapp.com/delivery/all').then(res => {
+            axios.get('http://localhost:5000/delivery/all').then(res => {
                 if(Delivery.length !== 0) {
                     if(Delivery[Delivery.length - 1].Delivery_id !== res.data[res.data.length - 1].Delivery_id) {
                         setdelivery(res.data)
@@ -33,7 +33,7 @@ function Shopcart(props) {
                 }
             })
         }
-        axios.get('https://dtodo-indumentaria-server.herokuapp.com/offer/all').then(res => {
+        axios.get('http://localhost:5000/offer/all').then(res => {
             if(Offer.length === 0){
                 if(count === 0) {
                     alloffer(res.data)
