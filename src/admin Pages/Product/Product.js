@@ -16,12 +16,12 @@ function Product(props) {
     const [lop, setlop] = useState(true)
 
     const inspro = useCallback(() => {
-        axios.get('http://localhost:5000/product/all').then(res => allproduct(res.data))
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/product/all').then(res => allproduct(res.data))
         // return Products
     }, [allproduct])
     
     useEffect(() => {
-        axios.get('http://localhost:5000/product/all').then(res => {
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/product/all').then(res => {
             if(Products.length !== 0) {
                 if(Products[Products.length - 1].Product_id !== res.data[res.data.length - 1].Product_id) {
                     allproduct(res.data)
