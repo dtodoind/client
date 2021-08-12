@@ -113,6 +113,7 @@ function Checkout(props) {
             for(var i=0; i<Delivery.length; i++) {
                 if(Delivery[i].State === state && Delivery[i].State2 === state2) {
                     setDeliverycharges(Delivery[i].Charges)
+                    localStorage.setItem('delivery_charges', Delivery[i].Charges)
                 }
             }
         }
