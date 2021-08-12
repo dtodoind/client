@@ -58,7 +58,7 @@ function CardDetail(props) {
 		// 	}
 		// }
 		if(Products.length === 0) {
-			axios.get('http://localhost:5000/product/all').then(res => allproduct(res.data))
+			axios.get('https://dtodo-indumentaria-server.herokuapp.com/product/all').then(res => allproduct(res.data))
 		} else {
 			for(let q=0; q<basket.length; q++) {
 				if(JSON.parse(Products[index].Color)[colorselected] === basket[q].color && JSON.parse(Products[index].Size)[colorselected][sizeselected] === basket[q].size && basket[q].id === index) {

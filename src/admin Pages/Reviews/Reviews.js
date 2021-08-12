@@ -25,7 +25,7 @@ function Reviews(props) {
 	
 	useEffect(() => {
 		async function upda1() {
-			await axios.get('http://localhost:5000/review/all').then(res => {
+			await axios.get('https://dtodo-indumentaria-server.herokuapp.com/review/all').then(res => {
 				if(reviews.length !== 0) {
 					if(reviews[0].Review_id === res.data[0].Review_id ) {
 						// console.log('its not change')

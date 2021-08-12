@@ -152,13 +152,13 @@ function ImageSelection({imgid, colap, mainedit, ...props}) {
             formdata.append('Stock', JSON.stringify(Products[colap].qty))
             formdata.append('Price', JSON.stringify(Products[colap].price))
 			// formdata.append('Product_id', Products[colap].Product_id)
-			await axios.put(`http://localhost:5000/product/edit`, formdata, {
+			await axios.put(`https://dtodo-indumentaria-server.herokuapp.com/product/edit`, formdata, {
 				headers: {
 					'content-type': 'multipart/form-data'
 				}
 			}).then(res => {
 				if(res.data === 'success') {
-					axios.get('http://localhost:5000/product/all').then(res => props.insertproduct(res.data))
+					axios.get('https://dtodo-indumentaria-server.herokuapp.com/product/all').then(res => props.insertproduct(res.data))
 				}
 			})
 			// mainedit('update')

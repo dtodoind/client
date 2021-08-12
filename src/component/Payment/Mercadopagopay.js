@@ -291,12 +291,12 @@ function Mercadopagopay({
 				setProcessingTo(true);
 	
 				try {
-					// const {data: clientSecret} = await axios.post("http://localhost:5000/order/payment", {
+					// const {data: clientSecret} = await axios.post("https://dtodo-indumentaria-server.herokuapp.com/order/payment", {
 					// 	amount: parseInt(price * 100)
 					// });
 
 					await axios
-						.post("http://localhost:5000/order/payment", all_data)
+						.post("https://dtodo-indumentaria-server.herokuapp.com/order/payment", all_data)
 						.then(async function (preference) {
 							localStorage.setItem(
 								"billingDetails",
@@ -330,7 +330,7 @@ function Mercadopagopay({
 								LastName: SingleUser[0].LastName,
 								Phoneno: JSON.stringify(phoneno1),
 							}
-							await axios.put('http://localhost:5000/users/detailsupdate', details).then(res => console.log(res.data))
+							await axios.put('https://dtodo-indumentaria-server.herokuapp.com/users/detailsupdate', details).then(res => console.log(res.data))
 							localStorage.setItem('SingleUser', JSON.stringify([{
 								...SingleUser[0],
 								Address: JSON.stringify(address1),
@@ -359,13 +359,13 @@ function Mercadopagopay({
 			setProcessingTo(true);
 	
 			try {
-				// const {data: clientSecret} = await axios.post("http://localhost:5000/order/payment", {
+				// const {data: clientSecret} = await axios.post("https://dtodo-indumentaria-server.herokuapp.com/order/payment", {
 				// 	amount: parseInt(price * 100)
 				// });
 				// console.log("mercado pago else");
 
 				await axios
-				.post("http://localhost:5000/order/payment", all_data)
+				.post("https://dtodo-indumentaria-server.herokuapp.com/order/payment", all_data)
 				.then(function (preference) {
 						localStorage.setItem(
 							"billingDetails",

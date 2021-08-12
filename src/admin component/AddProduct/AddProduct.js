@@ -14,7 +14,7 @@ function AddProduct({inspro}) {
 
     useEffect(() => {
         
-        axios.get('http://localhost:5000/category/all').then(res => setcate(res.data))
+        axios.get('https://dtodo-indumentaria-server.herokuapp.com/category/all').then(res => setcate(res.data))
 
         const inputs = document.querySelectorAll(".input");
     
@@ -54,7 +54,7 @@ function AddProduct({inspro}) {
                         Stock: JSON.stringify([]),
                         Price: JSON.stringify([])
                     }
-                    await axios.post('http://localhost:5000/product/new', db_val)
+                    await axios.post('https://dtodo-indumentaria-server.herokuapp.com/product/new', db_val)
                     
                     inspro()
 
