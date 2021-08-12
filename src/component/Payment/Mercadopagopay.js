@@ -337,10 +337,6 @@ function Mercadopagopay({
 								Address: JSON.stringify(address1),
 								Phoneno: JSON.stringify(phoneno1)
 							}]))
-							
-							if(preference.data.body.init_point === 'https://www.dtodoind.com/account/Order') {
-								console.log('its here')
-							}
 							window.location.replace(preference.data.body.init_point);
 						})
 						.catch(err => console.log(err))
