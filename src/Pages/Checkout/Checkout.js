@@ -215,7 +215,6 @@ function Checkout(props) {
                 Phone: JSON.parse(SingleUser[0].Phoneno)[parseInt(rad)-1],
                 Users_id: SingleUser[0].Users_id
             }
-            console.log(order_val)
             setaddresserr('')
         } else if(rad === "payment") {
             var ad = billing_details.address.line1 + ', ' + billing_details.address.city + ', ' + billing_details.address.state2 + ', ' + billing_details.address.state
@@ -268,6 +267,7 @@ function Checkout(props) {
                 Message: 'Purchase on '+ new Date() +' from '+JSON.parse(order_val.Address).join(', '),
                 Notify_cate: 'Sales'
             }
+            console.log(order_val)
             await axios.post('https://dtodo-indumentaria-server.herokuapp.com/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
             await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/new', order_val).then(res => 
                 basket?.map(async (item) => {
