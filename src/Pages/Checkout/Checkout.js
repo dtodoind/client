@@ -38,6 +38,7 @@ function Checkout(props) {
         for(var i=0; i<Delivery.length; i++) {
             if(Delivery[i].State === state && Delivery[i].State2 === state2) {
                 setDeliverycharges(Delivery[i].Charges)
+                localStorage.setItem('delivery_charges', Delivery[i].Charges)
                 return
             }
         }
@@ -112,22 +113,27 @@ function Checkout(props) {
             for(var i=0; i<Delivery.length; i++) {
                 if(Delivery[i].State === state && Delivery[i].State2 === state2) {
                     setDeliverycharges(Delivery[i].Charges)
-                    return
+                    localStorage.setItem('delivery_charges', Delivery[i].Charges)
                 }
             }
         }
         if(e.target.value === "1") {
             setDeliverycharges(0)
+            localStorage.setItem('delivery_charges', '0')
             setPaymentaddr({
                 email: SingleUser[0].Email,
-                phone: SingleUser[0].Phoneno,
+                phone: JSON.parse(SingleUser[0].Phoneno)[e.target.value-1],
                 name: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 address: {
-                    line1: JSON.parse(SingleUser[0].Address)[0].join(', '),
+                    line1: JSON.parse(SingleUser[0].Address)[0][0],
+                    city: JSON.parse(SingleUser[0].Address)[0][1],
+                    state2: JSON.parse(SingleUser[0].Address)[0][2],
+                    state: JSON.parse(SingleUser[0].Address)[0][3],
+                    // postal_code: JSON.parse(SingleUser[0].Zip)[parseInt(e.target.value)-2]
                 }
             })
         } else if(e.target.value === "payment"){
-            setDeliverycharges(0)
+            // setDeliverycharges(0)
         } else {
             setPaymentaddr({
                 email: SingleUser[0].Email,
@@ -148,6 +154,7 @@ function Checkout(props) {
     // address from stripe payment success
 
     const place_order = async (billing_details) => {
+
         var rad = radioval
         // if(billing_details.email !== '') {
         //     rad = 'payment'
@@ -202,10 +209,10 @@ function Checkout(props) {
                 Discount: discount,
                 Address: JSON.stringify(JSON.parse(SingleUser[0].Address)[0]),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
-                Delivery_charges: "0",
+                Delivery_charges: localStorage.getItem('delivery_charges'),
                 ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
-                Email: SingleUser[0].Email,
-                Phone: SingleUser[0].Phoneno,
+                Email: SingleUser[0].Email, 
+                Phone: JSON.parse(SingleUser[0].Phoneno)[parseInt(rad)-1],
                 Users_id: SingleUser[0].Users_id
             }
             setaddresserr('')
@@ -219,7 +226,7 @@ function Checkout(props) {
                 Discount: discount,
                 Address: JSON.stringify(address),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
-                Delivery_charges: JSON.stringify(delivery_charges),
+                Delivery_charges: localStorage.getItem('delivery_charges'),
                 Email: billing_details.email,
                 Phone: billing_details.phone,
                 ClientName: billing_details.name,
@@ -240,7 +247,7 @@ function Checkout(props) {
                 Discount: discount,
                 Address: JSON.stringify(addr),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
-                Delivery_charges: JSON.stringify(delivery_charges),
+                Delivery_charges: localStorage.getItem('delivery_charges'),
                 ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 Email: SingleUser[0].Email,
                 Phone: SingleUser[0].Phoneno,
@@ -285,8 +292,9 @@ function Checkout(props) {
                     localStorage.removeItem('billingDetails')
                     return window.location.replace('/account/Order')
                 })
-            )
+            ).catch(err => console.log(err))
         }
+        localStorage.removeItem('delivery_charges')
         return 0
     }
 
