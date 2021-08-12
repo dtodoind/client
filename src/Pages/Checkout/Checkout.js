@@ -107,6 +107,7 @@ function Checkout(props) {
 
     const address = (e) => {
         setRadioval(e.target.value)
+        // if()
         if(JSON.parse(SingleUser[0].Address)[e.target.value-2] !== undefined) {
             var state = JSON.parse(SingleUser[0].Address)[e.target.value-2][JSON.parse(SingleUser[0].Address)[e.target.value-2].length - 1]
             var state2 = JSON.parse(SingleUser[0].Address)[e.target.value-2][JSON.parse(SingleUser[0].Address)[e.target.value-2].length - 2]
@@ -121,10 +122,14 @@ function Checkout(props) {
             setDeliverycharges(0)
             setPaymentaddr({
                 email: SingleUser[0].Email,
-                phone: SingleUser[0].Phoneno,
+                phone: JSON.parse(SingleUser[0].Phoneno)[parseInt(e.target.value)-2],
                 name: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 address: {
-                    line1: JSON.parse(SingleUser[0].Address)[0].join(', '),
+                    line1: JSON.parse(SingleUser[0].Address)[0][0],
+                    city: JSON.parse(SingleUser[0].Address)[0][1],
+                    state2: JSON.parse(SingleUser[0].Address)[0][2],
+                    state: JSON.parse(SingleUser[0].Address)[0][3],
+                    // postal_code: JSON.parse(SingleUser[0].Zip)[parseInt(e.target.value)-2]
                 }
             })
         } else if(e.target.value === "payment"){
@@ -204,7 +209,7 @@ function Checkout(props) {
                 Discount: discount,
                 Address: JSON.stringify(JSON.parse(SingleUser[0].Address)[0]),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
-                Delivery_charges: "0",
+                Delivery_charges: JSON.stringify(delivery_charges),
                 ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 Email: SingleUser[0].Email,
                 Phone: SingleUser[0].Phoneno,
