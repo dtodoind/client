@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { connect } from 'react-redux'
 import { useParams } from "react-router";
 import axios from 'axios';
-
+import {successMessage} from './../../component/utils/Alerts'
 function CardDetail(props) {
 
 	const { Products, basket, addbasket, allproduct } = props
@@ -110,6 +110,7 @@ function CardDetail(props) {
 		var record = 0
 		var q = 0
 		var bas_id = 0
+		successMessage('Producto agregado !')
 		Products.map(pro => 
 			basket.map((item,i) => {
 				// console.log(i + ': '+ pro.Product_id + ' ' + item.Product_id)

@@ -3,7 +3,7 @@ import './ProductCard.scss'
 import { FaDollarSign} from 'react-icons/fa';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux'
-
+import {successMessage} from './../utils/Alerts'
 function ProductCard(props){
 
 	const [qty, setqty] = useState(1)
@@ -71,6 +71,7 @@ function ProductCard(props){
 		var record = 0
 		var q = 0
 		var bas_id = 0
+		successMessage('Producto agregado !')
 		Products.map(pro => 
 			basket.map((item,i) => {
 				// console.log(i + ': '+ pro.Product_id + ' ' + item.Product_id)
@@ -179,6 +180,7 @@ function ProductCard(props){
 			// }
 			props.quantity(q, bas_id)
 		}
+
 	}
 
 	// console.log(basket)
