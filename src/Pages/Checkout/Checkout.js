@@ -107,7 +107,6 @@ function Checkout(props) {
 
     const address = (e) => {
         setRadioval(e.target.value)
-        // if()
         if(JSON.parse(SingleUser[0].Address)[e.target.value-2] !== undefined) {
             var state = JSON.parse(SingleUser[0].Address)[e.target.value-2][JSON.parse(SingleUser[0].Address)[e.target.value-2].length - 1]
             var state2 = JSON.parse(SingleUser[0].Address)[e.target.value-2][JSON.parse(SingleUser[0].Address)[e.target.value-2].length - 2]
@@ -211,7 +210,7 @@ function Checkout(props) {
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
                 Delivery_charges: JSON.stringify(delivery_charges),
                 ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
-                Email: SingleUser[0].Email,
+                Email: SingleUser[0].Email, 
                 Phone: SingleUser[0].Phoneno,
                 Users_id: SingleUser[0].Users_id
             }
