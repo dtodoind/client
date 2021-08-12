@@ -64,9 +64,9 @@ function ReviewInput(props) {
                         Message: values.message,
                         Notify_cate: 'Reviews'
                     }
-                    await axios.post('https://dtodo-indumentaria-server.herokuapp.com/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
-                    await axios.post('https://dtodo-indumentaria-server.herokuapp.com/review/new', db_review).then(res => 
-                        axios.get('https://dtodo-indumentaria-server.herokuapp.com/review/all').then(res1 => props.insertReviewAll(res1.data))
+                    await axios.post('http://localhost:5000/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
+                    await axios.post('http://localhost:5000/review/new', db_review).then(res => 
+                        axios.get('http://localhost:5000/review/all').then(res1 => props.insertReviewAll(res1.data))
                     )
                     resetForm({ values: '' })
                     document.getElementsByName('message')[0].value = ''

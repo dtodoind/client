@@ -30,7 +30,7 @@ function DeliveryCharges(props) {
 				setProv(response.data);
 			})
 			.then(() => {
-				axios.get("https://dtodo-indumentaria-server.herokuapp.com/delivery/all").then((res) => {
+				axios.get("http://localhost:5000/delivery/all").then((res) => {
 					if (Delivery.length !== 0) {
 						if (
 							Delivery[Delivery.length - 1].Delivery_id !==
@@ -127,12 +127,12 @@ function DeliveryCharges(props) {
 							Charges: charges,
 						};
 						if (insert) {
-							await axios.post("https://dtodo-indumentaria-server.herokuapp.com/delivery/new", val).then(res => {
+							await axios.post("http://localhost:5000/delivery/new", val).then(res => {
 								setState_selected(null)
 								setState2_selected(null)
 							});
 							await axios
-								.get("https://dtodo-indumentaria-server.herokuapp.com/delivery/all")
+								.get("http://localhost:5000/delivery/all")
 								.then((res) => {
 									setdelivery(res.data);
 								});
@@ -151,8 +151,8 @@ function DeliveryCharges(props) {
 	};
 
 	const remove_delivery = async (id) => {
-		await axios.delete(`https://dtodo-indumentaria-server.herokuapp.com/delivery/delete/${id}`);
-		await axios.get("https://dtodo-indumentaria-server.herokuapp.com/delivery/all").then((res) => {
+		await axios.delete(`http://localhost:5000/delivery/delete/${id}`);
+		await axios.get("http://localhost:5000/delivery/all").then((res) => {
 			if (Delivery.length !== 0) {
 				if (Delivery.length !== res.data.length) {
 					setdelivery(res.data);

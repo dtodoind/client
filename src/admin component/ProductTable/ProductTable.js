@@ -45,7 +45,7 @@ function ProductTable({inspro, ...props}) {
     }, [Products, productload])
 
     const remove = async (i) => {
-        await axios.delete(`https://dtodo-indumentaria-server.herokuapp.com/product/delete/${i}`)
+        await axios.delete(`http://localhost:5000/product/delete/${i}`)
         inspro()
     }
 
@@ -103,9 +103,9 @@ function ProductTable({inspro, ...props}) {
                         Stock: JSON.stringify(Products[u].qty),
                         Price: JSON.stringify(Products[u].price),
                     }
-                    await axios.put('https://dtodo-indumentaria-server.herokuapp.com/product/edit', db_val)
+                    await axios.put('http://localhost:5000/product/edit', db_val)
 
-                    var p = await axios.get('https://dtodo-indumentaria-server.herokuapp.com/product/all').then(res => res.data)
+                    var p = await axios.get('http://localhost:5000/product/all').then(res => res.data)
                     // inspro('update')
 
                     document.getElementsByClassName(Products[u].Name)[0].innerHTML = `${p[u].Name}`

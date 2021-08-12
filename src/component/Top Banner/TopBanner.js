@@ -9,7 +9,7 @@ function TopBanner({ img, name, ...props}) {
     const { topimg } = props
     
     useEffect(() => {
-        axios.get('https://dtodo-indumentaria-server.herokuapp.com/topimages/all').then(res => topimg(res.data))
+        axios.get('http://localhost:5000/topimages/all').then(res => topimg(res.data))
     }, [topimg])
 
     return (
