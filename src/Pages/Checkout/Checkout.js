@@ -127,7 +127,7 @@ function Checkout(props) {
                 }
             })
         } else if(e.target.value === "payment"){
-            setDeliverycharges(0)
+            // setDeliverycharges(0)
         } else {
             setPaymentaddr({
                 email: SingleUser[0].Email,
