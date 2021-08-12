@@ -38,6 +38,7 @@ function Checkout(props) {
         for(var i=0; i<Delivery.length; i++) {
             if(Delivery[i].State === state && Delivery[i].State2 === state2) {
                 setDeliverycharges(Delivery[i].Charges)
+                localStorage.setItem('delivery_charges', Delivery[i].Charges)
                 return
             }
         }
@@ -144,11 +145,11 @@ function Checkout(props) {
         }
         setaddresserr('')
     }
-    console.log(delivery_charges)
 
     // address from stripe payment success
 
-    const place_order = async (billing_details, Deli = delivery_charges) => {
+    const place_order = async (billing_details) => {
+
         var rad = radioval
         // if(billing_details.email !== '') {
         //     rad = 'payment'
@@ -220,7 +221,7 @@ function Checkout(props) {
                 Discount: discount,
                 Address: JSON.stringify(address),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
-                Delivery_charges: JSON.stringify(Deli),
+                Delivery_charges: JSON.stringify(localStorage.getItem('delivery_charges')),
                 Email: billing_details.email,
                 Phone: billing_details.phone,
                 ClientName: billing_details.name,
@@ -241,7 +242,7 @@ function Checkout(props) {
                 Discount: discount,
                 Address: JSON.stringify(addr),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
-                Delivery_charges: JSON.stringify(Deli),
+                Delivery_charges: JSON.stringify(localStorage.getItem('delivery_charges')),
                 ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 Email: SingleUser[0].Email,
                 Phone: SingleUser[0].Phoneno,
