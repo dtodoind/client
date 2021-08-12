@@ -119,6 +119,7 @@ function Checkout(props) {
         }
         if(e.target.value === "1") {
             setDeliverycharges(0)
+            localStorage.setItem('delivery_charges', '0')
             setPaymentaddr({
                 email: SingleUser[0].Email,
                 phone: JSON.parse(SingleUser[0].Phoneno)[e.target.value-1],
@@ -151,6 +152,7 @@ function Checkout(props) {
     }
 
     // address from stripe payment success
+    console.log(localStorage.getItem('delivery_charges'))
 
     const place_order = async (billing_details) => {
         console.log(delivery_charges)
@@ -209,7 +211,7 @@ function Checkout(props) {
                 Discount: discount,
                 Address: JSON.stringify(JSON.parse(SingleUser[0].Address)[0]),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
-                Delivery_charges: "0",
+                Delivery_charges: localStorage.getItem('delivery_charges'),
                 ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 Email: SingleUser[0].Email, 
                 Phone: JSON.parse(SingleUser[0].Phoneno)[parseInt(rad)-1],
