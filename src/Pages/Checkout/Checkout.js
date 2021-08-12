@@ -152,10 +152,8 @@ function Checkout(props) {
     }
 
     // address from stripe payment success
-    console.log(localStorage.getItem('delivery_charges'))
 
     const place_order = async (billing_details) => {
-        console.log(delivery_charges)
 
         var rad = radioval
         // if(billing_details.email !== '') {
@@ -269,7 +267,6 @@ function Checkout(props) {
                 Message: 'Purchase on '+ new Date() +' from '+JSON.parse(order_val.Address).join(', '),
                 Notify_cate: 'Sales'
             }
-            console.log(order_val)
             await axios.post('https://dtodo-indumentaria-server.herokuapp.com/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
             await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/new', order_val).then(res => 
                 basket?.map(async (item) => {
