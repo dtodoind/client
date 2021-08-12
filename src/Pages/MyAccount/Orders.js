@@ -60,6 +60,7 @@ function AccountOrders(props) {
             }
         })
         loadOrder()
+   
 	}, [Orders.length, allorders, loadOrder, ordercount, repeat])
 
     const cal_delivery = (val) => {
