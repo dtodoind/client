@@ -153,6 +153,7 @@ function Checkout(props) {
     // address from stripe payment success
 
     const place_order = async (billing_details) => {
+        console.log(delivery_charges)
 
         var rad = radioval
         // if(billing_details.email !== '') {
@@ -208,7 +209,7 @@ function Checkout(props) {
                 Discount: discount,
                 Address: JSON.stringify(JSON.parse(SingleUser[0].Address)[0]),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
-                Delivery_charges: JSON.stringify(delivery_charges),
+                Delivery_charges: "0",
                 ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 Email: SingleUser[0].Email, 
                 Phone: JSON.parse(SingleUser[0].Phoneno)[parseInt(rad)-1],
