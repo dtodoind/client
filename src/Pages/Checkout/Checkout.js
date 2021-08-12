@@ -215,6 +215,7 @@ function Checkout(props) {
                 Phone: JSON.parse(SingleUser[0].Phoneno)[parseInt(rad)-1],
                 Users_id: SingleUser[0].Users_id
             }
+            console.log(order_val)
             setaddresserr('')
         } else if(rad === "payment") {
             var ad = billing_details.address.line1 + ', ' + billing_details.address.city + ', ' + billing_details.address.state2 + ', ' + billing_details.address.state
@@ -290,7 +291,7 @@ function Checkout(props) {
                     })
                     localStorage.removeItem('basket')
                     localStorage.removeItem('billingDetails')
-                    return window.location.replace('/account/Order')
+                    // return window.location.replace('/account/Order')
                 })
             ).catch(err => console.log(err))
         }
