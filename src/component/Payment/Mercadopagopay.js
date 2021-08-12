@@ -668,7 +668,7 @@ function Mercadopagopay({
 					{isProcessing ? "Procesando..." : `Pagar $${price}`}
 				</SubmitButton> */}
 				<button className="SubmitButton" onClick={handleSubmit} disabled={isProcessing}>
-					Comprar
+					PAGAR
 				</button>
 				{/* <h3 style={{textAlign: 'center', marginTop: '40px', fontSize: '24px', color: 'red'}}>
 					*Please use the following test credit card for payments*
