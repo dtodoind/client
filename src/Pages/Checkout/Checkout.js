@@ -289,6 +289,7 @@ function Checkout(props) {
                 })
             ).catch(err => console.log(err))
         }
+        localStorage.removeItem('delivery_charges')
         return 0
     }
 

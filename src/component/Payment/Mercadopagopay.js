@@ -230,7 +230,6 @@ function Mercadopagopay({
 		// return window.location.replace('/account/Order');
 	};
 	if (JSON.parse(localStorage.getItem("billingDetails")) !== null) {
-        console.log(JSON.parse(localStorage.getItem("billingDetails")))
 		place_order(JSON.parse(localStorage.getItem("billingDetails")));
 		localStorage.removeItem("billingDetails");
 		// window.location.replace('/account/Order')
