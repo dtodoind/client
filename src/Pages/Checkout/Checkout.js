@@ -121,7 +121,7 @@ function Checkout(props) {
             setDeliverycharges(0)
             setPaymentaddr({
                 email: SingleUser[0].Email,
-                phone: JSON.parse(SingleUser[0].Phoneno)[parseInt(e.target.value)-2],
+                phone: JSON.parse(SingleUser[0].Phoneno)[e.target.value-1],
                 name: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 address: {
                     line1: JSON.parse(SingleUser[0].Address)[0][0],
@@ -211,7 +211,7 @@ function Checkout(props) {
                 Delivery_charges: JSON.stringify(delivery_charges),
                 ClientName: SingleUser[0].FirstName + ' ' + SingleUser[0].LastName,
                 Email: SingleUser[0].Email, 
-                Phone: SingleUser[0].Phoneno,
+                Phone: JSON.parse(SingleUser[0].Phoneno)[parseInt(rad)-1],
                 Users_id: SingleUser[0].Users_id
             }
             setaddresserr('')
