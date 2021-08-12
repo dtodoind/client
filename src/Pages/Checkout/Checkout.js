@@ -107,16 +107,6 @@ function Checkout(props) {
 
     const address = (e) => {
         setRadioval(e.target.value)
-        if(JSON.parse(SingleUser[0].Address)[e.target.value-2] !== undefined) {
-            var state = JSON.parse(SingleUser[0].Address)[e.target.value-2][JSON.parse(SingleUser[0].Address)[e.target.value-2].length - 1]
-            var state2 = JSON.parse(SingleUser[0].Address)[e.target.value-2][JSON.parse(SingleUser[0].Address)[e.target.value-2].length - 2]
-            for(var i=0; i<Delivery.length; i++) {
-                if(Delivery[i].State === state && Delivery[i].State2 === state2) {
-                    setDeliverycharges(Delivery[i].Charges)
-                    return
-                }
-            }
-        }
         if(e.target.value === "1") {
             setDeliverycharges(0)
             setPaymentaddr({
@@ -144,6 +134,16 @@ function Checkout(props) {
             })
         }
         setaddresserr('')
+        if(JSON.parse(SingleUser[0].Address)[e.target.value-2] !== undefined) {
+            var state = JSON.parse(SingleUser[0].Address)[e.target.value-2][JSON.parse(SingleUser[0].Address)[e.target.value-2].length - 1]
+            var state2 = JSON.parse(SingleUser[0].Address)[e.target.value-2][JSON.parse(SingleUser[0].Address)[e.target.value-2].length - 2]
+            for(var i=0; i<Delivery.length; i++) {
+                if(Delivery[i].State === state && Delivery[i].State2 === state2) {
+                    setDeliverycharges(Delivery[i].Charges)
+                    return
+                }
+            }
+        }
     }
 
     // address from stripe payment success
