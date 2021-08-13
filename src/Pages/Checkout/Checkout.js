@@ -160,18 +160,18 @@ function Checkout(props) {
         //     rad = 'payment'
         // }
         var subtotal = 0
-        var discount = 0
+        // var discount = 0
         basket.map(item => subtotal = subtotal + item.totalprice);
 
         if(Offer.length !== 0) {
             if(Offer[0].Price !== 0) {
                 if(Offer[0].Price <= subtotal) {
-                    discount = Offer[0].Discount
+                    // discount = Offer[0].Discount
                     localStorage.setItem('discount', Offer[0].Discount)
                 }
             } else if(Offer.length !== '') {
                 if(promocode === Offer[0].Promocode) {
-                    discount = Offer[0].Discount
+                    // discount = Offer[0].Discount
                     localStorage.setItem('discount', Offer[0].Discount)
                 }
             }
