@@ -85,6 +85,7 @@ function Checkout(props) {
         if(Offer[0].Price !== 0) {
             if(Offer[0].Price <= subtotal) {
                 discount = parseInt(Offer[0].Discount)
+                localStorage.setItem('discount', Offer[0].Discount)
                 final_subtotal = subtotal - (discount*subtotal/100)
             } else {
                 final_subtotal = subtotal
@@ -92,6 +93,7 @@ function Checkout(props) {
         } else if(Offer.length !== '') {
             if(promocode === Offer[0].Promocode) {
                 discount = parseInt(Offer[0].Discount)
+                localStorage.setItem('discount', Offer[0].Discount)
                 final_subtotal = subtotal - (discount*subtotal/100)
             } else {
                 final_subtotal = subtotal
