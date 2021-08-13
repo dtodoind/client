@@ -167,10 +167,12 @@ function Checkout(props) {
             if(Offer[0].Price !== 0) {
                 if(Offer[0].Price <= subtotal) {
                     discount = Offer[0].Discount
+                    localStorage.setItem('discount', Offer[0].Discount)
                 }
             } else if(Offer.length !== '') {
                 if(promocode === Offer[0].Promocode) {
                     discount = Offer[0].Discount
+                    localStorage.setItem('discount', Offer[0].Discount)
                 }
             }
         }
@@ -206,7 +208,7 @@ function Checkout(props) {
             order_val = {
                 Status: 'Pickup',
                 // PaymentSuccess: payment_id,
-                Discount: discount,
+                Discount: localStorage.getItem('discount'),
                 Address: JSON.stringify(JSON.parse(SingleUser[0].Address)[0]),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
                 Delivery_charges: localStorage.getItem('delivery_charges'),
@@ -223,7 +225,7 @@ function Checkout(props) {
             order_val = {
                 Status: 'Pending',
                 // PaymentSuccess: payment_id,
-                Discount: discount,
+                Discount: localStorage.getItem('discount'),
                 Address: JSON.stringify(address),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
                 Delivery_charges: localStorage.getItem('delivery_charges'),
@@ -244,7 +246,7 @@ function Checkout(props) {
             order_val = {
                 Status: 'Pending',
                 // PaymentSuccess: payment_id,
-                Discount: discount,
+                Discount: localStorage.getItem('discount'),
                 Address: JSON.stringify(addr),
                 Delivery_date: new Date(`${month}/${date+1}/${year}`).toISOString(),
                 Delivery_charges: localStorage.getItem('delivery_charges'),

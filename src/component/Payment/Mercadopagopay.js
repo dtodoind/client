@@ -247,8 +247,6 @@ function Mercadopagopay({
 		}
 	}, [subtotal]);
 
-	console.log(10 - (((subtotal * parseInt(discount)) / 100) / basket.length) + parseInt(localStorage.getItem('delivery_charges')))
-
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
