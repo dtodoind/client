@@ -99,6 +99,7 @@ function Mercadopagopay({
 	price,
 	subtotal,
 	radioval,
+	discount,
 	deliv,
 	payment_addr,
 	addresserr,
@@ -246,14 +247,17 @@ function Mercadopagopay({
 		}
 	}, [subtotal]);
 
+	console.log(10 - (((subtotal * parseInt(discount)) / 100) / basket.length) + parseInt(localStorage.getItem('delivery_charges')))
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
 		var item = [];
 		for (var i = 0; i < basket.length; i++) {
+			var pr = basket[i].price - (((subtotal * parseInt(discount)) / 100) / basket.length) + parseInt(localStorage.getItem('delivery_charges'))
 			item.push({
 				title: basket[i].title,
-				unit_price: basket[i].price,
+				unit_price: pr,
 				quantity: basket[i].qty,
 			});
 		}

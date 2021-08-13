@@ -321,7 +321,7 @@ function Checkout(props) {
                                 <Billing address={address} />
                                 <Elements stripe={stripePromise}>
                                     {/* <Payment place_order={place_order} radioval={radioval} price={after_total.toFixed(2)} subtotal={subtotal} payment_addr={payment_addr} deliv={deliv} addresserr={addresserr} /> */}
-                                    <Mercadopagopay place_order={place_order} radioval={radioval} price={after_total.toFixed(2)} subtotal={subtotal} payment_addr={payment_addr} deliv={deliv} addresserr={addresserr} />
+                                    <Mercadopagopay place_order={place_order} radioval={radioval} price={after_total.toFixed(2)} subtotal={subtotal} payment_addr={payment_addr} deliv={deliv} addresserr={addresserr} discount={discount} />
                                 </Elements>
                             </>
                         }
