@@ -292,6 +292,7 @@ function Checkout(props) {
                     })
                     localStorage.removeItem('basket')
                     localStorage.removeItem('billingDetails')
+                    localStorage.removeItem('discount')
                     return window.location.replace('/account/Order')
                 })
             ).catch(err => console.log(err))
