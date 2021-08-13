@@ -152,6 +152,7 @@ function Checkout(props) {
     }
 
     // address from stripe payment success
+    console.log(10 - (((subtotal * parseInt(discount)) / 100) / basket.length) + localStorage.getItem('delivery_charges'))
 
     const place_order = async (billing_details) => {
 
@@ -270,6 +271,8 @@ function Checkout(props) {
             await axios.post('https://dtodo-indumentaria-server.herokuapp.com/notification/new', notify).then(res => props.insertNotification({...notify, Notification_id: res.data.Notification_id}))
             await axios.post('https://dtodo-indumentaria-server.herokuapp.com/order/new', order_val).then(res => 
                 basket?.map(async (item) => {
+                    var pr = item.price - (((subtotal * parseInt(discount)) / 100) / basket.length)
+                    console.log(pr)
                     var order_item = {
                         Quantity: item.qty,
                         Orders_id: res.data.Orders_id,
@@ -277,7 +280,7 @@ function Checkout(props) {
                         ProdcutName: item.title,
                         Color: item.color,
                         Category: item.category,
-                        Price: item.price,
+                        Price: pr,
                         Size: item.size,
                         Image: item.img,
                         Status: res.data.Status === 'Pickup' ? "Pickup" : "Pending"
